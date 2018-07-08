@@ -1,0 +1,18 @@
+{   "comment": "Launcher Dependency",
+    "Date": "July 13, 2018",
+    "Last modified": "July 13, 2018",
+    "Author": "Subin. Gopi (subing85@gmail.com)",
+    "#Copyright" : "(c) 2018, Subin Gopi All rights reserved.",	    
+    "WARNING": "# WARNING! All changes made in this file will be lost!",
+    "Description": "This module contain basic information dependency source code.",
+    "type": "dependency input",
+    "valid": true,    
+
+	"natron": {	"pythonCode": [],
+				"pythonModule": ["from menu import natronMenu\nnatronMenu.Menu()"],
+				"linuxCode": []
+				}
+
+	}
+				
+				

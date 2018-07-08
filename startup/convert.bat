@@ -1,0 +1,1 @@
+pyuic4 studioLauncher_ui.ui -o studioLauncher_ui.py
