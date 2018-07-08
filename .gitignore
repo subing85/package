@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+#my project settings
+resources
+sample
+.project
+.pydevproject
+*.pyc
+*.psd
+/wkf
