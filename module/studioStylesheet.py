@@ -28,8 +28,7 @@ class Stylesheet(object):
     def __init__(self, qwindow):                
         '''        
             :param  <QMainWindow>     example QtGui.QMainWIndow 
-        '''  
-         
+        ''' 
         if not qwindow:
             warnings.warn('class Qtdress initializes(__init__) <widget> None', Warning)
                         
@@ -45,7 +44,6 @@ class Stylesheet(object):
                 Stylesheet = studioStylesheet.Stylesheet(QtGui.QMainWIndow)
                 Stylesheet.setStylesheet()
         '''     
-
         style = deafultStylesheets()    
         self.qwindow.setStyleSheet(style)
         
@@ -60,7 +58,6 @@ class Stylesheet(object):
                 Stylesheet = studioStylesheet.Stylesheet(QtGui.QMainWIndow)
                 style = Stylesheet.getStylesheet()
         '''
-        
         Stylesheet = self.qwindow.Stylesheet()
         return Stylesheet             
 
@@ -76,7 +73,6 @@ def deafultStylesheets():
             from module import studioStylesheet            
             style = studioStylesheet.deafultStylesheets()
     '''   
-     
     groupBox = 'QGroupBox {font: 14pt \"MS Shell Dlg 2\"; border: 1px solid #FFAA00;}'        
     generic = 'QWidget {font: 12pt \"MS Shell Dlg 2\";}'   
     

@@ -35,11 +35,9 @@ class QtDress(object):
     def __init__(self, qwidget):                
         '''        
             :param  qwidget <QMainWindow>     example QtGui.QMainWIndow 
-        ''' 
-          
+        '''
         if not qwidget:
             warnings.warn('class Qtdress initializes(__init__) <widget> None', Warning)
-                        
         self.qwidget = qwidget  
     
     def setIcon(self, path, width=24, height=24, lock=False):            
@@ -51,13 +49,13 @@ class QtDress(object):
             :param    sizeLock <int>    example True or False 
             :return   None    
         '''
-
         if not self.qwidget.objectName():
             warnings.warn('{} not found'.format(self.widget), Warning)
             return None        
         
-        currentIcon = '%s.png'% self.qwidget.objectName().split('_')[-1] 
+        currentIcon = '%s.png'% self.qwidget.objectName().split('_')[-1]
         iconFile = '{}/{}'.format (path, currentIcon)
+        print ('currentIcon', iconFile)
         if not os.path.isfile(iconFile):
             iconFile = '{}/unknown.png'.format(path)
 
@@ -74,7 +72,6 @@ class QtDress(object):
             :param    delete <bool>
             :return   widgets    <list>    example [QtGui.QPushButton, QtGui.QPushButton1]
         '''
-        
         if not self.qwidget:
             return None
         
@@ -107,12 +104,5 @@ def clearLayout(self, layout):
                 widget.deleteLater()
             else:
                 self.clearLayout(item.layout())      
-      
-      
-      
-      
-      
-      
-      
-        
+     
 #End################################################################################################

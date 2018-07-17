@@ -23,14 +23,12 @@ class Dependency(object):
        :example to execute
             from module import studioDependency
             studioDependency.Dependency(path='Z:/xx/launchDependency.json', value='natron')
-    '''
-        
+    '''        
     def __init__(self, path=None, value=None):                
         '''        
             :param  path <str>     example 'Z:/xx/launchDependency.json'
             :param  value <str>     example 'natron'            
-        '''  
-         
+        '''           
         if not path:
             warnings.warn('class Dependency initializes(__init__) <path> None', Warning)
             return None        
@@ -50,8 +48,7 @@ class Dependency(object):
                 from module import studioDependency
                 sd = studioDependency.Dependency(path='Z:/xx/launchDependency.json', value='natron')
                 sd.executeDependency()
-        '''     
-       
+        '''    
         dependencyPath = '{}/launchDependency.json'.format (os.environ['DATA_PATH'])
         jm = jsonManager.JManager (file=dependencyPath)        
         jm.getJsonData()

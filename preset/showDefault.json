@@ -1,0 +1,83 @@
+{
+    "Date": "July:16:2018 - 11:43:01:PM", 
+    "Shows": {
+        "7": {
+            "value": "None", 
+            "label": "storyType", 
+            "display": "StoryType", 
+            "type": "string", 
+            "order": 7
+        }, 
+        "6": {
+            "value": [
+                "Blender", 
+                "Natron", 
+                "Gimp", 
+                "Studio Pipe", 
+                "Render Box"
+            ], 
+            "label": "application", 
+            "display": "Application", 
+            "type": "list", 
+            "order": 6
+        }, 
+        "5": {
+            "value": "None", 
+            "label": "type", 
+            "display": "Type", 
+            "type": "string", 
+            "order": 5
+        }, 
+        "4": {
+            "value": "9999999", 
+            "label": "order", 
+            "display": "Order", 
+            "type": "int", 
+            "order": 4
+        }, 
+        "3": {
+            "value": "STS", 
+            "label": "shortName", 
+            "display": "Short Name", 
+            "type": "string", 
+            "order": 3
+        }, 
+        "2": {
+            "value": "None None None", 
+            "label": "longName", 
+            "display": "Long Name", 
+            "type": "string", 
+            "order": 2
+        }, 
+        "1": {
+            "value": "None", 
+            "label": "name", 
+            "display": "Name", 
+            "type": "string", 
+            "order": 1
+        }, 
+        "9": {
+            "value": "STS", 
+            "label": "icon", 
+            "display": "Icon", 
+            "type": "string", 
+            "order": 9
+        }, 
+        "8": {
+            "value": "None", 
+            "label": "tag", 
+            "display": "Tag", 
+            "type": "string", 
+            "order": 8
+        }
+    }, 
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
+    "Last modified": "July:16:2018 - 11:43:01:PM", 
+    "Valid": true, 
+    "Description": "This module contain basic information of our shows", 
+    "Author": "Subin. Gopi (subing85@gmail.com)", 
+    "Comment": "Show Default v1.0", 
+    "Created by": "sid", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!", 
+    "Type": "show default"
+}

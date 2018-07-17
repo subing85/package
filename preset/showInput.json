@@ -1,0 +1,80 @@
+{
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
+    "Type": "show input", 
+    "Shows": {
+        "TPS": {
+            "type": "None", 
+            "order": 1, 
+            "icon": "TPS", 
+            "shortName": "TPS", 
+            "storyType": "None", 
+            "longName": "A Teeth Pain Story", 
+            "application": [
+                "Blender", 
+                " Natron", 
+                " Gimp", 
+                " Studio Pipe", 
+                " Render Box"
+            ], 
+            "tag": "None"
+        }, 
+        "sdfsdfsdfsdx": {
+            "type": "None", 
+            "order": 1, 
+            "icon": "STS", 
+            "shortName": "STS", 
+            "storyType": "None", 
+            "longName": "None None None", 
+            "application": [
+                "Blender", 
+                " Natron", 
+                " Gimp", 
+                " Studio Pipe", 
+                " Render Box"
+            ], 
+            "tag": "None"
+        }, 
+        "zxv": {
+            "type": "None", 
+            "order": 1, 
+            "icon": "STS", 
+            "shortName": "STS", 
+            "storyType": "None", 
+            "longName": "None None None", 
+            "application": [
+                "Blender", 
+                " Natron", 
+                " Gimp", 
+                " Studio Pipe", 
+                " Render Box",
+				"Katrina",
+				"Eclipse"
+            ], 
+            "tag": "None"
+        }, 
+        "cvbcvb": {
+            "type": "None", 
+            "order": 1, 
+            "icon": "STS", 
+            "shortName": "STS", 
+            "storyType": "None", 
+            "longName": "None None None", 
+            "application": [
+                "Blender", 
+                " Natron", 
+                " Gimp", 
+                " Studio Pipe", 
+                " Render Box"
+            ], 
+            "tag": "None"
+        }
+    }, 
+    "Created by": "sid", 
+    "Comment": "Show Inputs v1.0", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!", 
+    "Date": "July:17:2018 - 10:49:52:PM", 
+    "Description": "This module contain basic information of our shows", 
+    "Last modified": "July:17:2018 - 10:58:01:PM", 
+    "Author": "Subin. Gopi (subing85@gmail.com)", 
+    "Valid": true
+}

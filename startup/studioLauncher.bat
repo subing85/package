@@ -1,21 +1,21 @@
 : !/bin/bash
-
-: Studio Launcher configure
-: Date : February 07, 2018
-: Last modified: March 23, 2018
-: Author: Subin. Gopi (subing85@gmail.com)
-: Copyright (c) 2018, Subin Gopi
-: All rights reserved.
-
-:   WARNING! All changes made in this file will be lost!
-
+:
+:  Studio Launcher configure
+:  Date : July 13, 2018
+:  Last modified: July 14, 2018
+:  Author: Subin. Gopi (subing85@gmail.com)
+:  Copyright (c) 2018, Subin Gopi
+:  All rights reserved.
+:
+:    WARNING! All changes made in this file will be lost!
+:
 :  Description
 :      This module contain all input value for set the Studo Launcher.  
 
 @echo off
 
-:call Z:\packages\startup\environ.bat
-call environ.bat
+call Z:\package\startup\environ.bat
+:call environ.bat
 
 :package
 set PACKAGE_PATH=%PACKAGE_PATH%
@@ -36,7 +36,7 @@ set LAUNCHER_VERSION=%LAUNCHER_VERSION%
 set LAUNCHER_PATH=%LAUNCHER_PATH%
 
 :show
-set SHOW_CONFIG_FILE=%DATA_PATH%/showInput.json
+set SHOW_DEFAULT_FILE=%SHOW_DEFAULT_FILE%
 
 echo.
 echo #####################################
@@ -48,6 +48,6 @@ echo #####################################
 echo.
 
 start "" "%PYTHON_EXE_PATH%" "%LAUNCHER_PATH%"
-:pause
+: pause
 
 : End: : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : : :

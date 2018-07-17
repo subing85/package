@@ -2,10 +2,11 @@
     "Date": "July 09, 2018",
     "Last modified": "July 09, 2018",
     "Author": "Subin. Gopi (subing85@gmail.com)",
-    "#Copyright" : "(c) 2018, Subin Gopi All rights reserved.",	    
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.",	
+    "Created by": "Subin",  
     "WARNING": "# WARNING! All changes made in this file will be lost!",
     "Description": "This module contain basic information of our shows",
-    "type": "show input",
+    "Data type": "show input",
     "valid": true,
     "Shows": {	"TPS": {"order": 2,
     					"longName": "A Teeth Pain Story",
@@ -14,7 +15,7 @@
     					"application": ["Blender", "Natron", "Gimp", "Studio Pipe"],
     					"storyType": "Horor",
     					"tag": "Wip",
-    					"icon": "TPS.png"
+    					"icon": "TPS"
     					},
     			"NBN": {"order": 4,
     					"longName": "Naughty Boy and Nurse",
@@ -23,7 +24,7 @@
     					"application": ["Blender", "Natron", "Gimp", "Studio Pipe"],
     					"storyType": "Comedy",
     					"tag": "Wip",
-    					"icon": "NBN.png"					  					
+    					"icon": "NBN"					  					
     					},
     			"SHC": {"order": 3,
     					"longName": "Super Hero in the City",
@@ -32,7 +33,7 @@
     					"application": ["Blender", "Natron", "Gimp", "Studio Pipe"],
     					"storyType": "Action and Drama",
     					"tag": "Wip",
-    					"icon": "SHC.png" 					
+    					"icon": "SHC" 					
     					},
     			"RSA": {"order": 1,
     					"longName": "Rambo Sunny's Adventer",
@@ -41,7 +42,7 @@
     					"application": ["Blender", "Natron", "Gimp", "Studio Pipe"],
     					"storyType": "Adventer and Comedy",
     					"tag": "Wip",
-    					"icon": "RSA.png"    									
+    					"icon": "RSA"    									
     					}   				   					
     			}
     }

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'studioLauncher_ui.ui'
 #
-# Created: Thu Jul 12 22:55:14 2018
+# Created: Fri Jul 13 23:43:20 2018
 #      by: PyQt4 UI code generator 4.9.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -40,15 +40,6 @@ class Ui_MainWindow(object):
         self.verticalLayout = QtGui.QVBoxLayout(self.groupBox_shows)
         self.verticalLayout.setContentsMargins(10, 25, 10, 10)
         self.verticalLayout.setObjectName(_fromUtf8("verticalLayout"))
-        self.pushButton = QtGui.QPushButton(self.groupBox_shows)
-        self.pushButton.setCheckable(True)
-        self.pushButton.setChecked(True)
-        self.pushButton.setAutoRepeat(True)
-        self.pushButton.setAutoExclusive(True)
-        self.pushButton.setAutoDefault(False)
-        self.pushButton.setDefault(False)
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.verticalLayout.addWidget(self.pushButton)
         self.horizontalLayout.addWidget(self.groupBox_shows)
         self.verticalLayout_output = QtGui.QVBoxLayout()
         self.verticalLayout_output.setSpacing(2)
@@ -133,7 +124,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.groupBox_shows.setTitle(_translate("MainWindow", "Shows", None))
-        self.pushButton.setText(_translate("MainWindow", "PushButton", None))
         self.groupBox_applications.setTitle(_translate("MainWindow", "Applications", None))
         self.menu_file.setTitle(_translate("MainWindow", "File", None))
         self.menu_edit.setTitle(_translate("MainWindow", "Edit", None))

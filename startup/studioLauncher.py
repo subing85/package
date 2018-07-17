@@ -31,17 +31,17 @@ from module import studioConfig
 
 #@replace with ENV iconPath
 CURRENT_PATH = os.path.dirname (__file__)
-#ICON_PATH = 'Z:/package/icon'
-SHOW_CONFIG_FILE = 'Z:/package/data/showInput.json'
+ICON_PATH = 'Z:/package/icon'
+SHOW_INPUT_FILE = 'Z:/package/preset/showInput.json'
 
-
-ICON_PATH = os.environ['ICON_PATH']
-SHOW_CONFIG_FILE = os.environ['SHOW_CONFIG_FILE'] 
+if 'ICON_PATH' in os.environ:
+    ICON_PATH = os.environ['ICON_PATH']
+if 'SHOW_INPUT_FILE' in os.environ:
+    SHOW_INPUT_FILE = os.environ['SHOW_INPUT_FILE']    
 
  
 UI_FILE = os.path.join (CURRENT_PATH, 'studioLauncher_ui.ui')  
 FROM, BASE = uic.loadUiType (UI_FILE)
-
 
 class Launcher (FROM, BASE):
          
@@ -55,7 +55,9 @@ class Launcher (FROM, BASE):
             __file__ = sys.argv[0]
             
         self.qt = studioQtdress.QtDress(self.button_studioShow)            
-        self.defaultUiSettings()
+        self.defaultUiSettings()        
+        self.action_new.triggered.connect(self.new)
+        self.action_exit.triggered.connect(self.close)
 
     def defaultUiSettings(self):
         self.setWindowTitle ('Studio Launc-HER v0.1')
@@ -68,12 +70,12 @@ class Launcher (FROM, BASE):
         #set the show icon  
         self.qt.setIcon(ICON_PATH, width=470, height=150, lock=True)
         
-        sc = studioConfig.Config(file=SHOW_CONFIG_FILE)
-        sc.getJsonData()
+        sc = studioConfig.Config(file=SHOW_INPUT_FILE)
+        sc.getConfigData()
 
         showList = sc._validData['Shows'] 
         index = 1
-        while index<len(showList)+1: 
+        while index<showList.__len__()+1: 
             for show in showList:                        
                 order = showList[show]['order']
                 if order!=index:
@@ -110,7 +112,7 @@ class Launcher (FROM, BASE):
         for index in range (len(content['application'])):
             currentApplication = content['application'][index]
             button = QtGui.QPushButton(self)
-            button.setObjectName('button_{}'.format(currentApplication))
+            button.setObjectName('button_{}'.format(currentApplication.replace(' ', '')))
             button.setText(currentApplication)  
             button.setDefault(True)
             button.setToolTip(content['longName'])
@@ -137,7 +139,13 @@ class Launcher (FROM, BASE):
             return None
         
         command = 'start "" {}'.format (path)
-        subprocess.call (command, stdout=None, shell=True, stderr=None) 
+        subprocess.call (command, stdout=None, shell=True, stderr=None)
+        
+    def new(self):
+        from toolkit.spipe import studioShowpipe
+        ss = studioShowpipe.ShowUI(parent=self)
+        ss.show()
+
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
