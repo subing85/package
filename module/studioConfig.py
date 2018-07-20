@@ -31,7 +31,11 @@ class Config(object):
         
     def __init__(self, **kwargs):                
         '''        
-            :param    file <str>    example 'Z:\packages\data\showInput.json'
+        :param    root <list>     example 'Z:/package'
+        :param    folders <list>     example  ['bin', 'data', 'doc', 'example']
+        :param    destination <str>     example 'Z:/backup_bkp' 
+        :param    versionType <list>     example 'patch'
+        :param    progressBar <QtGui Class>     example QtGui.progressBar
         '''  
         self.file = None
         self.data = None
@@ -39,7 +43,7 @@ class Config(object):
         if 'file' in kwargs:
             self.file = kwargs['file']
         if 'data' in kwargs :         
-            self._data = kwargs['data']  
+            self.data = kwargs['data']  
             
         self.chunkList = [  'Comment', 
                             'Date', 
@@ -55,6 +59,7 @@ class Config(object):
         
         self.genericInputData = getGenericInputData()
         self.genericDefaultData = getGenericDefaultData()
+        self.generiVersionData = getGenericVersionData()
         
     def createData(self):
         ''''
@@ -66,7 +71,9 @@ class Config(object):
                 from module import studioConfig            
                 sc = studioConfig.Config()
                 sc.createData()
-        '''            
+        '''
+        if not os.path.isdir(os.path.dirname(self.file)):
+            os.makedirs(os.path.isdir(os.path.dirname(self.file)))        
         try:
             writeJsonData (self.file, self.data)
             return True
@@ -166,7 +173,7 @@ def getGenericInputData():
     '''           
     Description -Standalone function create show input json file.
         :param    None
-        :param    genericInputData    <dict>        
+        :return   genericInputData    <dict>        
     '''     
     currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
     genericInputData = {'Comment': 'Show Inputs v1.0',
@@ -189,7 +196,7 @@ def getGenericDefaultData():
     '''           
     Description -Standalone function create show default json file.
         :param    None
-        :param    genericDefaultData    <dict>        
+        :return   genericDefaultData    <dict>        
     '''        
     currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')           
     genericDefaultData = {  'Comment': 'Show Default v1.0',
@@ -260,4 +267,25 @@ def getGenericDefaultData():
                             }        
     return genericDefaultData
 
+def getGenericVersionData():
+    '''           
+    Description -Standalone function create show input json file.
+        :param    None
+        :return   genericVersionData    <dict>        
+    '''     
+    currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
+    genericVersionData = {  'Comment': 'Make Package Zip',
+                            'Date': currentDate,
+                            'Last modified': currentDate,
+                            'Author': 'Subin. Gopi (subing85@gmail.com)',
+                            '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
+                            'Created by': getpass.getuser(),  
+                            'WARNING': '# WARNING! All changes made in this file will be lost!',
+                            'Description': 'Package Semantic Version',
+                            'Type': 'SemanticVersion',
+                            'Valid': True,
+                            'Version': '0.0.0',                                  
+                            }
+    
+    return genericVersionData
 #End########################################################################

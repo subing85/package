@@ -58,7 +58,7 @@ class Dependency(object):
         
         dependencies = jm._pythonObject[launcher]
         
-        print dependencies
+        print (dependencies)
         
         for eachKey, eachDependency in dependencies.iteritems():            
             if eachKey=='pythonModule':                

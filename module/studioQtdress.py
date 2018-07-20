@@ -55,7 +55,6 @@ class QtDress(object):
         
         currentIcon = '%s.png'% self.qwidget.objectName().split('_')[-1]
         iconFile = '{}/{}'.format (path, currentIcon)
-        print ('currentIcon', iconFile)
         if not os.path.isfile(iconFile):
             iconFile = '{}/unknown.png'.format(path)
 
@@ -94,6 +93,7 @@ class QtDress(object):
                     warnings.warn('widget delete : {}'.format(result), Warning)
 
         return widgets                    
+
 
 def clearLayout(self, layout):
     if layout is not None:

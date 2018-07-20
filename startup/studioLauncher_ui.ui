@@ -150,7 +150,7 @@
      <string>Publish</string>
     </property>
     <addaction name="action_patch"/>
-    <addaction name="action_mirror"/>
+    <addaction name="action_minor"/>
     <addaction name="action_major"/>
    </widget>
    <widget class="QMenu" name="menu_help">
@@ -179,7 +179,7 @@
     <string>lsDf</string>
    </property>
   </action>
-  <action name="action_mirror">
+  <action name="action_minor">
    <property name="text">
     <string>Minor</string>
    </property>

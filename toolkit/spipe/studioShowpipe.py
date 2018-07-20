@@ -29,7 +29,6 @@ from module import studioQtdress
 from module import studioConfig   
 from module import studioShow
 
-print ('')
 
 class ShowUI(QtGui.QMainWindow):
     
@@ -121,7 +120,7 @@ class ShowUI(QtGui.QMainWindow):
                                   
                 self.gridLayout.addWidget(label, index-1, 0, 1, 1)            
                 self.gridLayout.addWidget(attrWidget, index-1, 1, 1, 1) 
-            index+=1
+                index+=1
                 
     def setShowsToWidget(self, showList):         
         showList = ['None'] + showList              
@@ -167,10 +166,24 @@ class ShowUI(QtGui.QMainWindow):
             if eachShow=='None':
                 warnings.warn ('show value is None', Warning)
                 continue 
+
             if eachShow in self.shows._dataInput['Shows']:
+                QtGui.QMessageBox.warning(  self, 
+                                            'Warning', 
+                                            '\"{}\" already found'.format(eachShow),
+                                            QtGui.QMessageBox.Ok)                
                 warnings.warn ('\"{}\" already found'.format(eachShow), Warning)
-                continue
+                #continue
             
+            orderList = self.shows.getShowParameterValues(self.shows._dataInput['Shows'], 'order')
+            
+            if eachValue['order'] in orderList:
+                QtGui.QMessageBox.warning(  self, 
+                                            'Warning', 
+                                            '\"{}\" Order is already found\nupdate with order :{}'\
+                                            .format(eachValue['order'], len(orderList)+1),
+                                            QtGui.QMessageBox.Ok)
+                continue
             self.shows.update(data) 
             QtGui.QMessageBox.information(  self, 
                                             'Information', 

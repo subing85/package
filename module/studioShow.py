@@ -123,7 +123,6 @@ class Show(studioConfig.Config):
                 ss.mapInputToDefaultData()
         '''   
         defaultData = self._dataDefault['Shows'].copy()         
-        print ('self.name', self.name)
         if self.name not in self._dataInput['Shows']:
             return defaultData 
          
@@ -154,7 +153,7 @@ class Show(studioConfig.Config):
                 if order!=index:
                     continue                
                 showList.append(show)
-            index+=1
+                index+=1
         return showList
     
     def update(self, data): 
@@ -167,7 +166,7 @@ class Show(studioConfig.Config):
                 ss = studioShow.Show('TPS')
                 ss.update(data)
         '''          
-        showChunkData = self._chunkInput         
+        showChunkData = self._chunkInput.copy()
         showChunkData['Last modified'] = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
         showChunkData['Created by'] = getpass.getuser()
          
@@ -179,10 +178,39 @@ class Show(studioConfig.Config):
         self.data = showData
         self.createData()              
     
-    def getShowDetails(self):        
+    def getShowDetails(self):  
+        ''''
+        Description -Function set for operation on return the show  parameters.
+            :param    None
+            
+            :example to execute
+                from module import studioShow            
+                ss = studioShow.Show('TPS')
+                ss.getShowDetails()
+        '''                
         if not self.name not in self._inputShowData: 
             warnings.warn('\"{}\" not found in the data base or preset'.format(self.name), Warning)
             return None       
         return self._showDetails['Shows'][self.name]
     
+    def getShowParameterValues(self, data, parameter):
+        ''''
+        Description -Function set for operation on return the specific parameters value from show.
+            :param    data <dit>    example self._dataInput
+            :param    parameter <str>    example 'order'
+            :return   result <list>  example [1,2,3,4]
+            
+            :example to execute
+                from module import studioShow            
+                ss = studioShow.Show('TPS')
+                ss.getShowParameterValues(self._dataInput, 'order')
+        '''          
+        result = []
+        for eachShow, showValues in data.items():
+            for eachParameter, parameterValues in showValues.items():
+                if eachParameter!=parameter:
+                    continue
+                result.append(parameterValues)
+        return result                
+        
 #End######################################################################################################
