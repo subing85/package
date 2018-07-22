@@ -1,0 +1,1 @@
+pyuic4 studioPipe_ui.ui -o studioPipe_ui.py

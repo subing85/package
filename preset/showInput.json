@@ -1,80 +1,30 @@
 {
     "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
-    "Type": "show input", 
+    "Created by": "sid", 
+    "Last modified": "July:22:2018 - 05:36:47:PM", 
+    "Description": "This module contain basic information of our shows", 
     "Shows": {
         "TPS": {
-            "type": "None", 
+            "type": "Open Source", 
             "order": 1, 
             "icon": "TPS", 
+            "application": [
+                "Blender", 
+                " Natron", 
+                " Gimp", 
+                " Studio Pipe", 
+                " Render Box"
+            ], 
             "shortName": "TPS", 
-            "storyType": "None", 
-            "longName": "A Teeth Pain Story", 
-            "application": [
-                "Blender", 
-                " Natron", 
-                " Gimp", 
-                " Studio Pipe", 
-                " Render Box"
-            ], 
-            "tag": "None"
-        }, 
-        "2sdfsdfsdfsdx": {
-            "type": "None", 
-            "order": 2, 
-            "icon": "STS", 
-            "shortName": "STS", 
-            "storyType": "None", 
-            "longName": "None None None", 
-            "application": [
-                "Blender", 
-                " Natron", 
-                " Gimp", 
-                " Studio Pipe", 
-                " Render Box"
-            ], 
-            "tag": "None"
-        }, 
-        "3zxv": {
-            "type": "None", 
-            "order": 3, 
-            "icon": "STS", 
-            "shortName": "STS", 
-            "storyType": "None", 
-            "longName": "None None None", 
-            "application": [
-                "Blender", 
-                " Natron", 
-                " Gimp", 
-                " Studio Pipe", 
-                " Render Box",
-				"Katrina",
-				"Eclipse"
-            ], 
-            "tag": "None"
-        }, 
-        "4cvbcvb": {
-            "type": "None", 
-            "order": 4, 
-            "icon": "STS", 
-            "shortName": "STS", 
-            "storyType": "None", 
-            "longName": "None None None", 
-            "application": [
-                "Blender", 
-                " Natron", 
-                " Gimp", 
-                " Studio Pipe", 
-                " Render Box"
-            ], 
-            "tag": "None"
+            "tag": "None", 
+            "storyType": "Horror", 
+            "longName": "A Teeth Pain Story"
         }
     }, 
-    "Created by": "sid", 
-    "Comment": "Show Inputs v1.0", 
-    "WARNING": "# WARNING! All changes made in this file will be lost!", 
-    "Date": "July:17:2018 - 10:49:52:PM", 
-    "Description": "This module contain basic information of our shows", 
-    "Last modified": "July:17:2018 - 10:58:01:PM", 
+    "Type": "show input", 
     "Author": "Subin. Gopi (subing85@gmail.com)", 
-    "Valid": true
+    "Date": "July:22:2018 - 05:33:54:PM", 
+    "Valid": true, 
+    "Comment": "Show Inputs v1.0", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!"
 }

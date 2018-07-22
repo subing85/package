@@ -1,14 +1,33 @@
 {
-    "Date": "July:16:2018 - 11:43:01:PM", 
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
+    "Created by": "sid", 
+    "Type": "show default", 
+    "Description": "This module contain basic information of our shows", 
     "Shows": {
+        "5": {
+            "type": "string", 
+            "display": "Type", 
+            "value": "None", 
+            "label": "type", 
+            "order": 5
+        }, 
+        "4": {
+            "type": "int", 
+            "display": "Order", 
+            "value": "9999999", 
+            "label": "order", 
+            "order": 4
+        }, 
         "7": {
+            "type": "string", 
+            "display": "StoryType", 
             "value": "None", 
             "label": "storyType", 
-            "display": "StoryType", 
-            "type": "string", 
             "order": 7
         }, 
         "6": {
+            "type": "list", 
+            "display": "Application", 
             "value": [
                 "Blender", 
                 "Natron", 
@@ -17,67 +36,48 @@
                 "Render Box"
             ], 
             "label": "application", 
-            "display": "Application", 
-            "type": "list", 
             "order": 6
         }, 
-        "5": {
-            "value": "None", 
-            "label": "type", 
-            "display": "Type", 
+        "1": {
             "type": "string", 
-            "order": 5
-        }, 
-        "4": {
-            "value": "9999999", 
-            "label": "order", 
-            "display": "Order", 
-            "type": "int", 
-            "order": 4
+            "display": "Name", 
+            "value": "None", 
+            "label": "name", 
+            "order": 1
         }, 
         "3": {
+            "type": "string", 
+            "display": "Short Name", 
             "value": "STS", 
             "label": "shortName", 
-            "display": "Short Name", 
-            "type": "string", 
             "order": 3
         }, 
         "2": {
+            "type": "string", 
+            "display": "Long Name", 
             "value": "None None None", 
             "label": "longName", 
-            "display": "Long Name", 
-            "type": "string", 
             "order": 2
         }, 
-        "1": {
-            "value": "None", 
-            "label": "name", 
-            "display": "Name", 
-            "type": "string", 
-            "order": 1
-        }, 
         "9": {
+            "type": "string", 
+            "display": "Icon", 
             "value": "STS", 
             "label": "icon", 
-            "display": "Icon", 
-            "type": "string", 
             "order": 9
         }, 
         "8": {
+            "type": "string", 
+            "display": "Tag", 
             "value": "None", 
             "label": "tag", 
-            "display": "Tag", 
-            "type": "string", 
             "order": 8
         }
     }, 
-    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
-    "Last modified": "July:16:2018 - 11:43:01:PM", 
-    "Valid": true, 
-    "Description": "This module contain basic information of our shows", 
     "Author": "Subin. Gopi (subing85@gmail.com)", 
+    "Date": "July:22:2018 - 05:33:54:PM", 
+    "Valid": true, 
+    "Last modified": "July:22:2018 - 05:33:54:PM", 
     "Comment": "Show Default v1.0", 
-    "Created by": "sid", 
-    "WARNING": "# WARNING! All changes made in this file will be lost!", 
-    "Type": "show default"
+    "WARNING": "# WARNING! All changes made in this file will be lost!"
 }

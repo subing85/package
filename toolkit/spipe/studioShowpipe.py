@@ -26,7 +26,6 @@ from PyQt4 import QtCore
 
 from module import studioStylesheet    
 from module import studioQtdress
-from module import studioConfig   
 from module import studioShow
 
 

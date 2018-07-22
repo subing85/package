@@ -59,7 +59,10 @@ class Config(object):
         
         self.genericInputData = getGenericInputData()
         self.genericDefaultData = getGenericDefaultData()
-        self.generiVersionData = getGenericVersionData()
+        self.generiVersionData = getGenericVersionData()        
+        self._data = {}
+        self._chunkData = {}
+        self._validData = {}        
         
     def createData(self):
         ''''
@@ -95,12 +98,12 @@ class Config(object):
                 sc.getConfigData()
         '''
         if not os.path.isfile(self.file):
-            return None
             warnings.warn('SHOW_INPUT_FILE not found', Warning)
-        
-        self._data = readJsonData (self.file)        
+            return None
+            
+        self._data = readJsonData (self.file)     
         self._chunkData = {}
-        self._validData = {}    
+        self._validData = {}
         
         for eachData, eachValue in self._data.items():
             if eachData in self.chunkList:
@@ -164,8 +167,7 @@ def writeJsonData (file, data):
         jsonData.close ()                  
         os.utime(file, (currentTime, currentTime))
     except Exception as exceptResult :
-        result = str (exceptResult)   
-             
+        result = str (exceptResult)                
     print ('write result\t- ', result)
     
 
@@ -187,8 +189,7 @@ def getGenericInputData():
                         'Type': 'show input',
                         'Valid': True,
                         'Shows': {}                                     
-                        }
-    
+                        }    
     return genericInputData
 
 
@@ -267,6 +268,7 @@ def getGenericDefaultData():
                             }        
     return genericDefaultData
 
+
 def getGenericVersionData():
     '''           
     Description -Standalone function create show input json file.
@@ -285,7 +287,6 @@ def getGenericVersionData():
                             'Type': 'SemanticVersion',
                             'Valid': True,
                             'Version': '0.0.0',                                  
-                            }
-    
+                            }    
     return genericVersionData
 #End########################################################################

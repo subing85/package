@@ -192,6 +192,7 @@ def getSouceValidation(root, folders, progressBar=None):
     '''
     if not folders:
         warnings.warn('getSouceValid argument <path> None')
+        return
    
     results = {'valid': [],
                'unvalid': []}        

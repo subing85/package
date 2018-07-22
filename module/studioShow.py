@@ -12,27 +12,17 @@ Author: Subin. Gopi (subing85@gmail.com)
 Description
     This module will make config for new show.
 '''
-from pprint import pprint
 
 import os
 import datetime
 import warnings
 import getpass
 
-from module import studioStylesheet    
-from module import studioQtdress
 from module import studioConfig   
 
-ICON_PATH = 'Z:/package/icon'
-SHOW_INPUT_FILE = 'Z:/package/preset/showInput.json'
-SHOW_DEFAULT_FILE = 'Z:/package/preset/showDefault.json'
-
-if 'ICON_PATH' in os.environ:
-    ICON_PATH = os.environ['ICON_PATH']
-if 'SHOW_INPUT_FILE' in os.environ:
-    SHOW_INPUT_FILE = os.environ['SHOW_INPUT_FILE']
-if 'SHOW_DEFAULT_FILE' in os.environ:
-    SHOW_DEFAULT_FILE = os.environ['SHOW_DEFAULT_FILE']    
+ICON_PATH = os.environ['ICON_PATH']
+SHOW_INPUT_FILE = os.environ['SHOW_INPUT_FILE']
+SHOW_DEFAULT_FILE = os.environ['SHOW_DEFAULT_FILE']   
         
 
 class Show(studioConfig.Config):
@@ -54,10 +44,7 @@ class Show(studioConfig.Config):
            
         if not name:
             warnings.warn('class Show initializes(__init__) <name> None', Warning)
-            return None        
-        if not type:
-            warnings.warn('class Show initializes(__init__) <type> None', Warning)
-            return None
+            return None       
         
         self.name = name  
         self.create() # create input and default json files if not exists     

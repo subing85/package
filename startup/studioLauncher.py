@@ -29,25 +29,16 @@ from module import studioStylesheet
 from module import studioQtdress
 from module import studioConfig            
 from module import studioConsole
-from module import studioVersion            
+from module import studioVersion    
 
-#@replace with ENV iconPath
 CURRENT_PATH = os.path.dirname (__file__)
-ICON_PATH = 'Z:/package/icon'
-SHOW_INPUT_FILE = 'Z:/package/preset/showInput.json'
-PACKAGE_PATH = 'Z:/package'
-PACKAGE_PUBLISH_PATH = 'Z:/package_bkp'
-
-if 'ICON_PATH' in os.environ:
-    ICON_PATH = os.environ['ICON_PATH']
-if 'SHOW_INPUT_FILE' in os.environ:
-    SHOW_INPUT_FILE = os.environ['SHOW_INPUT_FILE']    
-
-if 'PACKAGE_PATH' in os.environ:
-    PACKAGE_PATH = os.environ['PACKAGE_PATH']    
-     
+ICON_PATH = os.environ['ICON_PATH']
+SHOW_INPUT_FILE = os.environ['SHOW_INPUT_FILE']    
+PACKAGE_PATH = os.environ['PACKAGE_PATH']  
+PACKAGE_PUBLISH_PATH = os.environ['PACKAGE_PUBLISH_PATH']  
 UI_FILE = os.path.join (CURRENT_PATH, 'studioLauncher_ui.ui')  
 FROM, BASE = uic.loadUiType (UI_FILE)
+
 
 class Launcher (FROM, BASE):
          
@@ -77,7 +68,8 @@ class Launcher (FROM, BASE):
     def defaultUiSettings(self):
         self.setWindowTitle ('Studio Launc-HER v0.1')
         self.setWindowIcon(QtGui.QIcon(os.path.join(ICON_PATH, 'launcher.png')))
-
+        self.resize(QtCore.QSize(725, 362))
+        self.label_package.setText(PACKAGE_PATH)
         #set the ui style sheet
         style = studioStylesheet.Stylesheet(self)
         style.setStylesheet()
@@ -87,7 +79,9 @@ class Launcher (FROM, BASE):
         
         sc = studioConfig.Config(file=SHOW_INPUT_FILE)
         sc.getConfigData()
-
+        if 'Shows' not in sc._validData:
+            warnings.warn('Show not found', Warning)
+            return None            
         showList = sc._validData['Shows'] 
         index = 1
         while index<showList.__len__()+1: 
@@ -227,4 +221,10 @@ if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)
     ex = Launcher()
     ex.show()
-    sys.exit(app.exec_())     
+    sys.exit(app.exec_())
+
+def loadWindow():
+    app = QtGui.QApplication(sys.argv)
+    ex = Launcher()
+    ex.show()
+    sys.exit(app.exec_())
