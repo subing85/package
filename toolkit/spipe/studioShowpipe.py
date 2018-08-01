@@ -150,7 +150,7 @@ class ShowUI(QtGui.QMainWindow):
             if str(eachWidget.property('type'))=='string':
                 currentValue = eachWidget.text()
             if str(eachWidget.property('type'))=='list':
-                currentValue = str(eachWidget.text()).split(',')
+                currentValue = str(eachWidget.text()).replace(', ', ',').split(',')
 
             if eachWidget.toolTip()=='name':
                 result[currentValue] = data

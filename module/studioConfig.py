@@ -19,6 +19,7 @@ import time
 import getpass
 import warnings
 
+
 class Config(object):        
     '''
     Description -This Class operate on read and set config file such as json, etc.

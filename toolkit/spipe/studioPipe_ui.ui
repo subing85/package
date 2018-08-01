@@ -17,60 +17,42 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>5</number>
-    </property>
-    <property name="margin">
-     <number>5</number>
-    </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QGroupBox" name="groupBox_steps">
-      <property name="title">
-       <string>Steps</string>
+     <widget class="QSplitter" name="splitter_in">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_step">
-       <property name="leftMargin">
-        <number>10</number>
+      <widget class="QGroupBox" name="groupBox_bracket">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="topMargin">
-        <number>25</number>
+       <property name="title">
+        <string>Bracket</string>
        </property>
-       <property name="rightMargin">
-        <number>10</number>
+       <layout class="QVBoxLayout" name="verticalLayout_bracket">
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>25</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QSplitter" name="splitter_out">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="bottomMargin">
-        <number>10</number>
-       </property>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_output">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="label_package">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="lineWidth">
-         <number>2</number>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_applications">
+       <widget class="QGroupBox" name="groupBox_step">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -78,28 +60,28 @@
          </size>
         </property>
         <property name="title">
-         <string>Applications</string>
+         <string>Step</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <layout class="QHBoxLayout" name="horizontalLayout_step">
          <property name="spacing">
-          <number>1</number>
+          <number>5</number>
          </property>
          <property name="leftMargin">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="topMargin">
           <number>25</number>
          </property>
          <property name="rightMargin">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="bottomMargin">
-          <number>1</number>
+          <number>10</number>
          </property>
          <item>
-          <widget class="QGroupBox" name="groupBox_shelf">
+          <widget class="QGroupBox" name="groupBox_toolbar">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -107,130 +89,91 @@
            <property name="title">
             <string/>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_shelf">
+           <layout class="QVBoxLayout" name="verticalLayout_toolbar">
             <property name="spacing">
-             <number>2</number>
+             <number>0</number>
             </property>
             <property name="margin">
-             <number>2</number>
+             <number>0</number>
             </property>
            </layout>
           </widget>
          </item>
          <item>
-          <widget class="QSplitter" name="splitter_properties">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <widget class="QTreeWidget" name="treeWidget_properties">
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-            <property name="selectionMode">
-             <enum>QAbstractItemView::SingleSelection</enum>
-            </property>
-            <column>
-             <property name="text">
-              <string notr="true">No</string>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QGroupBox" name="GroupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
              </property>
-             <property name="foreground">
-              <brush brushstyle="SolidPattern">
-               <color alpha="255">
-                <red>0</red>
-                <green>255</green>
-                <blue>127</blue>
-               </color>
-              </brush>
-             </property>
-            </column>
-           </widget>
-           <widget class="QGroupBox" name="groupBox_details">
-            <property name="title">
-             <string>Details</string>
-            </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <property name="spacing">
-              <number>5</number>
-             </property>
-             <property name="leftMargin">
-              <number>5</number>
-             </property>
-             <property name="topMargin">
-              <number>30</number>
-             </property>
-             <property name="rightMargin">
-              <number>5</number>
-             </property>
-             <property name="bottomMargin">
-              <number>5</number>
-             </property>
-             <item>
-              <widget class="QScrollArea" name="scrollArea">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="lineWidth">
-                <number>0</number>
-               </property>
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="scrollAreaWidgetContents">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>135</width>
-                  <height>52</height>
-                 </rect>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLabel" name="label_type">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_details">
-                 <property name="spacing">
-                  <number>5</number>
-                 </property>
-                 <property name="margin">
-                  <number>2</number>
-                 </property>
-                </layout>
+                <property name="lineWidth">
+                 <number>2</number>
+                </property>
+                <property name="text">
+                 <string>None</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                </property>
                </widget>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="button_studioShow">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="default">
-            <bool>true</bool>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-          </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_package">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="button_studioPipe">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="default">
+              <bool>false</bool>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTreeWidget" name="treeWidget">
+             <property name="columnCount">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
-      </item>
-      <item>
        <widget class="QTextEdit" name="textEdit_output"/>
-      </item>
-     </layout>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_details">
+       <property name="title">
+        <string>Details</string>
+       </property>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -324,6 +267,24 @@
   <action name="action_patch">
    <property name="text">
     <string>Patch</string>
+   </property>
+  </action>
+  <action name="action_addon">
+   <property name="text">
+    <string>Add-On</string>
+   </property>
+  </action>
+  <action name="action_update">
+   <property name="text">
+    <string>Update</string>
+   </property>
+   <property name="toolTip">
+    <string>Update</string>
+   </property>
+  </action>
+  <action name="action_remove">
+   <property name="text">
+    <string>Remove</string>
    </property>
   </action>
  </widget>

@@ -38,7 +38,6 @@ class Show(studioConfig.Config):
     def __init__(self, name):
         '''        
             :param   name <str>   example 'TPS' or etc
-
         '''          
         super(Show, self).__init__()
            

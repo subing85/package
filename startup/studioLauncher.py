@@ -115,11 +115,9 @@ class Launcher (FROM, BASE):
         self.qt.qwidget = self.gridLayout
         self.qt.getLayoutWidgets(delete=True)
         
-        row = 0
-        column = 0 
-        ing = 0     
+        row, column, ing = [0, 0, 0]
         for index in range (len(content['application'])):
-            currentApplication = content['application'][index]
+            currentApplication = content['application'][index].replace(' ', '')
             button = QtGui.QPushButton(self)
             button.setObjectName('button_{}'.format(currentApplication.replace(' ', '')))
             button.setText(currentApplication)  
@@ -142,12 +140,16 @@ class Launcher (FROM, BASE):
             self.gridLayout.addWidget(button, row, column, 1, 1)
         
     def launchApplication(self, application):        
-        path = os.path.join(CURRENT_PATH, '%s.bat'% application)
-        if not os.path.isfile(path):
-            warnings.warn('file not found :\"{}\"'.format(path))            
-            return None
-        command = 'start "" {}'.format (path)
-        subprocess.call (command, stdout=None, shell=True, stderr=None)
+        path = os.path.abspath(os.path.join(CURRENT_PATH, '%s.bat'% application))
+        
+        print (path)
+        #=======================================================================
+        # if not os.path.isfile(path):
+        #     warnings.warn('file not found :\"{}\"'.format(path))            
+        #     return None
+        # command = 'start "" {}'.format (path)
+        # subprocess.call (command, stdout=None, shell=True, stderr=None)
+        #=======================================================================
         
     def new(self):
         from toolkit.spipe import studioShowpipe

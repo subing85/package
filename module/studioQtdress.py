@@ -51,19 +51,26 @@ class QtDress(object):
         '''
         if not self.qwidget.objectName():
             warnings.warn('{} not found'.format(self.widget), Warning)
-            return None        
         
         currentIcon = '%s.png'% self.qwidget.objectName().split('_')[-1]
         iconFile = '{}/{}'.format (path, currentIcon)
         if not os.path.isfile(iconFile):
-            iconFile = '{}/unknown.png'.format(path)
-
+            iconFile = '{}/unknown.png'.format(path)            
         icon = QtGui.QIcon ()
         icon.addPixmap (QtGui.QPixmap (iconFile), QtGui.QIcon.Normal, QtGui.QIcon.Off)                   
         self.qwidget.setIcon (icon)
+        icon.addPixmap
         
         if lock:         
             self.qwidget.setIconSize (QtCore.QSize(width, height))
+           
+        #=======================================================================
+        # QPixmap pixmap("image_path");
+        # QIcon ButtonIcon(pixmap);
+        # button->setIcon(ButtonIcon);
+        # button->setIconSize(pixmap.rect().size());
+        # button->setFixedSize(pixmap.rect().size());           
+        #=======================================================================
             
     def getLayoutWidgets(self, delete=False):
         '''
@@ -91,10 +98,44 @@ class QtDress(object):
                     eachwidget.deleteLater()
                 except Exception as result:
                     warnings.warn('widget delete : {}'.format(result), Warning)
+        return widgets
+    
+    def setPushbuttonLayout(self, object, text, default=True, flat=False, width=100, height=100, color=None, layout=None):
+        button = QtGui.QPushButton(self.qwidget)
+        button.setObjectName('button_%s'% object)
+        button.setText(text)
+        button.setDefault(False)
+        button.setFlat(False)  
+        if default:
+            button.setDefault(True)
+        if flat:
+            button.setFlat(True)
+        if color:
+            button.setStyleSheet('background-color: rgb(%s);'%color)
+        #if layout:
+        layout.addWidget(button)
+        return button
+    
+    def setToolBar(self, toolBar, widgets, layout, orientation=QtCore.Qt.Vertical, separator=False) :
+        '''
+        Description    :- This function set create and add the widgets to QToolBar.        
+            :param    toolBar <QtWidget>    example QtGui.QToolBar
+            :param    widgets <QtWidget list>    example [QtGui.QActions]
+            :param    layout <QtWidget>    example QtGui.HorizontalLayout
+            :param    separator <bool>    example True or False        
+            :return   None    
+        '''       
+        if not toolBar :
+            toolBar = QtGui.QToolBar()
+            layout.addWidget (toolBar)   
 
-        return widgets                    
+        for eachWidget in widgets :
+            toolBar.addAction (eachWidget) 
+            toolBar.setOrientation(orientation)     
+            if separator :
+                toolBar.addSeparator ()       
 
-
+                 
 def clearLayout(self, layout):
     if layout is not None:
         while layout.count():

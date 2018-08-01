@@ -17,59 +17,42 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <property name="spacing">
-     <number>5</number>
-    </property>
-    <property name="margin">
-     <number>5</number>
-    </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
-     <widget class="QGroupBox" name="groupBox_shows">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
+     <widget class="QSplitter" name="splitter_in">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <property name="minimumSize">
-       <size>
-        <width>160</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>160</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="title">
-       <string>Shows</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <property name="leftMargin">
-        <number>10</number>
+      <widget class="QGroupBox" name="groupBox_bracket">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="topMargin">
-        <number>25</number>
+       <property name="title">
+        <string>Bracket</string>
        </property>
-       <property name="rightMargin">
-        <number>10</number>
+       <layout class="QVBoxLayout" name="verticalLayout_bracket">
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>25</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QSplitter" name="splitter_out">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="bottomMargin">
-        <number>10</number>
-       </property>
-      </layout>
-     </widget>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout_output">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <item>
-       <widget class="QGroupBox" name="groupBox_applications">
+       <widget class="QGroupBox" name="groupBox_step">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -77,24 +60,9 @@
          </size>
         </property>
         <property name="title">
-         <string>Applications</string>
+         <string>Step</string>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <property name="spacing">
-          <number>1</number>
-         </property>
-         <property name="leftMargin">
-          <number>1</number>
-         </property>
-         <property name="topMargin">
-          <number>25</number>
-         </property>
-         <property name="rightMargin">
-          <number>1</number>
-         </property>
-         <property name="bottomMargin">
-          <number>1</number>
-         </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
           <widget class="QLabel" name="label_package">
            <property name="sizePolicy">
@@ -115,41 +83,60 @@
           </widget>
          </item>
          <item>
-          <layout class="QGridLayout" name="gridLayout">
-           <property name="margin">
-            <number>0</number>
+          <widget class="QTreeWidget" name="treeWidget">
+           <property name="columnCount">
+            <number>5</number>
            </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-          </layout>
+           <column>
+            <property name="text">
+             <string notr="true">1</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string notr="true">2</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string notr="true">3</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string notr="true">4</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string notr="true">5</string>
+            </property>
+           </column>
+          </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="button_studioShow">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+          <widget class="QPushButton" name="button_studioPipe">
            <property name="text">
             <string/>
            </property>
            <property name="default">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="flat">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
-      </item>
-      <item>
        <widget class="QTextEdit" name="textEdit_output"/>
-      </item>
-     </layout>
+      </widget>
+      <widget class="QGroupBox" name="groupBox_details">
+       <property name="title">
+        <string>Details</string>
+       </property>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -243,6 +230,11 @@
   <action name="action_patch">
    <property name="text">
     <string>Patch</string>
+   </property>
+  </action>
+  <action name="actionSubin">
+   <property name="text">
+    <string>subin</string>
    </property>
   </action>
  </widget>
