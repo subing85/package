@@ -1,6 +1,6 @@
 '''
 Studio Pipe UI v0.1 
-Date : July 22, 2018
+Date: July 22, 2018
 Last modified: July 22, 2018
 Author: Subin. Gopi(subing85@gmail.com)
 
@@ -27,6 +27,7 @@ from PyQt4 import uic
 
 from module import studioStylesheet    
 from module import studioQtdress
+from module import studioConsole
 from module import studioPointer
 from module import studioBucket
 
@@ -49,11 +50,22 @@ class PipeUI(FROM, BASE):
             __file__
         except NameError:
             __file__ = sys.argv[0]
-        
+            
+        #console = studioConsole.Console ()    
+        #console.stdout().messageWritten.connect (self.textEdit_output.insertPlainText)
+                  
         style = studioStylesheet.Stylesheet(self) # set the ui style sheet
         style.setStylesheet()
-        self.qtd = studioQtdress.QtDress(None)           
-        self.spointer = studioPointer.Pointer()       
+        self.qtd = studioQtdress.QtDress(None)
+        #replace with bucket         
+        self.spointer = studioPointer.Pointer()        
+        self._stepsList = None     
+               
+        self.action_addon.triggered.connect(self.createStepItem)    
+        self.action_update.triggered.connect(self.updateStepItem)    
+        self.action_remove.triggered.connect(self.removeStepItem)    
+        self.action_overwrite.triggered.connect(self.overwriteStepItem)    
+        self.action_reload.triggered.connect(self.reloadStepItem)    
         
         self.defaultUiSettings()
                 
@@ -73,12 +85,13 @@ class PipeUI(FROM, BASE):
         style.setStylesheet()                        
         self.setIconAllWidgets()       
         self.qtd.setToolBar(None,
-                            [self.action_addon, self.action_update, self.action_remove],
+                            [self.action_addon, self.action_update, self.action_remove,
+                             self.action_overwrite, self.action_reload],
                             self.verticalLayout_toolbar,
                             QtCore.Qt.Vertical, True)
         self.loadBracket()                 
             
-    def setIconAllWidgets(self) :
+    def setIconAllWidgets(self):
         widgetList = self.findChildren(QtGui.QAction)
         for eachWidget in widgetList:
             if not eachWidget.objectName():
@@ -143,28 +156,147 @@ class PipeUI(FROM, BASE):
         
                 
     def loadStepData(self, bracket, stepList, pointerData):        
+        self.sbucket = studioBucket.Bucket(bracket)
+        bucketStep = self.sbucket.getBucketStep()
+        pprint(bucketStep)
+        self.updateTreeWidget(bucketStep, stepList)
+        
+        #global variables        
+        self.sbucket.bracket = bracket
+        self._stepsList = stepList
+        
+    def createStepItem(self):        
+        self.sbucket.stepName = 'None'        
+        self.sbucket.create()
+        bucketStep = self.sbucket.getBucketStep()
+        self.updateTreeWidget(bucketStep, self._stepsList)
+        
+    def updateStepItem(self):
+        if not self._stepsList:
+            warnings.warn('Your Bucket is not active. Please select the bucket item and try', Warning)
+            return                    
+        selectItems  = self.treeWidget.selectedItems()
+        if not selectItems:
+            warnings.warn('Not find the selection, please the item and try.', Warning)
+            return        
+        result = QtGui.QMessageBox.question(self, 
+                                            'Question', 
+                                            'Are you sure\nYou want to update.', 
+                                            QtGui.QMessageBox.No,
+                                            QtGui.QMessageBox.Yes    
+                                            )
+        
+        if result==QtGui.QMessageBox.No:
+            print ('Abort your updates')
+            return
+        
+        bucketData = self.sbucket.getBucketStep()  
+        finalData = {}        
+        for eachItem in selectItems:
+            oldName = str(eachItem.toolTip(1))
+            newName = str(eachItem.text(1))                  
+            if oldName not in bucketData:
+                continue 
+            widget = self.treeWidget.itemWidget(eachItem, 2)            
+            categoryValue = int(widget.currentIndex())
+            currentSetpData = self.getValuesFromTreewidgetItem(eachItem, bucketData[oldName]['step'])
+            itemData = {'category': {'value': categoryValue}, 'step': currentSetpData}
+            finalData.setdefault(oldName,  {'new': newName, 'value': itemData})
+
+        self.sbucket.update(finalData)
+        #pprint(finalData)
+    
+    def getValuesFromTreewidgetItem(self, currentItem, currentStepData):        
+        index = 3
+        data = {}
+        for eachStep in self._stepsList:            
+            orderList = self.setOrder(currentStepData[eachStep])
+            stepData = {}
+            for eachOrder in orderList:
+                detailData = currentStepData[eachStep][eachOrder]
+                if type(detailData)!=dict:
+                    continue
+                if not detailData['visibility']:
+                    continue          
+                itemType = detailData['type']
+                currentValue = None
+                if itemType=='str':
+                    currentValue = str (currentItem.text (index))
+                widget = None
+                if itemType!='str':
+                    widget = self.treeWidget.itemWidget (currentItem, index)
+                if widget:
+                    if itemType=='int':
+                        currentValue = int(widget.value())
+                    if itemType=='float':
+                        currentValue = float(widget.value())                    
+                    if itemType=='enum':                    
+                        currentValue = int(widget.currentIndex())
+                    if itemType=='text':                    
+                        currentValue = str(widget.toPlainText())
+                    if itemType=='button':                    
+                        currentValue = str(widget.text())
+                stepData.setdefault(eachOrder, currentValue)
+                index+=1
+            data.setdefault(eachStep, stepData)
+        return data
+
+    def removeStepItem(self):
+        pass
+    
+    def overwriteStepItem(self):
+        pass
+    
+    def reloadStepItem(self):
+        pass
+    
+
+                
+        
+        
+    def updateTreeWidget(self, data, stepList):
         self.groupBox_toolbar.show()
         self.treeWidget.show()
         self.button_studioPipe.hide()
         self.treeWidget.clear()       
-        self.treeWidget.setColumnCount(2)
+        self.treeWidget.setColumnCount(2)        
         
-                     
-        self.sbucket = studioBucket.Bucket(bracket)
-        bucketStep = self.sbucket.getBucketStep()
-        
-        for eachBucket, bucketData in bucketStep.items():
+        for eachBucket, bucketData in data.items():
             order = bucketData['order']
+            category = bucketData['category'] 
+            #stepList = self.setOrder(bucketData['step'])
+            
             item        = QtGui.QTreeWidgetItem(self.treeWidget)                
             item.setText(0, str(order))            
             item.setText(1, eachBucket)
+            item.setToolTip(1, eachBucket)
             item.setFlags(QtCore.Qt.ItemIsSelectable|QtCore.Qt.ItemIsEditable|QtCore.Qt.ItemIsUserCheckable|QtCore.Qt.ItemIsEnabled|QtCore.Qt.ItemIsTristate)                
             self.treeWidget.headerItem().setText(0, 'No')
-            self.treeWidget.headerItem().setText(1, 'Name')            
+            self.treeWidget.headerItem().setText(1, 'Name') 
+            self.treeWidget.headerItem().setText(2, bucketData['category']['longName']) 
+                     
+            comboBox = QtGui.QComboBox(self.treeWidget)
+            comboBox.setObjectName('comboBox_%scategory'% eachBucket)                 
+            comboBox.setMinimumSize(QtCore.QSize(100, 40))                  
+            comboBox.addItems(category['values'])                
+            comboBox.setCurrentIndex(category['value'])
+            comboBox.setToolTip('category')
+                        
+            #redu##########################################                              
+            comboBox.setStyleSheet('color: {};'.format(QtGui.QColor(category['color'])))
+            self.treeWidget.setItemWidget(item, 2, comboBox)
+                                       
             self.treeWidget.header().resizeSection(0, 50)        
             self.treeWidget.header().resizeSection(1, 150)
-            #stepList = self.setOrder(bucketData['step'])
-            index = 2
+            self.treeWidget.header().resizeSection(1, 100)
+            item.setTextAlignment(0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+            item.setTextAlignment(1, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+            item.setTextAlignment(2, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+            self.treeWidget.headerItem().setTextAlignment(0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+            self.treeWidget.headerItem().setTextAlignment(1, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+            self.treeWidget.headerItem().setTextAlignment(2, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+
+            index = 3
           
             #===================================================================
             # for eachStep in stepList:
@@ -184,21 +316,18 @@ class PipeUI(FROM, BASE):
             #     #self.treeWidget.setItemWidget(item, index, widget)
             #     #self.treeWidget.header().resizeSection(index, 200) 
             #===================================================================
-                
+
             self.setTreeLayout(item, stepList, bucketData['step'], index)     
             #index+=1
                 
     def setTreeLayout(self, item, orderList, data, index):   
-             
         for eachStep in orderList:
             headerStep = data[eachStep]['longName']
             color =  data[eachStep]['color']
-            #self.treeWidget.headerItem().setText(index, headerStep)
-            brush = QtGui.QBrush(QtGui.QColor (color))
+            brush = QtGui.QBrush(QtGui.QColor(color))
             brush.setStyle(QtCore.Qt.SolidPattern)
             #self.treeWidget.headerItem().setForeground(index, brush)              
-            #self.treeWidget.header ().resizeSection (index, 120)
-            #index+=1
+            #self.treeWidget.header().resizeSection(index, 120)
             orderList = self.setOrder(data[eachStep])
             for eachOrder in orderList:
                 detailData = data[eachStep][eachOrder]
@@ -207,23 +336,61 @@ class PipeUI(FROM, BASE):
                 if not detailData['visibility']:
                     continue
                 headerDetail = detailData['longName']
-                currentValue = detailData['value']
+                itemValue = detailData['value']
+                itemValues = detailData['values']
                 itemColor = detailData['color']
-                item.setText(index, str(currentValue))    
-                item.setTextAlignment(index, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
-                 
-                self.treeWidget.headerItem().setText(index, '%s \n%s'% (headerStep, headerDetail))
-                self.treeWidget.headerItem().setTextAlignment(index, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
-                self.treeWidget.headerItem().setTextAlignment(index, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+                itemType = detailData['type']
+                itemEnable = detailData['enable']
                 
+                self.treeWidget.headerItem().setText(index, '%s \n%s'%(headerStep, headerDetail))
+                self.treeWidget.headerItem().setTextAlignment(index, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
                 self.treeWidget.headerItem().setForeground(index, brush)             
-                self.treeWidget.header ().resizeSection (index, 120)
+                self.treeWidget.header().resizeSection(index, 120)
                 
-                itemBrush = QtGui.QBrush(QtGui.QColor (itemColor))
-                itemBrush.setStyle(QtCore.Qt.SolidPattern)
+                widget = None
+                if itemType=='str':   
+                    widget = QtGui.QLineEdit(self)
+                    widget.setAlignment(QtCore.Qt.AlignCenter)
+                    widget.setText(str(itemValue))
+                elif itemType=='int':
+                    widget = QtGui.QSpinBox(self)
+                    widget.setReadOnly(True)
+                    widget.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+                    widget.setMaximum(999999999)
+                    widget.setAlignment(QtCore.Qt.AlignCenter)                    
+                    widget.setValue(int(itemValue))
+                elif itemType=='float':
+                    widget = QtGui.QDoubleSpinBox(self)
+                    widget.setReadOnly(True)
+                    widget.setButtonSymbols(QtGui.QAbstractSpinBox.NoButtons)
+                    widget.setMaximum(999999999)
+                    widget.setDecimals(2)
+                    widget.setAlignment(QtCore.Qt.AlignCenter)                    
+                    widget.setValue(float(itemValue))                    
+                elif itemType=='enum':
+                    widget = QtGui.QComboBox(self.treeWidget)
+                    widget.setMinimumSize(QtCore.QSize(100, 40))                  
+                    widget.addItems(itemValues)                
+                    widget.setCurrentIndex(int(itemValue))
+                elif itemType=='text':                    
+                    widget = QtGui.QTextEdit(self.treeWidget)
+                    widget.setMaximumSize(QtCore.QSize(16777215, 40))
+                    widget.setText(str(itemValue))
+                elif itemType=='button':                    
+                    widget = QtGui.QPushButton(self.treeWidget)
+                    widget.setText(str(itemValue))  
+                else:                      
+                    item.setText(index, str(itemValue))    
+                    item.setTextAlignment(index, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter|QtCore.Qt.AlignCenter)
+                if widget:
+                    widget.setEnabled(itemEnable)
+                    self.treeWidget.setItemWidget(item, index, widget)
                 
+                widget.setToolTip('%s|%s'% (eachStep,eachOrder))
+                    
+                itemBrush = QtGui.QBrush(QtGui.QColor(itemColor))
+                itemBrush.setStyle(QtCore.Qt.SolidPattern)                
                 item.setForeground(index, itemBrush)          
-                
                 index+=1
 
 
@@ -258,8 +425,6 @@ class PipeUI(FROM, BASE):
             gridLayout.addWidget(lineEdit, row, 1, 1, 1)
             index+=1
         return groupBox
-            
- 
 
 
 if __name__ == '__main__':

@@ -2,9 +2,9 @@
 Studio Step v0.1 
 Date : July 22, 2018
 Last modified: July 22, 2018
-Author: Subin. Gopi (subing85@gmail.com)
+Author: Subin. Gopi(subing85@gmail.com)
 
-# Copyright (c) 2018, Subin Gopi
+# Copyright(c) 2018, Subin Gopi
 # All rights reserved.
 
 # WARNING! All changes made in this file will be lost!
@@ -25,20 +25,19 @@ POINTER_INPUT_FILE = 'Z:/package_users/sid/package/preset/stepInput.json'
 
 class Pointer(studioConfig.Config):
     '''
-    DescriptStepion -This Class operate on read the show steps.
+    DescriptStepion -This Class operate on read the pointer input file.
        : __init__()    Initializes None.    
                    
        :example to execute
             from module import studioPointer            
             studioPointer.Pointer()
-    '''
-    
+    '''    
     def __init__(self):
         '''        
             :param   None
         '''          
         super(Pointer, self).__init__()
-        
+                
         self.file = POINTER_INPUT_FILE
         self.getConfigData()  
         self.pointerData = copy.deepcopy(self._validData)        

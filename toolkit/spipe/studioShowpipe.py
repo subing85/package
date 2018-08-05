@@ -2,9 +2,9 @@
 Studio PipeShow UI v0.1 
 Date : July 13, 2018
 Last modified: July 13, 2018
-Author: Subin. Gopi (subing85@gmail.com)
+Author: Subin. Gopi(subing85@gmail.com)
 
-# Copyright (c) 2018, Subin Gopi
+# Copyright(c) 2018, Subin Gopi
 # All rights reserved.
 
 # WARNING! All changes made in this file will be lost!
@@ -74,7 +74,7 @@ class ShowUI(QtGui.QMainWindow):
         
         self.setShowAttributes(self.shows._dataDefault['Shows'])                
         self.setShowsToWidget(self.shows._showList)         
-        self.comboBox.currentIndexChanged.connect(partial (self.loadCurrentShow, self.comboBox))
+        self.comboBox.currentIndexChanged.connect(partial(self.loadCurrentShow, self.comboBox))
         self.pushButton.clicked.connect(self.updateWithShow)
         
     def setShowAttributes(self, defaultData): 
@@ -126,7 +126,7 @@ class ShowUI(QtGui.QMainWindow):
         self.comboBox.addItems(showList)  
                 
     def loadCurrentShow(self, comboBox):
-        currentShow = str(comboBox.currentText ())
+        currentShow = str(comboBox.currentText())
         self.shows.name = currentShow        
         if currentShow=='None':
             self.setShowAttributes(self.shows._dataDefault['Shows'])
@@ -163,7 +163,7 @@ class ShowUI(QtGui.QMainWindow):
         
         for eachShow, eachValue in data.items():
             if eachShow=='None':
-                warnings.warn ('show value is None', Warning)
+                warnings.warn('show value is None', Warning)
                 continue 
 
             if eachShow in self.shows._dataInput['Shows']:
@@ -171,7 +171,7 @@ class ShowUI(QtGui.QMainWindow):
                                             'Warning', 
                                             '\"{}\" already found'.format(eachShow),
                                             QtGui.QMessageBox.Ok)                
-                warnings.warn ('\"{}\" already found'.format(eachShow), Warning)
+                warnings.warn('\"{}\" already found'.format(eachShow), Warning)
                 #continue
             
             orderList = self.shows.getShowParameterValues(self.shows._dataInput['Shows'], 'order')

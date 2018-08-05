@@ -2,9 +2,9 @@
 Studio Database v0.1 
 Date : July 26, 2018
 Last modified: July 26, 2018
-Author: Subin. Gopi (subing85@gmail.com)
+Author: Subin. Gopi(subing85@gmail.com)
 
-# Copyright (c) 2018, Subin Gopi
+# Copyright(c) 2018, Subin Gopi
 # All rights reserved.
 
 # WARNING! All changes made in this file will be lost!
@@ -25,16 +25,30 @@ DATABASE_ROOT = 'Z:/database'
 CURRENT_SHOW = 'TPS'
 
 class Bucket(studioPointer.Pointer):
-    
-    def __init__(self, bracket, step=None):
+    '''
+    DescriptStepion -This Class operate on read write the data base for step tasks.
+       : __init__()    Initializes None.    
+                   
+       :example to execute
+            from module import studioBucket    
+            bucket = studioBucket.Bucket('asset', 'Bat')   
+            bucketData = bucket.addToBucket(category=1, order=1)
+            bucket.create(bucketData=bucketData)
+            data = bucket.getBucketData()
+            pprint(data)
+    '''     
+    def __init__(self, bracket, stepName=None):
+        '''
+        :param    bracket <str> example 'asset' or 'shot'
+        :param    stepName <str> example 'bat', 'ball'
+        '''
         super(Bucket, self).__init__()
         
         if not bracket:
             warnings.warn('class Database initializes(__init__) <bracket> None', Warning)
             return False             
-        
         self.bracket = bracket
-        self.step = step
+        self.stepName = stepName
         self.databasePath = os.path.abspath(os.path.join(DATABASE_ROOT, 
                                                          CURRENT_SHOW, 
                                                          self.bracket))
@@ -43,86 +57,260 @@ class Bucket(studioPointer.Pointer):
                                                          self.bracket, 
                                                          '_step_'))
 
-    def getBucketData(self):        
+    def getBucketData(self):
+        '''
+        Description -Function set for operation on read bucket database(step).
+            :param    None
+            :return   bucketDb <dict> example {'bat':{}}
+            
+            :example to execute
+                from module import studioBucket    
+                bucket = studioBucket.Bucket('asset')   
+                data = bucket.getBucketData()
+        '''
         bucketDb = readDatabase(self.databaseFile)
         if not bucketDb:
             return None
         return dict(bucketDb)  
         
-    def getBucketStep(self):        
+    def getBucketStep(self):
+        '''
+        Description -Function set for operation on read bucket database(step).
+            :param    None
+            :return   bucketDb <dict> example {'bat': {}}
+            
+            :example to execute
+                from module import studioBucket    
+                bucket = studioBucket.Bucket('asset')   
+                data = bucket.getBucketStep()
+        '''             
         bucketData = self.getBucketData()
         return bucketData
     
     def currentBucketStep(self):
-        if not self.step:
+        '''
+        Description -Function set for operation on return the current step data.
+            :param    None
+            :return   result <dict> example {'id':'00000','longName':'Asset',etc}
+            
+            :example to execute
+                from module import studioBucket    
+                bucket = studioBucket.Bucket('asset','Bat')   
+                data = bucket.currentBucketStep()
+        ''' 
+        if not self.stepName:
             warnings.warn('\"step\" None, initializes(__init__) <step>', Warning)
-            return None              
+            return None        
         bucketData = self.getBucketData()
-        return bucketData[self.step]
+        result = bucketData[self.stepName]
+        return result
     
     def allBucketStep(self):
+        '''
+        Description -Function set for operation on return the all contents from the step.
+            :param    None
+            :return   result <list> example ['Bat','Ball']
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset')   
+                data = bucket.allBucketStep()
+        '''         
         bucketStepData = self.getBucketData()
-        return list(bucketStepData.keys())
+        result = list(bucketStepData.keys())        
+        return result
         
-    def create(self):        
+    def create(self, bucketData=None):
+        '''
+        Description -Function set for operation on create new step data.
+            :param    bucketData <dict> example {'Bat':{'id':'00000','longName':'Asset',etc}}
+            :return   None
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset')   
+                data = bucket.create(bucketData)
+        '''
         if self.hasStep():
-            warnings.warn('\"%s\"  already found in the database'%self.step, Warning)
-            return None       
-        bucketData = self.addToBucket()
-        createDatabase(self.databaseFile, bucketData)
+            warnings.warn('\"%s\"  already found in the database'%self.stepName, Warning)
+            return None  
+        if not bucketData:
+            bucketData = self.getBucketStep()
+            index = 1
+            if bucketData:
+                index = len(bucketData.keys())+1
+            bucketData = self.addToBucket(order=index)
+        if not os.path.isfile(self.databaseFile):
+            createDatabase(self.databaseFile, bucketData)
+        else:
+            updateDatabase(self.databaseFile, bucketData)
         
     def update(self, data):
-        if not self.hasStep():
-            warnings.warn('\"%s\" not found in the database'%self.step, Warning)
-            return None        
-        currentData = self.getPinterSetp()
-        currentData.update(data)
-        updateDatabase(self.databaseFile, self.step, currentData) 
+        '''
+        Description -Function set for operation on update exist step datain database .
+            :param    bucketData <dict> example {'Bat':{'id':'00000','longName':'Asset',etc}}
+            :return   None
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset')   
+                data = bucket.update(data)
+        '''
         
-    def addToBucket(self):  
-        pointer = self.getPointerData()       
-        bucket = {self.step: (pointer['bracket'][self.bracket])}
+        for eachComponent, componentData in data.items():
+            self.stepName = eachComponent
+            if not self.hasStep():
+                warnings.warn('\"%s\" -old item not found in the database'% self.stepName, Warning)
+                return None
+            udatedPointer = self.addToDataBaseBucket(componentData['value'])            
+            replaceDatabaseKey(self.databaseFile, eachComponent, componentData['new'], udatedPointer)
+            print (eachComponent, componentData['new'], 'updated!..')
+        
+    def addToDataBaseBucket(self, data):
+        '''
+        :example 'ball': {'category': {'value': 0},
+                    'step': {'conceptArt': {'artist': 0,
+                                            'comment': 'None',
+                                            'endDate': '',
+                                            'id': '',
+                                            'publish': 0,
+                                            'startDate': '',
+                                            'status': 0}}}
+        '''     
+        pointer = self.getPointerData()
+        currentPointer = pointer['bracket'][self.bracket]
+        udatedPointer = copy.deepcopy(currentPointer)
+        
+        #bracket level
+        for currentCategory, categoryValue in data['category'].items():
+            udatedPointer['category'][currentCategory] = categoryValue
+            
+        #step level 
+        for currentStep, stepValue in data['step'].items():
+            for eachKey, valueData in stepValue.items():
+                udatedPointer['step'][currentStep][eachKey]['value'] = valueData
+        return udatedPointer
+
+    def updateData(self, data, key, value):
+        '''
+        Description -Function set for operation on update data to step dictionary.
+            :param    data <dict>
+            :param    key <str>
+            :param    value <dict>
+            :return   bool <bool>
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset')   
+                exists = bucket.hasDataBase()
+        '''          
+        for eachStep, stepData in data.items():
+            if key.lower()!=eachStep.lower():
+                continue                
+            data[eachStep] = value
+            result = data[eachStep]
+            return result
+        return None 
+        print('\nsuccessfully update the %s data'% key)        
+        
+        
+    def addToBucket(self, **kwargs):
+        '''
+        Description -Function set for operation on add values to the step.
+            :param    artist <str>
+            :param    id <str>
+            :param    order <str>
+            :param    comment <str>
+            :param    startDate <str>
+            :param    endDate <str>
+            :param    status <str>
+            :param    publish <str>
+            :return   bucket <dict>
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset', 'Bat')   
+                data = bucket.addToBucket(data)
+        '''            
+        pointer = self.getPointerData()
+        currentPointer = pointer['bracket'][self.bracket]      
+        bucket = {self.stepName: currentPointer}
+        keys = ['artist', 'id', 'order', 'comment', 'startDate', 'endDate', 'status', 'publish']
+                
+        #bracket level
+        for eachKey in keys:   
+            if eachKey not in kwargs:
+                continue
+            bucket[self.stepName][eachKey] = kwargs[eachKey]
+        if 'category' in kwargs:            
+            bucket[self.stepName]['category']['value'] = kwargs['category']
+                       
+        #step level
+        for eachStep, stepData in currentPointer['step'].items():
+            if eachStep not in kwargs:
+                continue            
+            for eachParam, paramData in kwargs[eachStep]:
+                bucket[self.stepName][eachStep][eachParam] = paramData
         return bucket        
         
     def getPinterSetp(self):
+        '''
+        Description -Function set for operation pointer value to th step.
+            :param    None
+            :return   bucket <dict>
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset', 'Bat')   
+                data = bucket.addToBucket(data)
+        '''         
         bucketDb = self.getBucketData()
         pprint(bucketDb)
         existStep = [eachStep.lower() for eachStep in bucketDb.keys()]  
-        if self.step.lower() not in existStep:
-            warnings.warn('\"%s\" not found in the database'%self.step, Warning)
+        if self.stepName.lower() not in existStep:
+            warnings.warn('\"%s\" not found in the database'%self.stepName, Warning)
             return None
-        return bucketDb[self.step]
-            
-    def hasValid(self, step=None):
-        pass
-    
+        result = bucketDb[self.stepName]
+        return result
+   
     def hasStep(self):  
+        '''
+        Description -Function set for operation current step is exists or not.
+            :param    None
+            :return   bool <bool>
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset', 'Bat')   
+                exists = bucket.hasStep()
+        '''           
         bucketDb = self.getBucketData()
         if not bucketDb:
             return False
         existSteps = [eachStep.lower() for eachStep in bucketDb.keys()]
-        if self.step.lower() in existSteps:
+        if self.stepName.lower() in existSteps:
             return True
         return False   
           
-    def hasDataBase(self):        
+    def hasDataBase(self):
+        '''
+        Description -Function set for operation on check database is exists or not.
+            :param    None
+            :return   bool <bool>
+            
+            :example to execute
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset')   
+                exists = bucket.hasDataBase()
+        '''                    
         if not os.path.isfile('%s.dat'% self.databaseFile):
             return False        
         return True
-    
-    def updateData(self, data, key, value):
-        for eachStep, stepData in data.items():
-            if key.lower()!=eachStep.lower():
-                continue                
-            data[eachStep]=value
-            return
-        print ('\nsuccessfully update the %s data'% key)
 
 
 def createDatabase(file, data):
     if not os.path.isdir(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
-
     db = shelve.open(file)
     try:
         for eachData, eachValue in data.items():    
@@ -130,25 +318,41 @@ def createDatabase(file, data):
     finally:
         db.close()
         
+        
+def updateDatabase(file, data):
+    db = shelve.open(file, writeback=True)
+    try:
+        for eachData, eachValue in data.items():    
+            db[eachData] = eachValue        
+    finally:
+        db.close()
+        
+def replaceDatabaseKey(file, old, new, data):
+    db = shelve.open(file, writeback=True)
+    try:
+        db.pop(old)
+        db[new] = data
+    finally:
+        db.close()        
+        
 def readDatabase(file):
     dbData = None
     if not os.path.isfile('%s.dat'% file):
+        warnings.warn('\"%s.dat\" not found in the database'% file, Warning)
         return dbData
+    db = shelve.open(file, flag='r')    
     try:
-        db = shelve.open(file, flag='r')
         dbData = dict(db)
-        db.close()
-    finally:
-        pass
-    return dbData
-
-def updateDatabase(file, key, data):
-    db = shelve.open(file, writeback=True)
-    try:
-        db[key]=data
+    except Exception as result:
+        warnings.warn(str(result), Warning)
     finally:
         db.close()
+        
+    return dbData        
+        
+        
 #End######################################################################################################
-bucket = Bucket('asset', 'Book')
-bucket.create()
+#bucket = Bucket('asset', 'Bat')
+#abc = bucket.currentBucketStep()
+#pprint(abc)
     

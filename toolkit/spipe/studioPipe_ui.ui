@@ -287,6 +287,16 @@
     <string>Remove</string>
    </property>
   </action>
+  <action name="action_overwrite">
+   <property name="text">
+    <string>Overwrite</string>
+   </property>
+  </action>
+  <action name="action_reload">
+   <property name="text">
+    <string>Reload</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

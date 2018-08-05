@@ -79,7 +79,7 @@ class Config(object):
         if not os.path.isdir(os.path.dirname(self.file)):
             os.makedirs(os.path.isdir(os.path.dirname(self.file)))        
         try:
-            writeJsonData (self.file, self.data)
+            writeJsonData(self.file, self.data)
             return True
         except Exception as result:
             warnings.warn(str(result), Warning)
@@ -102,7 +102,7 @@ class Config(object):
             warnings.warn('SHOW_INPUT_FILE not found', Warning)
             return None
             
-        self._data = readJsonData (self.file)     
+        self._data = readJsonData(self.file)     
         self._chunkData = {}
         self._validData = {}
         
@@ -113,13 +113,13 @@ class Config(object):
                 self._validData.setdefault(eachData, eachValue)
                 
         if 'Valid' not in self._data:
-            warnings.warn ('data does not validate -{}'.format(self.file))
+            warnings.warn('data does not validate -{}'.format(self.file))
         else:             
             if not self._data['Valid']:
-                warnings.warn ('data not valid -{}'.format(self.file))
+                warnings.warn('data not valid -{}'.format(self.file))
 
 
-def readJsonData (file):    
+def readJsonData(file):    
     '''           
     Description -Standalone function set for operation on read data from the json file.
                  Deserialize(decode) string or unicod instance containing a JSON document to a Python object.   
@@ -127,20 +127,20 @@ def readJsonData (file):
         :return   data    <dict>
     '''
     if not file :        
-        warnings.warn ('function readJsonData argument \"file\" None')        
+        warnings.warn('function readJsonData argument \"file\" None')        
         return False
     
     data = {}                  
-    openData = open (file, 'r')
+    openData = open(file, 'r')
     try:
-        data = json.load (openData)
+        data = json.load(openData)
     except Exception as result :
-        raise Exception (result)     
-    openData.close ()    
+        raise Exception(result)     
+    openData.close()    
     return data        
         
 
-def writeJsonData (file, data):    
+def writeJsonData(file, data):    
     '''           
     Description -Standalone function set for operation on write data from the json file.
                  encode python object to Json string or unicod instance containing a JSON document to a Python object.   
@@ -153,23 +153,23 @@ def writeJsonData (file, data):
     
     if os.path.isfile(file) :
         try:
-            os.chmod (file, 0o755)
+            os.chmod(file, 0o755)
             os.remove(file)
         except Exception as result:
-            print (result)          
+            print(result)          
     
-    result = 'successfully created Database {}'.format (file)     
+    result = 'successfully created Database {}'.format(file)     
     genericData = data.copy()
-    currentTime = time.time ()    
+    currentTime = time.time()    
     try :   
-        data = json.dumps (genericData, indent=4)         
-        jsonData = open (file, 'w')
-        jsonData.write (data)
-        jsonData.close ()                  
-        os.utime(file, (currentTime, currentTime))
+        data = json.dumps(genericData, indent=4)         
+        jsonData = open(file, 'w')
+        jsonData.write(data)
+        jsonData.close()                  
+        os.utime(file,(currentTime, currentTime))
     except Exception as exceptResult :
-        result = str (exceptResult)                
-    print ('write result\t- ', result)
+        result = str(exceptResult)                
+    print('write result\t- ', result)
     
 
 def getGenericInputData():
@@ -182,7 +182,7 @@ def getGenericInputData():
     genericInputData = {'Comment': 'Show Inputs v1.0',
                         'Date': currentDate,
                         'Last modified': currentDate,
-                        'Author': 'Subin. Gopi (subing85@gmail.com)',
+                        'Author': 'Subin. Gopi(subing85@gmail.com)',
                         '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
                         'Created by': getpass.getuser(),  
                         'WARNING': '# WARNING! All changes made in this file will be lost!',
@@ -204,7 +204,7 @@ def getGenericDefaultData():
     genericDefaultData = {  'Comment': 'Show Default v1.0',
                             'Date': currentDate,
                             'Last modified': currentDate,
-                            'Author': 'Subin. Gopi (subing85@gmail.com)',
+                            'Author': 'Subin. Gopi(subing85@gmail.com)',
                             '#Copyright' : '(c) 2018, Subin Gopi All rights reserved.',
                             'Created by': getpass.getuser(),                                    
                             'WARNING': '# WARNING! All changes made in this file will be lost!',
@@ -280,7 +280,7 @@ def getGenericVersionData():
     genericVersionData = {  'Comment': 'Make Package Zip',
                             'Date': currentDate,
                             'Last modified': currentDate,
-                            'Author': 'Subin. Gopi (subing85@gmail.com)',
+                            'Author': 'Subin. Gopi(subing85@gmail.com)',
                             '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
                             'Created by': getpass.getuser(),  
                             'WARNING': '# WARNING! All changes made in this file will be lost!',
