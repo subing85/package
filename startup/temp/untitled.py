@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'untitled.ui'
 #
-# Created: Sat Aug 04 23:47:51 2018
+# Created: Thu Aug 09 23:57:54 2018
 #      by: PyQt4 UI code generator 4.9.6
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(623, 337)
+        MainWindow.resize(623, 358)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
@@ -71,12 +71,18 @@ class Ui_MainWindow(object):
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
         self.gridLayout.addWidget(self.doubleSpinBox, 0, 1, 1, 1)
         self.pushButton = QtGui.QPushButton(self.groupBox)
+        self.pushButton.setStyleSheet(_fromUtf8("background-color: rgb(255, 85, 0);"))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
         self.gridLayout.addWidget(self.pushButton, 0, 2, 1, 1)
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setObjectName(_fromUtf8("comboBox"))
         self.gridLayout.addWidget(self.comboBox, 1, 1, 1, 1)
         self.verticalLayout.addWidget(self.groupBox)
+        self.groupBox_2 = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_2.setMinimumSize(QtCore.QSize(0, 100))
+        self.groupBox_2.setMaximumSize(QtCore.QSize(16777215, 100))
+        self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
+        self.verticalLayout.addWidget(self.groupBox_2)
         self.treeWidget = QtGui.QTreeWidget(self.centralwidget)
         self.treeWidget.setAlternatingRowColors(True)
         self.treeWidget.setObjectName(_fromUtf8("treeWidget"))
@@ -85,6 +91,18 @@ class Ui_MainWindow(object):
         item_0 = QtGui.QTreeWidgetItem(self.treeWidget)
         self.verticalLayout.addWidget(self.treeWidget)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtGui.QMenuBar(MainWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 623, 21))
+        self.menuBar.setObjectName(_fromUtf8("menuBar"))
+        self.menuF = QtGui.QMenu(self.menuBar)
+        self.menuF.setObjectName(_fromUtf8("menuF"))
+        MainWindow.setMenuBar(self.menuBar)
+        self.actionA = QtGui.QAction(MainWindow)
+        self.actionA.setCheckable(True)
+        self.actionA.setChecked(True)
+        self.actionA.setObjectName(_fromUtf8("actionA"))
+        self.menuF.addAction(self.actionA)
+        self.menuBar.addAction(self.menuF.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -93,6 +111,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
         self.label.setText(_translate("MainWindow", "TextLabel", None))
         self.pushButton.setText(_translate("MainWindow", "PushButton", None))
+        self.groupBox_2.setTitle(_translate("MainWindow", "GroupBox", None))
         self.treeWidget.setSortingEnabled(True)
         self.treeWidget.headerItem().setText(1, _translate("MainWindow", "SUbin", None))
         __sortingEnabled = self.treeWidget.isSortingEnabled()
@@ -100,4 +119,6 @@ class Ui_MainWindow(object):
         self.treeWidget.topLevelItem(0).setText(0, _translate("MainWindow", "New Item", None))
         item_0.setToolTip(0, _translate("MainWindow", "Subun", None))
         self.treeWidget.setSortingEnabled(__sortingEnabled)
+        self.menuF.setTitle(_translate("MainWindow", "F", None))
+        self.actionA.setText(_translate("MainWindow", "A", None))
 

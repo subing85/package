@@ -199,6 +199,8 @@
     </property>
     <addaction name="action_removeThumbs"/>
     <addaction name="action_removePYC"/>
+    <addaction name="action_treeDisplay"/>
+    <addaction name="action_groupDisplay"/>
    </widget>
    <widget class="QMenu" name="menu_publish">
     <property name="title">
@@ -287,14 +289,30 @@
     <string>Remove</string>
    </property>
   </action>
-  <action name="action_overwrite">
+  <action name="action_updateAll">
    <property name="text">
-    <string>Overwrite</string>
+    <string>Update All</string>
    </property>
   </action>
   <action name="action_reload">
    <property name="text">
     <string>Reload</string>
+   </property>
+  </action>
+  <action name="action_treeDisplay">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Tree Display</string>
+   </property>
+  </action>
+  <action name="action_groupDisplay">
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Group Display</string>
    </property>
   </action>
  </widget>

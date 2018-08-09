@@ -120,7 +120,7 @@ class Bucket(studioPointer.Pointer):
         result = list(bucketStepData.keys())        
         return result
         
-    def create(self, bucketData=None):
+    def create(self, **kwargs):
         '''
         Description -Function set for operation on create new step data.
             :param    bucketData <dict> example {'Bat':{'id':'00000','longName':'Asset',etc}}
@@ -128,22 +128,65 @@ class Bucket(studioPointer.Pointer):
             
             :example to execute
                 from module import studioBucket
-                bucket = studioBucket.Bucket('asset')   
-                data = bucket.create(bucketData)
+                bucket = studioBucket.Bucket('asset', 'Sachin')
+                create = bucket.create(order=4, category=2)
         '''
         if self.hasStep():
             warnings.warn('\"%s\"  already found in the database'%self.stepName, Warning)
-            return None  
-        if not bucketData:
-            bucketData = self.getBucketStep()
-            index = 1
-            if bucketData:
-                index = len(bucketData.keys())+1
-            bucketData = self.addToBucket(order=index)
-        if not os.path.isfile(self.databaseFile):
-            createDatabase(self.databaseFile, bucketData)
+            return None          
+        
+        data = {}        
+        if 'order' in kwargs:
+            data['order'] = kwargs['order']
+        if 'category' in kwargs: 
+            category = kwargs['category']
+            data['category'] = {'value': kwargs['category']}
+
+        udatedPointer = self.addToBucket(data)
+        
+        currentItem = self.stepName
+        if not self.stepName:
+            currentItem = 'None'                            
+        newData = {currentItem: udatedPointer}
+ 
+        if self.hasDataBase:
+            createDatabase(self.databaseFile, newData)
         else:
-            updateDatabase(self.databaseFile, bucketData)
+            updateDatabase(self.databaseFile, newData)
+        print ('created new item on the database', self.bracket, self.stepName)
+            
+    def createAdvanced(self, data):
+        '''
+        :example 
+                from module import studioBucket
+                bucket = studioBucket.Bucket('asset', 'Subin')                                                    
+                data = {'category': {'value': 2},
+                        'order': 5,
+                        'step': {'conceptArt': {'artist': 0,
+                                                'comment': 'None',
+                                                'endDate': '',
+                                                'id': '',
+                                                'publish': 0,
+                                                'startDate': '',
+                                                'status': 0}}}
+                create = bucket.createAdvanced(data)
+        '''
+        if self.hasStep():
+            warnings.warn('\"%s\"  already found in the database'%self.stepName, Warning)
+            return None          
+
+        udatedPointer = self.addToBucket(data)
+        
+        currentItem = self.stepName
+        if not self.stepName:
+            currentItem = 'None'                            
+        newData = {currentItem: udatedPointer}
+ 
+        if self.hasDataBase:
+            createDatabase(self.databaseFile, newData)
+        else:
+            updateDatabase(self.databaseFile, newData)
+        print ('created new item with advanced setup on the database', self.bracket, self.stepName)
         
     def update(self, data):
         '''
@@ -162,13 +205,21 @@ class Bucket(studioPointer.Pointer):
             if not self.hasStep():
                 warnings.warn('\"%s\" -old item not found in the database'% self.stepName, Warning)
                 return None
-            udatedPointer = self.addToDataBaseBucket(componentData['value'])            
-            replaceDatabaseKey(self.databaseFile, eachComponent, componentData['new'], udatedPointer)
-            print (eachComponent, componentData['new'], 'updated!..')
+            udatedPointer = self.addToBucket(componentData['value'])            
+            replaceDatabase(self.databaseFile, eachComponent, componentData['new'], udatedPointer)
+            print ('old name :', eachComponent, 'new name :', componentData['new'], 'updated!..')
+            
+    def remove(self):
+        if not self.hasStep():
+            warnings.warn('\"%s\" not found in the database'%self.stepName, Warning)
+            return None
+        reomoveDatabase(self.databaseFile, self.stepName)
+        print ('Successfully \"%s\" removed from the %s database!...'% ( self.stepName, self.bracket))
         
-    def addToDataBaseBucket(self, data):
+    def addToBucket(self, data):
         '''
         :example 'ball': {'category': {'value': 0},
+                            'order': 4,
                     'step': {'conceptArt': {'artist': 0,
                                             'comment': 'None',
                                             'endDate': '',
@@ -180,79 +231,20 @@ class Bucket(studioPointer.Pointer):
         pointer = self.getPointerData()
         currentPointer = pointer['bracket'][self.bracket]
         udatedPointer = copy.deepcopy(currentPointer)
-        
+
         #bracket level
-        for currentCategory, categoryValue in data['category'].items():
-            udatedPointer['category'][currentCategory] = categoryValue
-            
+        if 'category' in data:
+            for currentCategory, categoryValue in data['category'].items():
+                udatedPointer['category'][currentCategory] = categoryValue
+        if 'order' in data:                
+            udatedPointer['order'] = data['order']  
         #step level 
-        for currentStep, stepValue in data['step'].items():
-            for eachKey, valueData in stepValue.items():
-                udatedPointer['step'][currentStep][eachKey]['value'] = valueData
+        if 'step' in data:        
+            for currentStep, stepValue in data['step'].items():
+                for eachKey, valueData in stepValue.items():
+                    udatedPointer['step'][currentStep][eachKey]['value'] = valueData
         return udatedPointer
 
-    def updateData(self, data, key, value):
-        '''
-        Description -Function set for operation on update data to step dictionary.
-            :param    data <dict>
-            :param    key <str>
-            :param    value <dict>
-            :return   bool <bool>
-            
-            :example to execute
-                from module import studioBucket
-                bucket = studioBucket.Bucket('asset')   
-                exists = bucket.hasDataBase()
-        '''          
-        for eachStep, stepData in data.items():
-            if key.lower()!=eachStep.lower():
-                continue                
-            data[eachStep] = value
-            result = data[eachStep]
-            return result
-        return None 
-        print('\nsuccessfully update the %s data'% key)        
-        
-        
-    def addToBucket(self, **kwargs):
-        '''
-        Description -Function set for operation on add values to the step.
-            :param    artist <str>
-            :param    id <str>
-            :param    order <str>
-            :param    comment <str>
-            :param    startDate <str>
-            :param    endDate <str>
-            :param    status <str>
-            :param    publish <str>
-            :return   bucket <dict>
-            
-            :example to execute
-                from module import studioBucket
-                bucket = studioBucket.Bucket('asset', 'Bat')   
-                data = bucket.addToBucket(data)
-        '''            
-        pointer = self.getPointerData()
-        currentPointer = pointer['bracket'][self.bracket]      
-        bucket = {self.stepName: currentPointer}
-        keys = ['artist', 'id', 'order', 'comment', 'startDate', 'endDate', 'status', 'publish']
-                
-        #bracket level
-        for eachKey in keys:   
-            if eachKey not in kwargs:
-                continue
-            bucket[self.stepName][eachKey] = kwargs[eachKey]
-        if 'category' in kwargs:            
-            bucket[self.stepName]['category']['value'] = kwargs['category']
-                       
-        #step level
-        for eachStep, stepData in currentPointer['step'].items():
-            if eachStep not in kwargs:
-                continue            
-            for eachParam, paramData in kwargs[eachStep]:
-                bucket[self.stepName][eachStep][eachParam] = paramData
-        return bucket        
-        
     def getPinterSetp(self):
         '''
         Description -Function set for operation pointer value to th step.
@@ -262,7 +254,7 @@ class Bucket(studioPointer.Pointer):
             :example to execute
                 from module import studioBucket
                 bucket = studioBucket.Bucket('asset', 'Bat')   
-                data = bucket.addToBucket(data)
+                data = bucket.getPinterSetp()
         '''         
         bucketDb = self.getBucketData()
         pprint(bucketDb)
@@ -327,13 +319,21 @@ def updateDatabase(file, data):
     finally:
         db.close()
         
-def replaceDatabaseKey(file, old, new, data):
+        
+def replaceDatabase(file, old, new, data):
     db = shelve.open(file, writeback=True)
     try:
         db.pop(old)
         db[new] = data
     finally:
-        db.close()        
+        db.close()
+        
+def reomoveDatabase(file, key):
+    db = shelve.open(file, writeback=True)
+    try:
+        db.pop(key)
+    finally:
+        db.close()            
         
 def readDatabase(file):
     dbData = None
@@ -352,7 +352,20 @@ def readDatabase(file):
         
         
 #End######################################################################################################
-#bucket = Bucket('asset', 'Bat')
-#abc = bucket.currentBucketStep()
-#pprint(abc)
-    
+
+#===============================================================================
+# bucket = Bucket('asset', 'Subin')
+# data = {'category': {'value': 2},
+#             'order': 5,
+#             'step': {'conceptArt': {'artist': 0,
+#                                     'comment': 'None',
+#                                     'endDate': '',
+#                                     'id': '',
+#                                     'publish': 0,
+#                                     'startDate': '',
+#                                     'status': 0}}}
+# 
+# abc = bucket.createAdvanced(data)
+# pprint(abc)
+#===============================================================================
+     

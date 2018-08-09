@@ -73,7 +73,7 @@
     										"id": {			"type": "str", 
 															"enable": false, 
 															"order": 1, 
-															"color": "darkBlue", 
+															"color": "cyan", 
 															"value": "00000", 
 															"values": null,
 															"visibility": true,
