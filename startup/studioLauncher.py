@@ -152,7 +152,7 @@ class Launcher (FROM, BASE):
         #=======================================================================
         
     def new(self):
-        from toolkit.spipe import studioShowpipe
+        from pipe import studioShowpipe
         ss = studioShowpipe.ShowUI(parent=self)
         ss.show()
         

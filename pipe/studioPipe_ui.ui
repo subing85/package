@@ -172,6 +172,23 @@
        <property name="title">
         <string>Details</string>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout_details">
+        <property name="spacing">
+         <number>5</number>
+        </property>
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>25</number>
+        </property>
+        <property name="rightMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -194,6 +211,9 @@
     <addaction name="action_exit"/>
    </widget>
    <widget class="QMenu" name="menu_edit">
+    <property name="tearOffEnabled">
+     <bool>true</bool>
+    </property>
     <property name="title">
      <string>Edit</string>
     </property>

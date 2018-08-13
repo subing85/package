@@ -45,6 +45,9 @@ class Pointer(studioConfig.Config):
         self.pointerData.pop('_shot_')
         self.pointerData['bracket']['asset']['step'] = self._validData['_asset_']['step']
         self.pointerData['bracket']['shot']['step'] = self._validData['_shot_']['step'] 
+        
+        self.allSteps = []
+        
 
     def getPointerBracket(self):
         '''

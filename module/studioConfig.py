@@ -118,7 +118,10 @@ class Config(object):
             if not self._data['Valid']:
                 warnings.warn('data not valid -{}'.format(self.file))
 
-
+    def getCurrentTime(self):
+        currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
+        return currentDate
+    
 def readJsonData(file):    
     '''           
     Description -Standalone function set for operation on read data from the json file.

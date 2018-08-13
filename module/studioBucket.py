@@ -18,6 +18,7 @@ import warnings
 import copy
 import dbm
 import shelve
+import datetime
 
 from module import studioPointer
 
@@ -298,7 +299,6 @@ class Bucket(studioPointer.Pointer):
         if not os.path.isfile('%s.dat'% self.databaseFile):
             return False        
         return True
-
 
 def createDatabase(file, data):
     if not os.path.isdir(os.path.dirname(file)):

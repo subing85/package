@@ -30,6 +30,14 @@ from module import studioQtdress
 from module import studioConsole
 from module import studioPointer
 from module import studioBucket
+from module import studioIdentity
+
+from pipe import studioPmask
+
+import imp
+imp.reload(studioPmask)
+
+
 
 CURRENT_PATH = os.path.dirname(__file__)
 ICON_PATH = 'Z:/package_users/sid/package/icon'
@@ -70,8 +78,17 @@ class PipeUI(FROM, BASE):
         self.action_update.triggered.connect(self.updateStepItem)    
         self.action_remove.triggered.connect(self.removeStepItem)    
         self.action_updateAll.triggered.connect(self.updateAllStepItem)    
-        self.action_reload.triggered.connect(self.reloadStepItem)    
+        self.action_reload.triggered.connect(self.reloadStepItem)
         
+        self.action_treeDisplay.triggered.connect(partial (self.setDisplay, 
+                                                           self.action_treeDisplay, 
+                                                           self.action_groupDisplay))
+        self.action_groupDisplay.triggered.connect(partial (self.setDisplay, 
+                                                            self.action_groupDisplay,
+                                                            self.action_treeDisplay))
+        
+        self.treeWidget.itemClicked.connect(self.currentItemSelect)
+          
         self.defaultUiSettings()
                 
     def defaultUiSettings(self):        
@@ -101,7 +118,7 @@ class PipeUI(FROM, BASE):
                              self.verticalLayout_toolbar,
                              QtCore.Qt.Vertical, True)
         self.loadBracket()                 
-            
+             
     def setIconAllWidgets(self):
         widgetList = self.findChildren(QtGui.QAction)
         widgetList.remove(self.action_treeDisplay)
@@ -120,8 +137,9 @@ class PipeUI(FROM, BASE):
         bracket = self.spointer.getPointerBracket()
         assetStep = self.spointer.getPointerStep('asset')
         shotStep = self.spointer.getPointerStep('shot')
-        stepList = [assetStep, shotStep]
-        
+        stepList = [assetStep, shotStep]        
+        self._bracketData = self.spointer.pointerData['bracket']  
+
         for x in range(len(bracket)):
             self.qtd.qwidget = self            
             bracketData = self.spointer.pointerData['bracket'][bracket[x]]
@@ -163,22 +181,26 @@ class PipeUI(FROM, BASE):
         self.sbucket = studioBucket.Bucket(bracket)
         bucketStep = self.sbucket.getBucketStep()
         self.updateTreeWidget(bucketStep, stepList)
-        
+
         #global variables        
         self.sbucket.bracket = bracket
+        self._bucketStepData = bucketStep
         self._stepsList = stepList
         self._pointerData = pointerData
-        
+        self._currentBracketData = self._bracketData[bracket]
 
+        self.qtd.qwidget = self.verticalLayout_details
+        self.qtd.getLayoutWidgets(delete=True)
 
     def updateTreeWidget(self, data, stepList):
         self.groupBox_toolbar.show()
         self.treeWidget.show()
         self.button_studioPipe.hide()
-        self.treeWidget.clear()       
-        self.treeWidget.setColumnCount(3)
+        self.treeWidget.clear()
+        if not data:
+            return
         
-        
+        self.treeWidget.setColumnCount(3)                
         for eachBucket, bucketData in data.items():
             order = bucketData['order']
             category = bucketData['category'] 
@@ -207,6 +229,7 @@ class PipeUI(FROM, BASE):
             self.treeWidget.header().resizeSection(0, 50)        
             self.treeWidget.header().resizeSection(1, 150)
             self.treeWidget.header().resizeSection(2, 100)
+            
             item.setTextAlignment(0, self.align)
             item.setTextAlignment(1, self.align)
             item.setTextAlignment(2, self.align)
@@ -215,17 +238,13 @@ class PipeUI(FROM, BASE):
             self.treeWidget.headerItem().setTextAlignment(2, self.align)
 
             index = 3
-            #self.treeWidget.setColumnCount(len(stepList)+index)     
- 
             for eachStep in stepList:
                 stepDetails = bucketData['step'][eachStep]
                 orderList = self.setOrder(stepDetails)
-                
                 if self._currentLayout=='treelayout':
                     index = self.setTreeLayout(item, eachStep, stepDetails, index)
                 else:                
                     self.stepGroupLayout(item, eachStep, stepDetails, index)
-                 
                 index+=1
 
             
@@ -328,7 +347,7 @@ class PipeUI(FROM, BASE):
         brush = QtGui.QBrush(QtGui.QColor(stepdata['color']))
         brush.setStyle(QtCore.Qt.SolidPattern)
         self.treeWidget.headerItem().setForeground(index, brush)              
-        self.treeWidget.header().resizeSection(index, 120)
+        #self.treeWidget.header().resizeSection(index, 120)
         #self.treeWidget.setColumnCount(50)  
               
         orderList = self.setOrder(stepdata)
@@ -351,8 +370,6 @@ class PipeUI(FROM, BASE):
             self.treeWidget.headerItem().setTextAlignment(index, self.align)
             self.treeWidget.headerItem().setForeground(index, brush)             
             self.treeWidget.header().resizeSection(index, 120)
-            
-            print (currentStep, itemName) 
              
             widget = None
             if itemType=='str':   
@@ -428,9 +445,10 @@ class PipeUI(FROM, BASE):
         order = int(item.text(0))               
         if oldName not in bucketData:
             return None
+        
         widget = self.treeWidget.itemWidget(item, 2)            
         categoryValue = int(widget.currentIndex())
-        currentSetpData = self.getValuesFromTreewidgetItem(item, bucketData[oldName]['step'])
+        currentSetpData = self.getValuesFromTreewidgetItem(item, newName, bucketData[oldName]['step'])
         itemData = {'order':order, 'category': {'value': categoryValue}, 'step': currentSetpData}
         return oldName, newName, itemData 
            
@@ -455,10 +473,13 @@ class PipeUI(FROM, BASE):
         
         finalData = {}        
         for eachItem in selectItems:
-            oldName, newName, itemData = self.updateCurrentItem(eachItem)
-            if not oldName:
-                continue
+            currentData = self.updateCurrentItem(eachItem)
+            if not currentData:
+                continue            
+            oldName, newName, itemData = currentData
             finalData.setdefault(oldName,  {'new': newName, 'value': itemData})
+            
+        pprint(finalData)
         self.sbucket.update(finalData)    
     
     def removeStepItem(self):
@@ -487,6 +508,7 @@ class PipeUI(FROM, BASE):
             #self.sbucket.bracket = bracket
             self.sbucket.stepName = oldName
             self.sbucket.remove()
+        self.loadStepData(self.sbucket.bracket, self._stepsList, self._pointerData)        
     
     def updateAllStepItem(self):
         if not self._stepsList:
@@ -521,10 +543,10 @@ class PipeUI(FROM, BASE):
     def reloadStepItem(self):
         self.loadStepData(self.sbucket.bracket, self._stepsList, self._pointerData)        
     
-    def getValuesFromTreewidgetItem(self, currentItem, currentStepData):        
+    def getValuesFromTreewidgetItem(self, currentItem, itemName, currentStepData):        
         index = 3
         data = {}
-        for eachStep in self._stepsList:            
+        for eachStep in self._stepsList:
             orderList = self.setOrder(currentStepData[eachStep])
             stepData = {}
             for eachOrder in orderList:
@@ -534,13 +556,15 @@ class PipeUI(FROM, BASE):
                 if not detailData['visibility']:
                     continue          
                 itemType = detailData['type']
+                
                 currentValue = None
                 if itemType=='str':
-                    currentValue = str (currentItem.text (index))
+                    currentValue = str (currentItem.text(index))
                 widget = None
                 if itemType!='str':
                     widget = self.treeWidget.itemWidget (currentItem, index)
                 if widget:
+                    #print (eachOrder, type(widget))
                     if itemType=='int':
                         currentValue = int(widget.value())
                     if itemType=='float':
@@ -551,12 +575,96 @@ class PipeUI(FROM, BASE):
                         currentValue = str(widget.toPlainText())
                     if itemType=='button':                    
                         currentValue = str(widget.text())
+
+                if eachOrder=='id':
+                    if currentValue=='0000' or not currentValue : 
+                        id = studioIdentity.Identity(self.sbucket.bracket, itemName, eachStep)
+                        itemId = id.create()
+                        currentValue = itemId
+                        
+                if eachOrder=='startDate':                 
+                    if currentValue=='0000' or not currentValue : 
+                        currentTime = self.sbucket.getCurrentTime()
+                        currentValue = currentTime                    
+                    
                 stepData.setdefault(eachOrder, currentValue)
                 index+=1
             data.setdefault(eachStep, stepData)
         return data
-
- 
+    
+    def setDisplay(self, displayone, displaytwo):
+        if displayone.isChecked():
+            displaytwo.setChecked(False)
+            
+        self._currentLayout = 'treelayout'    
+        if displayone==self.action_groupDisplay:            
+            self._currentLayout = 'grouplayout' 
+        self.loadStepData(self.sbucket.bracket, self._stepsList, self._pointerData)
+    
+    
+    def currentItemSelect(self):
+        selectItems  = self.treeWidget.selectedItems()
+        if not selectItems:
+            warnings.warn('Not find the selection, please the item and try.', Warning)
+            return
+        
+        pMaksData = {}     
+        for eachItem in selectItems:            
+            itemName = str(eachItem.toolTip(1))            
+            if itemName not in self._bucketStepData:
+                continue
+            pMaksData.setdefault(itemName, self._bucketStepData[itemName])
+            
+        if not pMaksData:
+            return
+        
+        self.qtd.qwidget = self.verticalLayout_details
+        self.qtd.getLayoutWidgets(delete=True)
+            
+        #load studio pmask
+        imp.reload(studioPmask)
+        
+        self.pmask = studioPmask.PmaskUI(bracket=self._currentBracketData['longName'], 
+                                         data=pMaksData, 
+                                         stepList=self._stepsList)       
+        self.verticalLayout_details.addWidget(self.pmask)
+        
+        #spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        #self.verticalLayout_details.addItem(spacerItem)               
+        
+        #=======================================================================
+        # self.sbucket.bracket = bracket
+        # self._stepsList = stepList
+        # self._pointerData = pointerData
+        #=======================================================================
+        
+        
+    def updateCurrentStep(self):
+        
+        selectItems  = self.treeWidget.selectedItems()
+        if not selectItems:
+            warnings.warn('Not find the selection, please the item and try.', Warning)
+            return
+        
+        print ('dddddddddddddddd')
+        
+        #=======================================================================
+        # for eachItem in selectItems:            
+        #     newName = str(eachItem.text(1))             
+        #     oldName = str(eachItem.toolTip(1))
+        #     if newName==oldName:
+        #         continue
+        #     category = self.sbucket.bracket
+        #     id = studioIdentity.Identity(category, newName)
+        #     itemId = id.create()
+        #     
+        #     widget = self.treeWidget.itemWidget(eachItem, 3)
+        #     widget.setText(itemId)
+        #     
+        #     
+        # #self.sbucket.bracket = bracket
+        # self.sbucket.stepName = oldName
+        #=======================================================================
 
 if __name__ == '__main__':
     app = QtGui.QApplication(sys.argv)

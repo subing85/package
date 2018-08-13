@@ -1,0 +1,1 @@
+pyuic4 studioPlayer_ui.ui -o studioPlayer_ui.py
