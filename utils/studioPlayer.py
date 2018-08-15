@@ -48,18 +48,16 @@ class Player(FROM, BASE):
             self.footagePath = kwargs['path']        
         if 'extension' in kwargs:
             self.extension = kwargs['extension']
-            
         if 'resolution' in kwargs:
             self.resolution = kwargs['resolution'] 
      
         self.mediaObjects = True
         self.fps = 25.00          
+        self.imageList = self.getFiles()
      
         style = studioStylesheet.Stylesheet(self) # set the ui style sheet
         style.setStylesheet()
-        self.qtd = studioQtdress.QtDress(None)
-        
-        self.imageList = self.getFiles()
+        self.qtd = studioQtdress.QtDress(None)        
         self.defaultUiSettings()
         self.setIconAllWidgets()
         
@@ -68,7 +66,10 @@ class Player(FROM, BASE):
         self.action_play.triggered.connect(self.playAndPause)
         self.action_stop.triggered.connect(self.stop)
         self.slider.valueChanged.connect(self.sliderPlay)
-                
+        QtGui.QShortcut (QtGui.QKeySequence ('space'), self, self.playAndPause)
+        QtGui.QShortcut (QtGui.QKeySequence ('left'), self, self.forward) 
+        QtGui.QShortcut (QtGui.QKeySequence ('right'), self, self.backword)
+
     def defaultUiSettings(self):        
         self.setWindowTitle('Studio PLAYer v0.1')
         self.setWindowIcon(QtGui.QIcon(os.path.join(ICON_PATH, 'player.png')))
@@ -104,7 +105,9 @@ class Player(FROM, BASE):
         currentFrame = self.slider.value()
         if not self.imageList:
             return
-        self.playSequence([self.imageList[currentFrame]], 0)
+        self.label_preframe.setText('%s.00'%currentFrame)
+        self.label_postframe.setText('%s.00'%(len(self.imageList)-currentFrame))
+        self.playSequence([self.imageList[currentFrame-1]], 0)
 
     def playAndPause(self):
         if not self.imageList:

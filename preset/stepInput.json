@@ -59,7 +59,7 @@
 								"comment": null,
 								"thumbnail": null
 								}
-    		 },   		
+    		},   		
     "_asset_": {
 				"step": {
 							"conceptArt": { "order": 1,
@@ -132,8 +132,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}
-    										},	    										
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},
 	    					"modeling": {	"order": 2,
 											"icon": "mod",    														
     										"color": "darkRed",
@@ -204,8 +217,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Commet"
-    														}
-    										},	
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
 	    					"surfacing":{	"order": 3,
 											"icon": "suf",    														
     										"color": "darkMagenta",
@@ -276,8 +302,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}
-    										},	    										
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
 	    					"sfx": {		"order": 4, 
 											"icon": "sfx",										
     										"color": "darkGreen",
@@ -348,8 +387,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}
-    										},							
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
 	    					"puppet": {		"order": 5, 
 											"icon": "pup",										
     										"color": "darkYellow",
@@ -420,8 +472,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}
-    										},	  										
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
     						"dressing": {	"order": 6,
 											"icon": "drs",											
     										"color": "darkBlue",
@@ -492,8 +557,21 @@
     														"values": null,
     														"visibility": false,
     														"longName": "Comment"
-    														}
-    										}						
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											}														
     						}   						
     			},    
     "_shot_": {	
@@ -569,8 +647,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}											
-    										},    										
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
 							"animation": {	"order": 2,
 											"icon": "ani",											
     										"color": "darkRed",
@@ -642,8 +733,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}															
-    										},    										
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
 							"rendering":{	"order": 3,
 											"icon": "rnd",											
     										"color": "darkMagenta",
@@ -715,8 +819,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Comment"
-    														}
-											},    										
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											},														
 							"composting": {	"order": 4,
 											"icon": "cop",											
     										"color": "darkGreen",
@@ -788,8 +905,21 @@
     														"values": null,
     														"visibility": true,
     														"longName": "Publish"    														
-    														}
-    										}
+    														},
+    										"version": {	"type": "text", 
+    														"enable": true, 
+    														"order": 8, 
+    														"color": "magenta", 
+    														"value": null, 
+    														"values": {"name": "",
+    																   "owner": "",
+    																   "publishDate": "",
+    																   "status": "",
+    																   "remark": ""},
+    														"visibility": true,
+    														"longName": "Version"
+    													}
+											}														
     						}   						
     			}	
 	}     			  						

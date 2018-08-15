@@ -51,7 +51,8 @@ class PmaskUI(QtGui.QToolBox):
         self.setObjectName('mainWindow')
         self.resize(530, 432)
         self.setWindowTitle('Studio Show v0.1')
-
+        self.layout().setSpacing(1)
+        self.setStyleSheet('font: 8pt \"MS Shell Dlg 2\";')
         self.verticalLayout = QtGui.QVBoxLayout(self)
         self.verticalLayout.setObjectName('verticalLayout_toolBox')
 
@@ -70,80 +71,94 @@ class PmaskUI(QtGui.QToolBox):
                 longName = currentStep['longName']
                 floorID = currentStep['id']['value']                
                 
-                self.page = QtGui.QWidget()
-                self.page.setGeometry(QtCore.QRect(0, 0, 75, 50))
-                self.page.setObjectName('page_%s_%s'%(floorName, each_step))
-                self.addItem(self.page, (longName))                             
+                page = QtGui.QWidget()
+                page.setGeometry(QtCore.QRect(0, 0, 75, 50))
+                page.setObjectName('page_%s_%s'%(floorName, each_step))
+                self.addItem(page, (longName))                             
                        
-                self.verticalLayout = QtGui.QVBoxLayout(self.page)
-                self.verticalLayout.setObjectName('verticalLayout_page%s'% each_step)
+                verticalLayout = QtGui.QVBoxLayout(page)
+                verticalLayout.setObjectName('verticalLayout_page%s'% each_step)
                 
                 #title               
-                self.groupBox_title = QtGui.QGroupBox(self.page)
-                self.groupBox_title.setObjectName('groupBox_title%s'% each_step)                
-                self.groupBox_title.setTitle('Title')
-                self.verticalLayout.addWidget(self.groupBox_title)
+                groupBox_title = QtGui.QGroupBox(page)
+                groupBox_title.setObjectName('groupBox_title%s'% each_step)                
+                groupBox_title.setTitle('Title')
+                verticalLayout.addWidget(groupBox_title)
                 
-                self.horizontalLayout_title = QtGui.QHBoxLayout(self.groupBox_title)
-                self.horizontalLayout_title.setSpacing(10)
-                self.horizontalLayout_title.setContentsMargins(10, 25, 10, 10)
-                self.horizontalLayout_title.setObjectName('horizontalLayout_title%s'% each_step)               
+                horizontalLayout_title = QtGui.QHBoxLayout(groupBox_title)
+                horizontalLayout_title.setSpacing(10)
+                horizontalLayout_title.setContentsMargins(10, 25, 10, 10)
+                horizontalLayout_title.setObjectName('horizontalLayout_title%s'% each_step)               
         
-                self.label_name = QtGui.QLabel(self)
-                self.label_name.setObjectName('label_title%s'% each_step)
-                self.label_name.setText('%s Name'% self.bracket)  
-                self.label_name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-                self.horizontalLayout_title.addWidget(self.label_name)
+                label_name = QtGui.QLabel(self)
+                label_name.setObjectName('label_title%s'% each_step)
+                label_name.setText('%s Name'% self.bracket)  
+                label_name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+                horizontalLayout_title.addWidget(label_name)
                 
-                self.lineEdit_name = QtGui.QLineEdit(self)
-                self.lineEdit_name.setObjectName('lineEdit_title%s'% each_step)
-                self.lineEdit_name.setText(floorName) 
-                self.lineEdit_name.setReadOnly(True)                          
-                self.horizontalLayout_title.addWidget(self.lineEdit_name)
+                lineEdit_name = QtGui.QLineEdit(self)
+                lineEdit_name.setObjectName('lineEdit_title%s'% each_step)
+                lineEdit_name.setText(floorName) 
+                lineEdit_name.setReadOnly(True)                          
+                horizontalLayout_title.addWidget(lineEdit_name)
                 
-                self.label_category = QtGui.QLabel(self)
-                self.label_category.setObjectName('label_category%s'% each_step)
-                self.label_category.setText('Category')  
-                self.label_category.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-                self.horizontalLayout_title.addWidget(self.label_category)
+                label_category = QtGui.QLabel(self)
+                label_category.setObjectName('label_category%s'% each_step)
+                label_category.setText('Category')  
+                label_category.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+                horizontalLayout_title.addWidget(label_category)
                 
-                self.lineEdit_category = QtGui.QLineEdit(self)
-                self.lineEdit_category.setObjectName('lineEdit_category%s'% each_step)
-                self.lineEdit_category.setText(floorCategory) 
-                self.lineEdit_category.setReadOnly(True)                          
-                self.horizontalLayout_title.addWidget(self.lineEdit_category)
+                lineEdit_category = QtGui.QLineEdit(self)
+                lineEdit_category.setObjectName('lineEdit_category%s'% each_step)
+                lineEdit_category.setText(floorCategory) 
+                lineEdit_category.setReadOnly(True)                          
+                horizontalLayout_title.addWidget(lineEdit_category)
                 
-                self.label_id = QtGui.QLabel(self)
-                self.label_id.setObjectName('label_id%s'% each_step)
-                self.label_id.setText('ID')  
-                self.label_id.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-                self.horizontalLayout_title.addWidget(self.label_id)
+                label_id = QtGui.QLabel(self)
+                label_id.setObjectName('label_id%s'% each_step)
+                label_id.setText('ID')  
+                label_id.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+                horizontalLayout_title.addWidget(label_id)
                 
-                self.lineEdit_id = QtGui.QLineEdit(self)
-                self.lineEdit_id.setObjectName('lineEdit_id%s'% each_step)
-                self.lineEdit_id.setText(floorID) 
-                self.lineEdit_id.setReadOnly(True)                          
-                self.horizontalLayout_title.addWidget(self.lineEdit_id)
-                titleList = [self.label_name, self.lineEdit_name, 
-                             self.label_category, self.lineEdit_category, 
-                             self.label_id, self.lineEdit_id]
+                lineEdit_id = QtGui.QLineEdit(self)
+                lineEdit_id.setObjectName('lineEdit_id%s'% each_step)
+                lineEdit_id.setText(floorID) 
+                lineEdit_id.setReadOnly(True)                          
+                horizontalLayout_title.addWidget(lineEdit_id)
+                titleList = [label_name, lineEdit_name, 
+                             label_category, lineEdit_category, 
+                             label_id, lineEdit_id]
                 for eachTitle in titleList:     
                     eachTitle.setStyleSheet('font: 8pt \"MS Shell Dlg 2\";')
 
-                #player
+                #player                
+                path = 'E:/icons'                
+                player = studioPlayer.Player(path=path, extension='jpg')
+                verticalLayout.addWidget(player)
+
+                groupBox_version = QtGui.QGroupBox(page)
+                groupBox_version.setObjectName('groupBox_version')
+                groupBox_version.setTitle('Version')
+                verticalLayout.addWidget(groupBox_version)
                 
-                player = studioPlayer.Player()
+                verticalLayout_version = QtGui.QVBoxLayout(groupBox_version)
+                verticalLayout_version.setObjectName('verticalLayout_version')
+                verticalLayout_version.setSpacing(10)
+                verticalLayout_version.setContentsMargins(10, 25, 10, 10)
                 
-                self.verticalLayout.addWidget(player)
+                treeWidget_version = QtGui.QTreeWidget(groupBox_version)
+                treeWidget_version.setObjectName('treeWidget_version')
+                treeWidget_version.setStyleSheet('font: 8pt \"MS Shell Dlg 2\";')
+                verticalLayout_version.addWidget(treeWidget_version)
 
-
-
-
-
-
+                treeWidget_version.headerItem().setText(0, 'Name')
+                treeWidget_version.headerItem().setText(1, 'Owner')
+                treeWidget_version.headerItem().setText(2, 'Publish Date')
+                treeWidget_version.headerItem().setText(3, 'Status')
+                treeWidget_version.headerItem().setText(4, 'Remark')
                 
                 spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-                self.verticalLayout.addItem(spacerItem)          
+                verticalLayout.addItem(spacerItem)          
         
         
         '''
