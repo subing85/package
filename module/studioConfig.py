@@ -56,6 +56,7 @@ class Config(object):
                             'Description', 
                             'Type',
                             'Valid'
+                            'hierarchy'
                             ]
         
         self.genericInputData = getGenericInputData()

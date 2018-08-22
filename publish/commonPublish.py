@@ -1,7 +1,7 @@
 '''
-Studio Publi-SH v0.1
-Date : February 14, 2018
-Last modified: February 14, 2018
+Common Publi-SH v0.1
+Date : August 18, 2018
+Last modified: August 18, 2018
 Author: Subin. Gopi (subing85@gmail.com)
 
 # Copyright (c) 2018, Subin Gopi
@@ -16,7 +16,165 @@ example
 from publish import studioPublish
 reload(studioPublish)
 window = studioPublish.Publish(types='compositing')
-window.show ()      
+window.show ()     
+
+'''
+
+import sys
+import os
+import warnings
+
+from PyQt4 import QtGui
+from PyQt4 import QtCore
+
+from module import studioStylesheet
+
+ICON_PATH = 'Z:/package_users/sid/package/icon'
+
+class PublishUI(object):
+    
+    def __init__(self):
+        
+        self.setupUi()
+    
+        style = studioStylesheet.Stylesheet(self.mainWindow) # set the ui style sheet
+        style.setStylesheet()
+    
+    
+    def setupUi(self):
+        self.mainWindow = QtGui.QMainWindow()
+        self.mainWindow.setObjectName('mainWindow')
+        self.mainWindow.resize(426, 623)
+        self.mainWindow.setWindowTitle ('Studio PUBlish v0.1')
+        self.mainWindow.setWindowIcon(QtGui.QIcon(os.path.join(ICON_PATH, 'publish.png')))
+        self.centralwidget = QtGui.QWidget(self.mainWindow)
+        self.centralwidget.setObjectName('centralwidget')
+        self.mainWindow.setCentralWidget(self.centralwidget)
+        self.verticalLayout = QtGui.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setSpacing(10)
+        self.verticalLayout.setMargin(10)
+        self.verticalLayout.setObjectName('verticalLayout')        
+        
+        self.groupBox_input = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_input.setObjectName('groupBox_input')
+        self.groupBox_input.setTitle('Inputs')
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_input.sizePolicy().hasHeightForWidth())
+        self.groupBox_input.setSizePolicy(sizePolicy)        
+        self.verticalLayout.addWidget(self.groupBox_input)        
+        
+        self.horizontalLayout_input = QtGui.QHBoxLayout(self.groupBox_input)
+        self.horizontalLayout_input.setObjectName('horizontalLayout_input')
+        self.horizontalLayout_input.setSpacing(5)
+        self.horizontalLayout_input.setContentsMargins(4, 30, 4, 4)
+
+        self.comboBox_module = QtGui.QComboBox(self.groupBox_input)
+        self.comboBox_module.setObjectName('comboBox_module')
+        self.horizontalLayout_input.addWidget(self.comboBox_module) 
+               
+        self.lineEdit_step = QtGui.QLineEdit(self.groupBox_input)
+        self.lineEdit_step.setObjectName('lineEdit_step')
+        self.lineEdit_step.setReadOnly(True)        
+        self.horizontalLayout_input.addWidget(self.lineEdit_step)
+        
+        self.verticalLayout_item = QtGui.QVBoxLayout()
+        self.verticalLayout_item.setObjectName('verticalLayout_item')
+        self.verticalLayout.addLayout(self.verticalLayout_item)
+        
+        self.groupBox_validate = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_validate.setObjectName('groupBox_validate')
+        self.groupBox_validate.setTitle('Validater')        
+        self.verticalLayout.addWidget(self.groupBox_validate)
+        
+        self.verticalLayout_validate = QtGui.QVBoxLayout(self.groupBox_validate)
+        self.verticalLayout_validate.setObjectName('verticalLayout_validate')
+        self.verticalLayout_validate.setSpacing(5)
+        self.verticalLayout_validate.setContentsMargins(5, 30, 5, 5)
+        
+        self.gridLayout_validate = QtGui.QGridLayout()
+        self.gridLayout_validate.setSpacing(5)
+        self.gridLayout_validate.setContentsMargins(2, 2, 2, 2)
+        self.gridLayout_validate.setObjectName('gridLayout_validate')
+        self.verticalLayout_validate.addLayout(self.gridLayout_validate)
+        
+        spacerItem_validate = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_validate.addItem(spacerItem_validate)
+        
+        self.groupBox_extactor = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_extactor.setObjectName('groupBox_extactor')
+        self.groupBox_extactor.setTitle('Extractor')        
+        self.verticalLayout.addWidget(self.groupBox_extactor)
+                
+        self.verticalLayout_extactor = QtGui.QVBoxLayout(self.groupBox_extactor)
+        self.verticalLayout_extactor.setObjectName('verticalLayout_extactor')
+        self.verticalLayout_extactor.setSpacing(5)
+        self.verticalLayout_extactor.setContentsMargins(5, 30, 5, 5)
+        
+        self.gridLayout_extactor = QtGui.QGridLayout()
+        self.gridLayout_extactor.setSpacing(5)
+        self.gridLayout_extactor.setContentsMargins(2, 2, 2, 2)
+        self.gridLayout_extactor.setObjectName('gridLayout_extactor')
+        self.verticalLayout_extactor.addLayout(self.gridLayout_extactor)
+        
+        spacerItem_extactor = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticalLayout_extactor.addItem(spacerItem_extactor)
+        self.verticalLayout.addWidget(self.groupBox_extactor)        
+                
+        self.groupBox_publish = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_publish.setObjectName('groupBox_publish')
+        self.groupBox_publish.setTitle('Publish')        
+       
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.groupBox_publish.sizePolicy().hasHeightForWidth())
+        self.groupBox_publish.setSizePolicy(sizePolicy)
+        self.verticalLayout.addWidget(self.groupBox_publish)
+        
+        self.verticalLayout_publish = QtGui.QVBoxLayout(self.groupBox_publish)
+        self.verticalLayout_publish.setObjectName('verticalLayout_publish')        
+        self.verticalLayout_publish.setSpacing(5)
+        self.verticalLayout_publish.setContentsMargins(5, 30, 5, 5)
+                
+        self.horizontalLayout_publish = QtGui.QHBoxLayout()
+        self.horizontalLayout_publish.setObjectName('horizontalLayout_publish')
+        self.horizontalLayout_publish.setSpacing(5)
+        self.verticalLayout_publish.addLayout(self.horizontalLayout_publish)
+        
+        self.button_testRun = QtGui.QPushButton(self.groupBox_publish)
+        self.button_testRun.setObjectName('button_testRun')
+        self.button_testRun.setText('Trail Run')
+        self.horizontalLayout_publish.addWidget(self.button_testRun)
+        
+        self.button_publish = QtGui.QPushButton(self.groupBox_publish)
+        self.button_publish.setObjectName('button_publish')
+        self.button_publish.setText('Publish')   
+        self.horizontalLayout_publish.addWidget(self.button_publish)
+        
+        self.progressBar = QtGui.QProgressBar(self.groupBox_publish)    
+        self.progressBar.setObjectName('progressBar')
+        self.progressBar.setMinimumSize(QtCore.QSize(0, 10))
+        self.progressBar.setMaximumSize(QtCore.QSize(16777215, 10))
+        self.progressBar.setValue(25)
+        self.progressBar.setTextVisible(True)
+        self.progressBar.setStyleSheet('font: 8pt \"MS Shell Dlg 2\";')
+        self.verticalLayout_publish.addWidget(self.progressBar)              
+   
+if __name__ == '__main__':
+    app = QtGui.QApplication (sys.argv)
+    window = PublishUI()
+    window.mainWindow.show()
+    sys.exit (app.exec_())     
+
+
+
+
+
+
+
+
 
 '''
 
@@ -281,4 +439,4 @@ if __name__ == '__main__':
     window = Publish (application='natron', types='illustration')
     window.show ()
     sys.exit (app.exec_())     
-
+'''

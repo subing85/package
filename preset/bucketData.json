@@ -9,8 +9,9 @@
     "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
     "Valid": true , 
     "Type": "Pipe Input",
+    "hierarchy": ["bucket > step > cube"],
       
-    "bracket": {	
+    "bucket": {	
 					"asset": {  "step": "_asset_",
 								"category": {	"type": "enum", 
 												"enable": true, 

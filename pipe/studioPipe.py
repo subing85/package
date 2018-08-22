@@ -117,7 +117,7 @@ class PipeUI(FROM, BASE):
                              self.action_updateAll, self.action_reload],
                              self.verticalLayout_toolbar,
                              QtCore.Qt.Vertical, True)
-        self.loadBracket()                 
+        self.loadBucket()                 
              
     def setIconAllWidgets(self):
         widgetList = self.findChildren(QtGui.QAction)
@@ -133,33 +133,33 @@ class PipeUI(FROM, BASE):
         self.qtd.qwidget = self.button_studioPipe
         self.qtd.setIcon(ICON_PATH, width=470, height=150, lock=True)            
     
-    def loadBracket(self):
-        bracket = self.spointer.getPointerBracket()
+    def loadBucket(self):
+        bucket = self.spointer.getPointerBucket()
         assetStep = self.spointer.getPointerStep('asset')
         shotStep = self.spointer.getPointerStep('shot')
         stepList = [assetStep, shotStep]        
-        self._bracketData = self.spointer.pointerData['bracket']  
+        self._bucketData = self.spointer.pointerData['bucket']  
 
-        for x in range(len(bracket)):
+        for x in range(len(bucket)):
             self.qtd.qwidget = self            
-            bracketData = self.spointer.pointerData['bracket'][bracket[x]]
-            button_bracket = self.qtd.setPushbuttonLayout(  'button_%s'% bracketData['icon'],
-                                                            bracketData['longName'],
+            bucketData = self.spointer.pointerData['bucket'][bucket[x]]
+            button_bucket = self.qtd.setPushbuttonLayout(  'button_%s'% bucketData['icon'],
+                                                            bucketData['longName'],
                                                             default=True,
                                                             flat=False,
                                                             width=100,
                                                             height=30,
                                                             color='170, 170, 170', 
-                                                            layout=self.verticalLayout_bracket)
-            self.qtd.qwidget = button_bracket          
+                                                            layout=self.verticalLayout_bucket)
+            self.qtd.qwidget = button_bucket          
             self.qtd.setIcon(ICON_PATH, width=50, height=40, lock=True)
-            button_bracket.clicked.connect(partial(self.loadStepData, 
-                                                   bracket[x], 
+            button_bucket.clicked.connect(partial(self.loadStepData, 
+                                                   bucket[x], 
                                                    stepList[x], 
-                                                   bracketData))
+                                                   bucketData))
  
-            for index in range(len(bracketData['step'])):
-                currentStepData = bracketData['step'][stepList[x][index]]
+            for index in range(len(bucketData['step'])):
+                currentStepData = bucketData['step'][stepList[x][index]]
                 button_step = self.qtd.setPushbuttonLayout( 'button_%s'% currentStepData['icon'],
                                                             currentStepData['longName'],
                                                             default=True,
@@ -167,27 +167,27 @@ class PipeUI(FROM, BASE):
                                                             width=100,
                                                             height=25,
                                                             color='170, 170, 170', 
-                                                            layout=self.verticalLayout_bracket)                
+                                                            layout=self.verticalLayout_bucket)                
                 self.qtd.qwidget = button_step          
                 self.qtd.setIcon(ICON_PATH, width=50, height=30, lock=True)
                 button_step.clicked.connect(partial(self.loadStepData, 
-                                                    bracket[x], 
+                                                    bucket[x], 
                                                     [stepList[x][index]], 
                                                     currentStepData))
   
-    def loadStepData(self, bracket, stepList, pointerData):
+    def loadStepData(self, bucket, stepList, pointerData):
         
-        self.label_type.setText('%s :%s - %s'%(CURRENT_SHOW, bracket, stepList))
-        self.sbucket = studioBucket.Bucket(bracket)
-        bucketStep = self.sbucket.getBucketStep()
+        self.label_type.setText('%s :%s - %s'%(CURRENT_SHOW, bucket, stepList))
+        self.sbucket = studioBucket.Bucket(bucket)
+        bucketStep = self.sbucket.getBucketCubeData()
         self.updateTreeWidget(bucketStep, stepList)
 
         #global variables        
-        self.sbucket.bracket = bracket
+        self.sbucket.bucket = bucket
         self._bucketStepData = bucketStep
         self._stepsList = stepList
         self._pointerData = pointerData
-        self._currentBracketData = self._bracketData[bracket]
+        self._currentBucketData = self._bucketData[bucket]
 
         self.qtd.qwidget = self.verticalLayout_details
         self.qtd.getLayoutWidgets(delete=True)
@@ -435,11 +435,11 @@ class PipeUI(FROM, BASE):
     def createStepItem(self):        
         self.sbucket.stepName = 'None'        
         self.sbucket.create()
-        bucketStep = self.sbucket.getBucketStep()
+        bucketStep = self.sbucket.getBucketCubeData()
         self.updateTreeWidget(bucketStep, self._stepsList)
      
     def updateCurrentItem(self, item):
-        bucketData = self.sbucket.getBucketStep()  
+        bucketData = self.sbucket.getBucketCubeData()  
         oldName = str(item.toolTip(1))
         newName = str(item.text(1))   
         order = int(item.text(0))               
@@ -501,14 +501,14 @@ class PipeUI(FROM, BASE):
             print ('Abort your remove')
             return
         
-        bucketSteps = self.sbucket.allBucketStep()  
+        bucketSteps = self.sbucket.getBucketCubeList()  
         finalData = {}        
         for eachItem in selectItems:
             oldName = str(eachItem.toolTip(1))
-            #self.sbucket.bracket = bracket
+            #self.sbucket.bucket = bucket
             self.sbucket.stepName = oldName
             self.sbucket.remove()
-        self.loadStepData(self.sbucket.bracket, self._stepsList, self._pointerData)        
+        self.loadStepData(self.sbucket.bucket, self._stepsList, self._pointerData)        
     
     def updateAllStepItem(self):
         if not self._stepsList:
@@ -541,7 +541,7 @@ class PipeUI(FROM, BASE):
         self.sbucket.update(finalData)                
     
     def reloadStepItem(self):
-        self.loadStepData(self.sbucket.bracket, self._stepsList, self._pointerData)        
+        self.loadStepData(self.sbucket.bucket, self._stepsList, self._pointerData)        
     
     def getValuesFromTreewidgetItem(self, currentItem, itemName, currentStepData):        
         index = 3
@@ -578,7 +578,7 @@ class PipeUI(FROM, BASE):
 
                 if eachOrder=='id':
                     if currentValue=='0000' or not currentValue : 
-                        id = studioIdentity.Identity(self.sbucket.bracket, itemName, eachStep)
+                        id = studioIdentity.Identity(self.sbucket.bucket, itemName, eachStep)
                         itemId = id.create()
                         currentValue = itemId
                         
@@ -599,7 +599,7 @@ class PipeUI(FROM, BASE):
         self._currentLayout = 'treelayout'    
         if displayone==self.action_groupDisplay:            
             self._currentLayout = 'grouplayout' 
-        self.loadStepData(self.sbucket.bracket, self._stepsList, self._pointerData)
+        self.loadStepData(self.sbucket.bucket, self._stepsList, self._pointerData)
     
     
     def currentItemSelect(self):
@@ -610,7 +610,9 @@ class PipeUI(FROM, BASE):
         
         pMaksData = {}     
         for eachItem in selectItems:            
-            itemName = str(eachItem.toolTip(1))            
+            itemName = str(eachItem.toolTip(1)) 
+            if not self._bucketStepData:
+                continue
             if itemName not in self._bucketStepData:
                 continue
             pMaksData.setdefault(itemName, self._bucketStepData[itemName])
@@ -624,7 +626,7 @@ class PipeUI(FROM, BASE):
         #load studio pmask
         imp.reload(studioPmask)
         
-        self.pmask = studioPmask.PmaskUI(bracket=self._currentBracketData['longName'], 
+        self.pmask = studioPmask.PmaskUI(bucket=self._currentBucketData['longName'], 
                                          data=pMaksData, 
                                          stepList=self._stepsList)       
         self.verticalLayout_details.addWidget(self.pmask)
@@ -633,7 +635,7 @@ class PipeUI(FROM, BASE):
         #self.verticalLayout_details.addItem(spacerItem)               
         
         #=======================================================================
-        # self.sbucket.bracket = bracket
+        # self.sbucket.bucket = bucket
         # self._stepsList = stepList
         # self._pointerData = pointerData
         #=======================================================================
@@ -654,7 +656,7 @@ class PipeUI(FROM, BASE):
         #     oldName = str(eachItem.toolTip(1))
         #     if newName==oldName:
         #         continue
-        #     category = self.sbucket.bracket
+        #     category = self.sbucket.bucket
         #     id = studioIdentity.Identity(category, newName)
         #     itemId = id.create()
         #     
@@ -662,7 +664,7 @@ class PipeUI(FROM, BASE):
         #     widget.setText(itemId)
         #     
         #     
-        # #self.sbucket.bracket = bracket
+        # #self.sbucket.bucket = bucket
         # self.sbucket.stepName = oldName
         #=======================================================================
 

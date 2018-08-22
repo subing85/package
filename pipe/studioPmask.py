@@ -33,7 +33,7 @@ class PmaskUI(QtGui.QToolBox):
     
     def __init__(self, parent=None, **kwargs):
         
-        self.bracket = kwargs['bracket']
+        self.bucket = kwargs['bucket']
         self.stepData = kwargs['data']
         self.stepList = kwargs['stepList']
         
@@ -92,7 +92,7 @@ class PmaskUI(QtGui.QToolBox):
         
                 label_name = QtGui.QLabel(self)
                 label_name.setObjectName('label_title%s'% each_step)
-                label_name.setText('%s Name'% self.bracket)  
+                label_name.setText('%s Name'% self.bucket)  
                 label_name.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
                 horizontalLayout_title.addWidget(label_name)
                 

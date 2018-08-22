@@ -4,9 +4,8 @@ ICON = 'resultion'
 ROOT = None
 PARENT = None
 ORDER = 1
-MODULE_TYPE = 'Publish'
-STEP_TYPE = 'conceptArt'
-BUNDLE_TYPE = 'validater'
+MODULE_TYPE = 'conceptArt'
+BUNDLE_TYPE = 'validator'
 VALID = True
 LAST_MODIFIED = 'February 07, 2018'
 OWNER = 'Subin Gopi'
@@ -22,9 +21,10 @@ class Resolution (object):
         self.bundleResult = {   'faild': 'red',
                                 'error': 'magenta',
                                 'success': 'green' }
-        return None
         
     
 def trailRun ():
-    Resolution ()
+	result = Resolution ()
+	#print ( result.bundleResult)
+	return True
     

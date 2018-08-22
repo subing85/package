@@ -33,7 +33,7 @@
        <property name="title">
         <string>Bracket</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_bracket">
+       <layout class="QVBoxLayout" name="verticalLayout_bucket">
         <property name="leftMargin">
          <number>10</number>
         </property>

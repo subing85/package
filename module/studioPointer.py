@@ -12,7 +12,7 @@ Author: Subin. Gopi(subing85@gmail.com)
 Description
     This module contain step config for the show.
 '''
-from pprint import pprint
+
 import os
 import warnings
 import copy
@@ -20,7 +20,7 @@ import copy
 from module import studioConfig   
 
 #POINTER_INPUT_FILE = os.environ['POINTER_INPUT_FILE']
-POINTER_INPUT_FILE = 'Z:/package_users/sid/package/preset/stepInput.json'
+POINTER_INPUT_FILE = 'Z:/package_users/sid/package/preset/bucketData.json'
       
 
 class Pointer(studioConfig.Config):
@@ -43,39 +43,37 @@ class Pointer(studioConfig.Config):
         self.pointerData = copy.deepcopy(self._validData)        
         self.pointerData.pop('_asset_')
         self.pointerData.pop('_shot_')
-        self.pointerData['bracket']['asset']['step'] = self._validData['_asset_']['step']
-        self.pointerData['bracket']['shot']['step'] = self._validData['_shot_']['step'] 
-        
+        self.pointerData['bucket']['asset']['step'] = self._validData['_asset_']['step']
+        self.pointerData['bucket']['shot']['step'] = self._validData['_shot_']['step'] 
         self.allSteps = []
-        
 
-    def getPointerBracket(self):
+    def getPointerBucket(self):
         '''
         Description -Function set for operation on get the step parents.
             :param    None
-            :return    brackets <list> example ['shot', 'asset']
+            :return    buckets <list> example ['shot', 'asset']
             
             :example to execute
                 from module import studiostudioPointer.Pointer            
                 ss = studioPointer.Pointer()
-                ss.getPointerBracket()
+                ss.getPointerBucket()
         '''
-        bracket = self.pointerData['bracket']
-        bracketList = []   
+        bucket = self.pointerData['bucket']
+        bucketList = []   
         index = 1
-        while index<len(bracket)+1: 
-            for eachBracket,  steps, in bracket.items():
+        while index<len(bucket)+1: 
+            for eachBucket,  steps, in bucket.items():
                 order = steps['order']
                 if order!=index:
                     continue                
-                bracketList.append(eachBracket)
+                bucketList.append(eachBucket)
             index+=1
-        return bracketList
+        return bucketList
     
-    def getPointerStep(self, bracket):
+    def getPointerStep(self, bucket):
         '''
         Description -Function set for operation on get the step.
-            :param    bracket <str> example 'shot' or asset
+         bucketam    bucket <str> example 'shot' or asset
             :return    stepList <list> example ['layout', 'animation', 'rendering', 'composting']
             
             :example to execute
@@ -83,14 +81,14 @@ class Pointer(studioConfig.Config):
                 ss = studioPointer.Pointer()
                 ss.getPointerStep('shot')
         '''        
-        if not bracket:
-            warnings.warn('getPointerStep argument <bracket> None', Warning)
+        if not bucket:
+            warnings.warn('getPointerStep argument <bucket> None', Warning)
             return None
-        if bracket not in self.pointerData['bracket']:
-            warnings.warn('getPointerStep argument <bracket> not found \"%s\"'% bracket, Warning)
+        if bucket not in self.pointerData['bucket']:
+            warnings.warn('getPointerStep argument <bucket> not found \"%s\"'% bucket, Warning)
             return None
         
-        pointerDatas = self.pointerData['bracket'][bracket]['step']
+        pointerDatas = self.pointerData['bucket'][bucket]['step']
         stepList = []   
         index = 1
         while index<len(pointerDatas)+1:
@@ -102,31 +100,31 @@ class Pointer(studioConfig.Config):
                 index+=1
         return stepList                
 
-    def getPointerStepBracket(self, step):
+    def getPointerStepBucket(self, step):
         '''
-        Description -Function set for operation on step bracket.
+        Description -Function set for operation on step bucket.
             :param    step <str> example 'animation' or 'modeling'
-            :return    currentBracket <str> example 'asset'
+            :return    currentBucket <str> example 'asset'
             
             :example to execute
                 from module import studioPointer            
                 ss = studioPointer.Pointer()
-                ss.getPointerStepBracket('modeling')
+                ss.getPointerStepBucket('modeling')
         '''         
-        bracket = self.pointerData['bracket']
-        currentBracket = None
-        for eachBracket, eachStep in bracket.items():
+        bucket = self.pointerData['bucket']
+        currentBucket = None
+        for eachBucket, eachStep in bucket.items():
             if step in eachStep['step']:
-                currentBracket = eachBracket
-                return currentBracket
-        return currentBracket
+                currentBucket = eachBucket
+                return currentBucket
+        return currentBucket
     
     def getPointerData(self):
         return self.pointerData
     
     def hasValid(self, step):
         '''
-        Description -Function set for operation on step bracket.
+        Description -Function set for operation on step bucket.
             :param    step <str> example 'animation' or 'modeling', etc
             :return        <boolr> example  True or false
             
@@ -135,9 +133,9 @@ class Pointer(studioConfig.Config):
                 ss = studioPointer.Pointer()
                 ss.hasValid('modeling')
         '''         
-        currentBracket = self.getPointerStepBracket(step)
-        if not currentBracket:
+        currentBucket = self.getPointerStepBucket(step)
+        if not currentBucket:
             return False
-        return True
+        return True    
     
 #End######################################################################################################

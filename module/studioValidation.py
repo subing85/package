@@ -12,14 +12,12 @@ Author: Subin. Gopi(subing85@gmail.com)
 Description
     This module for validate the source code(modules).
 '''
+from pprint import pprint
 
 import os
 import warnings
 import pkgutil
 import inspect
-
-from pprint import pprint
-from module.studioIdentity import category
 
 
 class Validation(object):    
@@ -27,43 +25,62 @@ class Validation(object):
     def __init__(self, **kwargs):
         '''
         path=None, 
-        module=None, 
-        bundle
-        category
+        module = 'conceptArt' module is step
         '''
-        self.path = None       
+        self.path = None
+        self.step = None
+           
         if 'path' in kwargs:       
-            self.path = kwargs['path']
+            self.path = kwargs['path']            
         if not self.path:
             warnings.warn('class Validation initializes(__init__) <path> None', Warning)
         if not os.path.isdir(self.path):
-            warnings.warn('{} - not found'.format(path))
-            
+            warnings.warn('{} - not found'.format(self.path))
         if 'module' in kwargs:
-            self.module = kwargs['module']
-        if 'bundle' in kwargs:
-            self.bundle = kwargs['bundle']
-        if 'category' in kwargs:
-            self.module = kwargs['category']            
-
-        self.moduleData = collectModules(self.path) 
-        #pprint(self.moduleData)
+            self.step = kwargs['module']
+        self.stepData = self.collect()
         
-    def getValidModules(self):
+    def collect(self):
+        self.stepData = collectModules(self.path)
+        return self.stepData
+                
+    def getModules(self, valid=False):
+        if not self.step:
+            warnings.warn('\"module\" None, initializes(__init__) <module>', Warning)
+            return        
         modules = {}
-        for each, data in self.moduleData.items():
-            if data['MODULE_TYPE']!=self.module:
+        for each, data in self.stepData.items():
+            if 'MODULE_TYPE' not in data:
+                continue      
+            if data['MODULE_TYPE']!=self.step:
                 continue
-            modules.setdefault(each, data)
+            if valid:
+                if data['VALID']:
+                    modules.setdefault(each, data)
+            else:
+                modules.setdefault(each, data)
+        return modules       
+       
+    def getValidModules(self):
+        modules = self.getModules(valid=True)
         return modules
-
       
-    def getValidStep(self):
-        pass  
+    def getValidBundles(self, bundleName, valid=False):
+        if not bundleName:
+            warnings.warn('\"bundleName\" None, initializes(__init__) <bundleName>', Warning)
+            return
+        
+        bundels = {}
+        modules = self.getModules(valid=valid)
+
+        for each, data in modules.items():
+            if 'BUNDLE_TYPE' not in data:
+                continue            
+            if data['BUNDLE_TYPE']!=bundleName:
+                continue
+            bundels.setdefault(each, data)
+        return bundels  
     
-    def getValidBundele(self):
-        pass  
-            
     def set(self):
         pass
     
@@ -73,9 +90,11 @@ class Validation(object):
 def collectModules(path=None):
     if not path :
         warnings.warn ('Function \"getBundles\" argument \"path\" None or emty')
+        return
     if not os.path.isdir(path) :
-        warnings.warn('{} - not found'.format(path))  
-        
+        warnings.warn('{} - not found'.format(path))
+        return 
+
     moduleData = {}
     for module_loader, name, ispkg in pkgutil.iter_modules([path]) :                       
         loader = module_loader.find_module(name)         
@@ -84,7 +103,7 @@ def collectModules(path=None):
         if not hasattr(module, 'VALID') :
             continue
         #=======================================================================
-        # if module.TYPE!=bundleType and module.TYPE!='None':
+        # if module.TYPE!=stepType and module.TYPE!='None':
         #=======================================================================
         moduleMembers = {}                
         for moduleName, value in inspect.getmembers (module) :           
@@ -92,7 +111,10 @@ def collectModules(path=None):
         moduleData.setdefault (module, moduleMembers)
     return moduleData      
     
-path = 'Z:/package_users/sid/package/publish/asset/conceptArt'
-module = 'publish'
-val = Validation(path=path, module=module)
-val.getValidModules()
+#===============================================================================
+# path = 'Z:/package_users/sid/package/publish/asset/conceptArt'
+# module = 'conceptArt'
+# val = Validation(path=path, module=module)
+#===============================================================================
+#steps = val.getValidItems()
+#print(steps.keys())
