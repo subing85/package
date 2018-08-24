@@ -1,0 +1,1 @@
+pyuic4 commonPublish_ui.ui -o commonPublish_ui.py

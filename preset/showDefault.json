@@ -1,0 +1,83 @@
+{
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
+    "Created by": "sid", 
+    "Type": "show default", 
+    "Description": "This module contain basic information of our shows", 
+    "Shows": {
+        "5": {
+            "type": "string", 
+            "display": "Type", 
+            "value": "None", 
+            "label": "type", 
+            "order": 5
+        }, 
+        "4": {
+            "type": "int", 
+            "display": "Order", 
+            "value": "9999999", 
+            "label": "order", 
+            "order": 4
+        }, 
+        "7": {
+            "type": "string", 
+            "display": "StoryType", 
+            "value": "None", 
+            "label": "storyType", 
+            "order": 7
+        }, 
+        "6": {
+            "type": "list", 
+            "display": "Application", 
+            "value": [
+                "Blender", 
+                "Natron", 
+                "Gimp", 
+                "Studio Pipe", 
+                "Render Box"
+            ], 
+            "label": "application", 
+            "order": 6
+        }, 
+        "1": {
+            "type": "string", 
+            "display": "Name", 
+            "value": "None", 
+            "label": "name", 
+            "order": 1
+        }, 
+        "3": {
+            "type": "string", 
+            "display": "Short Name", 
+            "value": "STS", 
+            "label": "shortName", 
+            "order": 3
+        }, 
+        "2": {
+            "type": "string", 
+            "display": "Long Name", 
+            "value": "None None None", 
+            "label": "longName", 
+            "order": 2
+        }, 
+        "9": {
+            "type": "string", 
+            "display": "Icon", 
+            "value": "STS", 
+            "label": "icon", 
+            "order": 9
+        }, 
+        "8": {
+            "type": "string", 
+            "display": "Tag", 
+            "value": "None", 
+            "label": "tag", 
+            "order": 8
+        }
+    }, 
+    "Author": "Subin. Gopi (subing85@gmail.com)", 
+    "Date": "July:22:2018 - 05:33:54:PM", 
+    "Valid": true, 
+    "Last modified": "July:22:2018 - 05:33:54:PM", 
+    "Comment": "Show Default v1.0", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!"
+}

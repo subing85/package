@@ -1,0 +1,30 @@
+{
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
+    "Created by": "sid", 
+    "Last modified": "July:22:2018 - 05:36:47:PM", 
+    "Description": "This module contain basic information of our shows", 
+    "Shows": {
+        "TPS": {
+            "type": "Open Source", 
+            "order": 1, 
+            "icon": "TPS", 
+            "application": [
+                "Blender", 
+                " Natron", 
+                " Gimp", 
+                " Studio Pipe", 
+                " Render Box"
+            ], 
+            "shortName": "TPS", 
+            "tag": "None", 
+            "storyType": "Horror", 
+            "longName": "A Teeth Pain Story"
+        }
+    }, 
+    "Type": "show input", 
+    "Author": "Subin. Gopi (subing85@gmail.com)", 
+    "Date": "July:22:2018 - 05:33:54:PM", 
+    "Valid": true, 
+    "Comment": "Show Inputs v1.0", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!"
+}
