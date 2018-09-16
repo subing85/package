@@ -29,7 +29,7 @@ class Stylesheet(object):
         '''        
             :param  <QMainWindow>     example QtGui.QMainWIndow 
         ''' 
-        if not qwindow:
+        if qwindow is None:
             warnings.warn('class Qtdress initializes(__init__) <widget> None', Warning)
                         
         self.qwindow = qwindow  

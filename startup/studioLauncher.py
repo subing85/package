@@ -16,10 +16,11 @@ Description
 
 import sys
 import os
-import imp
 import warnings
 import subprocess
+import threading
 from functools import partial
+from pprint import pprint
 
 from PyQt4 import QtCore 
 from PyQt4 import QtGui
@@ -29,13 +30,14 @@ from module import studioStylesheet
 from module import studioQtdress
 from module import studioConfig            
 from module import studioConsole
-from module import studioVersion    
+from module import studioVersion
+import preset
 
 CURRENT_PATH = os.path.dirname (__file__)
 ICON_PATH = os.environ['ICON_PATH']
-SHOW_INPUT_FILE = os.environ['SHOW_INPUT_FILE']    
 PACKAGE_PATH = os.environ['PACKAGE_PATH']  
-PACKAGE_PUBLISH_PATH = os.environ['PACKAGE_PUBLISH_PATH']  
+PACKAGE_PUBLISH_PATH = os.environ['PACKAGE_PUBLISH_PATH']
+SHOW_INPUT_FILE = preset.showInput()
 UI_FILE = os.path.join (CURRENT_PATH, 'studioLauncher_ui.ui')  
 FROM, BASE = uic.loadUiType (UI_FILE)
 
@@ -52,7 +54,9 @@ class Launcher (FROM, BASE):
             __file__ = sys.argv[0]
             
         console = studioConsole.Console ()    
-        console.stdout().messageWritten.connect (self.textEdit_output.insertPlainText)             
+        console.stdout().messageWritten.connect (self.textEdit_output.insertPlainText)
+        
+        self._current_show = None       
             
         self.qt = studioQtdress.QtDress(self.button_studioShow)            
         self.defaultUiSettings()        
@@ -70,11 +74,11 @@ class Launcher (FROM, BASE):
         self.setWindowIcon(QtGui.QIcon(os.path.join(ICON_PATH, 'launcher.png')))
         self.resize(QtCore.QSize(725, 362))
         self.label_package.setText(PACKAGE_PATH)
-        #set the ui style sheet
+        # set the ui style sheet
         style = studioStylesheet.Stylesheet(self)
         style.setStylesheet()
         
-        #set the show icon  
+        # set the show icon  
         self.qt.setIcon(ICON_PATH, width=470, height=150, lock=True)
         
         sc = studioConfig.Config(file=SHOW_INPUT_FILE)
@@ -84,30 +88,30 @@ class Launcher (FROM, BASE):
             return None            
         showList = sc._validData['Shows'] 
         index = 1
-        while index<showList.__len__()+1: 
+        while index < showList.__len__() + 1: 
             for show in showList:                        
                 order = showList[show]['order']
-                if order!=index:
+                if order != index:
                     continue
                 button = QtGui.QPushButton(self.groupBox_shows)
                 button.setObjectName('button_{}'.format(show.upper()))
                 button.setText(show)  
-                button.setDefault(True) #button.setFlat(True)  
+                button.setDefault(True)  # button.setFlat(True)  
                 button.setCheckable(True)  
                 button.setToolTip(showList[show]['longName'])
                 self.qt.qwidget = button          
                 self.qt.setIcon(ICON_PATH, width=100, height=60, lock=True)                              
                 self.verticalLayout.addWidget(button)
-                button.clicked.connect(partial(self.setApplications, showList[show], button))
-                index+=1 
+                button.clicked.connect(partial(self.setApplications, show, showList[show], button))
+                index += 1 
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         
-    def setApplications(self, content, widget):
+    def setApplications(self, current_show, content, widget):
         self.qt.qwidget = self.verticalLayout
         showWidgets = self.qt.getLayoutWidgets(delete=False)
         for eachWidget in showWidgets:
-            if eachWidget==widget:
+            if eachWidget == widget:
                 continue
             eachWidget.setChecked(False)
                 
@@ -129,27 +133,32 @@ class Launcher (FROM, BASE):
             self.verticalLayout.addWidget(button)
             button.clicked.connect(partial(self.launchApplication, currentApplication))            
 
-            if index%3:
-                row=row
-                column+=1
+            if index % 3:
+                row = row
+                column += 1
             else:
-                row+=ing
+                row += ing
                 column = 0
-                ing+=1
+                ing += 1
 
             self.gridLayout.addWidget(button, row, column, 1, 1)
         
-    def launchApplication(self, application):        
-        path = os.path.abspath(os.path.join(CURRENT_PATH, '%s.bat'% application))
+        pprint (content)
+        print 'current show\t', current_show 
+        self._current_show = current_show
         
-        print (path)
-        #=======================================================================
-        # if not os.path.isfile(path):
-        #     warnings.warn('file not found :\"{}\"'.format(path))            
-        #     return None
-        # command = 'start "" {}'.format (path)
-        # subprocess.call (command, stdout=None, shell=True, stderr=None)
-        #=======================================================================
+    def launchApplication(self, application):        
+        # os.environ['CURRENT_SHOW'] = self._current_show
+        command = 'studio -a %s -s %s' % (application.lower(), self._current_show)        
+        self.myThread   = threading.Thread(target=self.executeApplication, args=([command]))
+        self.myThread.daemon = True
+        self.myThread.start()
+    
+    def executeApplication(self, command):
+        try:
+            subprocess.call (command, stdout=None, shell=True, stderr=None)
+        except Exception as error:
+            pprrint (error)
         
     def new(self):
         from pipe import studioShowpipe
@@ -162,16 +171,16 @@ class Launcher (FROM, BASE):
         for root, dirs, files in os.walk(PACKAGE_PATH):
             for eachFile in files:
                 currentFile = None
-                if type=='db':
-                    if eachFile=='Thumb.db':
+                if type == 'db':
+                    if eachFile == 'Thumb.db':
                         currentFile = os.path.join (root, eachFile)
-                if type=='pyc':
+                if type == 'pyc':
                     if eachFile.endswith('pyc') or eachFile.endswith('PYC'):
                         currentFile = os.path.join (root, eachFile)                      
                 if not currentFile:
                     continue 
                 try:
-                    kilobyte+=os.path.getsize(currentFile)
+                    kilobyte += os.path.getsize(currentFile)
                     fileList.append(currentFile)
                     os.chmod (currentFile, 0o755)
                     os.remove(currentFile)
@@ -179,39 +188,39 @@ class Launcher (FROM, BASE):
                 except Exception as result:
                     print ('\n', result)     
                 
-        megabyte = 1./1000              
+        megabyte = 1. / 1000              
         convertMB = megabyte * kilobyte
-        gigabyte = 1.0/1024
+        gigabyte = 1.0 / 1024
         convertGB = gigabyte * convertMB          
-        print ('\nResult\n\ttotal file :{}\n\t{} kb\n\t{} mb\n\t{} gb'.format (len(fileList), 
-                                                                               kilobyte, 
-                                                                               convertMB, 
+        print ('\nResult\n\ttotal file :{}\n\t{} kb\n\t{} mb\n\t{} gb'.format (len(fileList),
+                                                                               kilobyte,
+                                                                               convertMB,
                                                                                convertGB))
             
     def publish(self, type): 
         
-        messageBox = QtGui.QMessageBox.warning(  self, 
-                                                'Warning', 
+        messageBox = QtGui.QMessageBox.warning(self,
+                                                'Warning',
                                                 'Are you sure to publish ?',
                                                 QtGui.QMessageBox.Ok, QtGui.QMessageBox.Cancel
                                                 )    
         if not QtGui.QMessageBox.Ok:
             return None       
                    
-        folders = [ 'bin', 'data', 'doc', 
-                    'example', 'icon', 'menu', 
-                    'module', 'pipe', 'pipeLegacy', 
+        folders = [ 'bin', 'data', 'doc',
+                    'example', 'icon', 'menu',
+                    'module', 'pipe', 'pipeLegacy',
                     'plugin', 'preset', 'startup', 'toolkit']                         
-        sv = studioVersion.Version( root=PACKAGE_PATH, 
-                                    folders=folders, 
-                                    destination=PACKAGE_PUBLISH_PATH, 
-                                    versionType=type, 
+        sv = studioVersion.Version(root=PACKAGE_PATH,
+                                    folders=folders,
+                                    destination=PACKAGE_PUBLISH_PATH,
+                                    versionType=type,
                                     progressBar=None
                                     )
         updateVersion = sv.createVersion()
-        QtGui.QMessageBox.information(  self, 
-                                       'Confirmation', 
-                                       'Package Publish Done\nVersion :%s'% updateVersion,
+        QtGui.QMessageBox.information(self,
+                                       'Confirmation',
+                                       'Package Publish Done\nVersion :%s' % updateVersion,
                                        QtGui.QMessageBox.Ok
                                        )           
             
@@ -219,14 +228,14 @@ class Launcher (FROM, BASE):
         pass
 
 
-if __name__ == '__main__':
-    app = QtGui.QApplication(sys.argv)
-    ex = Launcher()
-    ex.show()
-    sys.exit(app.exec_())
-
 def loadWindow():
     app = QtGui.QApplication(sys.argv)
     ex = Launcher()
     ex.show()
     sys.exit(app.exec_())
+    
+    
+if __name__ == '__main__':
+    loadWindow()
+
+    

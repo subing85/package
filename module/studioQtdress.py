@@ -36,8 +36,11 @@ class QtDress(object):
         '''        
             :param  qwidget <QMainWindow>     example QtGui.QMainWIndow 
         '''
-        if not qwidget:
-            warnings.warn('class Qtdress initializes(__init__) <widget> None', Warning)
+        
+        #=======================================================================
+        # if not qwidget:
+        #     warnings.warn('class Qtdress initializes(__init__) <widget> None', Warning)
+        #=======================================================================
         self.qwidget = qwidget  
     
     def setIcon(self, path, width=24, height=24, lock=False):            

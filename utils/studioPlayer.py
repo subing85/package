@@ -26,10 +26,7 @@ from module import studioStylesheet
 from module import studioQtdress
 
 CURRENT_PATH = os.path.dirname(__file__)
-ICON_PATH = 'Z:/package_users/sid/package/icon'
-PACKAGE_PATH = 'Z:/package_users/sid/package'
-DATABASE_ROOT = 'Z:/database'
-CURRENT_SHOW = 'TPS'
+ICON_PATH = os.environ['ICON_PATH']
 UI_FILE = os.path.join(CURRENT_PATH, 'studioPlayer_ui.ui')  
 FROM, BASE = uic.loadUiType(UI_FILE)
 
@@ -162,7 +159,8 @@ class Player(FROM, BASE):
             icon.addPixmap (QtGui.QPixmap (os.path.join(ICON_PATH, 'play.png')), 
                             QtGui.QIcon.Normal, 
                             QtGui.QIcon.Off)                   
-            self.action_play.setIcon (icon)                   
+            self.action_play.setIcon (icon)
+            self.slider.setValue(1)                 
         except Exception as result:
             warnings.warn(str(result), Warning)
         
@@ -176,8 +174,12 @@ class Player(FROM, BASE):
             time.sleep(1.00/self.fps)    
         
     def getFiles(self):
-        images = os.listdir(path=self.footagePath)
-        filtImages = []
+        filtImages = []        
+        if not os.path.isdir(self.footagePath):
+            return filtImages
+        
+        print self.footagePath
+        images = os.listdir(self.footagePath)
         for each in images:
             if not each.endswith(self.extension):
                 continue

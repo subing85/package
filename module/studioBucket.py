@@ -22,10 +22,13 @@ import datetime
 
 from module import studioPointer
 
-DATABASE_ROOT = 'Z:/database'
-CURRENT_SHOW = 'TPS'
-SHOW_PATH = 'Z:/TPS'
+DATABASE_ROOT = os.environ['DATABASE_PATH']
 
+if 'CURRENT_SHOW' not in os.environ:
+    os.environ['CURRENT_SHOW'] = 'TPS'
+
+CURRENT_SHOW = os.environ['CURRENT_SHOW']
+SHOW_PATH = os.path.join(os.environ['DRIVE'], os.environ['CURRENT_SHOW'])
 
 class Bucket(studioPointer.Pointer):
     '''
@@ -54,8 +57,8 @@ class Bucket(studioPointer.Pointer):
         if not self.bucket:
             self.bucket = self.getPointerStepBucket(self.step)
             
-        if not step:
-            warnings.warn('class Database initializes(__init__) <step> None', Warning)
+        # if not step:
+        #     warnings.warn('class Database initializes(__init__) <step> None', Warning)
         
         if self.bucket:        
             self.databasePath = os.path.abspath(os.path.join(DATABASE_ROOT, 
@@ -64,7 +67,7 @@ class Bucket(studioPointer.Pointer):
             self.databaseFile = os.path.abspath(os.path.join(DATABASE_ROOT, 
                                                              CURRENT_SHOW, 
                                                              self.bucket, 
-                                                             '_step_'))
+                                                             '_step_.dat'))
 
     def getBucketData(self):
         '''
@@ -77,6 +80,10 @@ class Bucket(studioPointer.Pointer):
                 bucket = studioBucket.Bucket('asset')   
                 data = bucket.getBucketData()
         '''
+        if not os.path.isfile(self.databaseFile):
+            warnings.warn('not fount %s'% self.databaseFile, Warning)
+            return
+            
         bucketDb = readDatabase(self.databaseFile)
         if not bucketDb:
             return None
@@ -96,6 +103,8 @@ class Bucket(studioPointer.Pointer):
                 data = bucket.getBucketCubeDatas()
         '''             
         bucketData = self.getBucketData()
+        if not bucketData:
+            return        
         return bucketData[self.bucket]
     
     def getBucketCubeValues(self):
@@ -130,6 +139,12 @@ class Bucket(studioPointer.Pointer):
         bucketStepData = self.getBucketCubeValues()
         result = list(bucketStepData[self.bucket].keys())        
         return result
+    
+    def getBucketVersion(self, current_step):   
+        bucketData = self.getBucketCubeValues()
+        result = bucketData[self.bucket][self.cube]['step'][current_step]['version']
+        return result       
+        
         
     def create(self, **kwargs):
         '''
@@ -151,11 +166,11 @@ class Bucket(studioPointer.Pointer):
         if 'category' in kwargs: 
             category = kwargs['category']
             data['category'] = {'value': kwargs['category']}
-        udatedPointer = self.addToBucket(data)
+        updatedPointer = self.addToBucket(data)
         currentItem = self.cube
-        if not self.cube:
+        if self.cube is None:
             currentItem = 'None'                            
-        newData = {currentItem: udatedPointer}
+        newData = {currentItem: updatedPointer}
         if self.hasDataBase:
             createDatabase(self.databaseFile, newData)
         else:
@@ -182,12 +197,12 @@ class Bucket(studioPointer.Pointer):
             warnings.warn('\"%s\"  already found in the database'%self.cube, Warning)
             return None          
 
-        udatedPointer = self.addToBucket(data)
+        updatedPointer = self.addToBucket(data)
         
         currentItem = self.cube
         if not self.cube:
             currentItem = 'None'                            
-        newData = {currentItem: udatedPointer}
+        newData = {currentItem: updatedPointer}
  
         if self.hasDataBase:
             createDatabase(self.databaseFile, newData)
@@ -211,9 +226,21 @@ class Bucket(studioPointer.Pointer):
             if not self.hasStep():
                 warnings.warn('\"%s\" -old item not found in the database'% self.cube, Warning)
                 return None
-            udatedPointer = self.addToBucket(componentData['value'])            
-            replaceDatabase(self.databaseFile, eachComponent, componentData['new'], udatedPointer)
-            print ('old name :', eachComponent, 'new name :', componentData['new'], 'updated!..')
+            updatedPointer = self.addToBucket(componentData['value'])
+            replaceDatabase(self.databaseFile, eachComponent, componentData['new'], updatedPointer)
+            #print ('old name :', eachComponent, 'new name :', componentData['new'], 'updated!..')
+            
+        test = self.getBucketCubeData()
+        #pprint(test)
+        
+    def add(self, catagory, key, value):
+        '''
+        catagory = 'comment' or 'publish', etc
+        key = value or values, etc
+        value = 'anything'
+        '''
+        addDatabase(self.databaseFile, self.cube, self.step, catagory, key, value)
+
             
     def remove(self):
         if not self.hasStep():
@@ -236,20 +263,54 @@ class Bucket(studioPointer.Pointer):
         '''     
         pointer = self.getPointerData()
         currentPointer = pointer['bucket'][self.bucket]
-        udatedPointer = copy.deepcopy(currentPointer)
+        updatedPointer = copy.deepcopy(currentPointer)        
+        exist_data = self.getBucketCubeData()
 
         #bucket level
         if 'category' in data:
             for currentCategory, categoryValue in data['category'].items():
-                udatedPointer['category'][currentCategory] = categoryValue
+                updatedPointer['category'][currentCategory] = categoryValue
         if 'order' in data:                
-            udatedPointer['order'] = data['order']  
+            updatedPointer['order'] = data['order']  
         #step level 
-        if 'step' in data:        
+        if 'step' in data:
             for currentStep, stepValue in data['step'].items():
+                bucketData = self.getBucketCubeValues()
+                exist_version_values = bucketData['step'][currentStep]['version']['values']
+                                
                 for eachKey, valueData in stepValue.items():
-                    udatedPointer['step'][currentStep][eachKey]['value'] = valueData
-        return udatedPointer
+                    if eachKey != 'version':
+                        updatedPointer['step'][currentStep][eachKey]['value'] = valueData
+                    
+                    # update version values                    
+                    if eachKey == 'version':
+                        updated_version_values = currentPointer['step'][currentStep]['version']['values'] 
+                        for version_keys, version_values in updated_version_values.items():
+                            updated_version_values = {unicode(valueData): {}}
+                            artist_level = data['step'][currentStep]['artist']
+                            publish_level = data['step'][currentStep]['publish']
+                            status_level = data['step'][currentStep]['status']  
+                                                        
+                            version_details = updatedPointer['step'][currentStep]
+  
+                            owner_value = version_details['artist']['values'][artist_level]
+                            publish_value = version_details['publish']['values'][publish_level]
+                            status_value = version_details['status']['values'][status_level]
+                            comment_value = data['step'][currentStep]['comment']
+                                  
+                            updated_version_values[valueData]['name'] = valueData
+                            updated_version_values[valueData]['owner'] = owner_value
+                            updated_version_values[valueData]['publishDate'] = publish_value
+                            updated_version_values[valueData]['status'] = status_value
+                            updated_version_values[valueData]['comment'] = comment_value
+                                 
+                        updatedPointer['step'][currentStep]['version']['values'].update(exist_version_values)
+                        updatedPointer['step'][currentStep]['version']['values'].update(updated_version_values)
+                        all_versions = list(updatedPointer['step'][currentStep]['version']['values'].keys())
+                        all_versions.sort()
+                        updatedPointer['step'][currentStep]['version']['value'] = all_versions.index(valueData)
+                    
+        return updatedPointer
 
     def getPinterSetp(self):
         '''
@@ -397,7 +458,26 @@ def replaceDatabase(file, old, new, data):
         db[new] = data
     finally:
         db.close()
+        
+def addDatabase(file, cube, step, catagory, key, value):    
+    db = shelve.open(file, writeback=True)
+    
+    if cube not in db:
+        warnings.warn('\"%s\" cube not found in the database'% cube, Warning)
+        return
+    
+    if catagory not in db[cube]['step'][step]:
+        warnings.warn('\"%s\" catagory not found in the database'% catagory, Warning)
+        return
+    
+    if key not in db[cube]['step'][step][catagory]:
+        warnings.warn('\"%s\" catagory not found in the database'% catagory, Warning)
+        return    
 
+    try:
+        db[cube]['step'][step][catagory][key] = value
+    finally:
+        db.close()
         
 def reomoveDatabase(file, key):
     db = shelve.open(file, writeback=True)
@@ -409,8 +489,8 @@ def reomoveDatabase(file, key):
         
 def readDatabase(file):
     dbData = None
-    if not os.path.isfile('%s.dat'% file):
-        warnings.warn('\"%s.dat\" not found in the database'% file, Warning)
+    if not os.path.isfile('%s'% file):
+        warnings.warn('\"%s\" not found in the database'% file, Warning)
         return dbData
     db = shelve.open(file, flag='r')    
     try:

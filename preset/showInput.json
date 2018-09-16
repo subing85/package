@@ -10,10 +10,10 @@
             "icon": "TPS", 
             "application": [
                 "Blender", 
-                " Natron", 
-                " Gimp", 
-                " Studio Pipe", 
-                " Render Box"
+                "Natron", 
+                "Gimp", 
+                "Studio Pipe", 
+                "Studio Render"
             ], 
             "shortName": "TPS", 
             "tag": "None", 
