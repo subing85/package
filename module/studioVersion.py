@@ -174,7 +174,8 @@ class Version(object):
         self.config.data['Date'] = outsideData['Date']
         self.config.createData()
         os.utime(self.config.file,(currentTime, currentTime))
-        pprint(self.config.data)
+        # pprint(self.config.data)
+        print nextVersion
         return nextVersion
 
 

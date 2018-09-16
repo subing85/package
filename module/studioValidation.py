@@ -20,73 +20,87 @@ import pkgutil
 import inspect
 
 
-class Validation(object):    
+class Validation(object):
     
     def __init__(self, **kwargs):
         '''
-        path=None, 
-        module = 'conceptArt' module is step
+        path = '/venture/packages/root/package/publish/asset/conceptArt'
+        module = 'conceptArt'
+        
+        example
+            path = '/venture/packages/root/package/publish/asset/conceptArt'
+            module = 'conceptArt'
+            bundle_type = 'extractors'
+            val = Validation(path=path, module=module)
+            steps = val.getModules(valid=True)
+            pprint(steps)        
         '''
+          
         self.path = None
-        self.step = None
+        self.module = None
+        self.types = None
            
         if 'path' in kwargs:       
-            self.path = kwargs['path']            
+            self.path = kwargs['path']
+        if 'module' in kwargs:
+            self.module = kwargs['module']
+        if 'types' in kwargs:
+            self.module = kwargs['types'] 
+                
         if not self.path:
             warnings.warn('class Validation initializes(__init__) <path> None', Warning)
         if not os.path.isdir(self.path):
             warnings.warn('{} - not found'.format(self.path))
-        if 'module' in kwargs:
-            self.step = kwargs['module']
-        self.stepData = self.collect()
+             
+        self._valid_data = self.collect()         
+        
         
     def collect(self):
-        self.stepData = collectModules(self.path)
-        return self.stepData
-                
-    def getModules(self, valid=False):
-        if not self.step:
-            warnings.warn('\"module\" None, initializes(__init__) <module>', Warning)
-            return        
-        modules = {}
-        for each, data in self.stepData.items():
-            if 'MODULE_TYPE' not in data:
-                continue      
-            if data['MODULE_TYPE']!=self.step:
-                continue
-            if valid:
-                if data['VALID']:
-                    modules.setdefault(each, data)
-            else:
-                modules.setdefault(each, data)
-        return modules       
-       
+        data = collectModules(self.path)
+        return data  
+     
     def getValidModules(self):
-        modules = self.getModules(valid=True)
-        return modules
+        module_data = self.getModules(valid=True)
+        return module_data
+    
+    def getSpecificValidModule(self, bundle_type):
+        module_data = self.getModules(valid=True)        
+        if bundle_types not in module_data:
+            warnings.warn('\"bundle_type\" None, specific module bundle type not found <bundle_type>', Warning)
+            return            
+        return module_datas[bundle_type]        
       
-    def getValidBundles(self, bundleName, valid=False):
-        if not bundleName:
-            warnings.warn('\"bundleName\" None, initializes(__init__) <bundleName>', Warning)
-            return
-        
-        bundels = {}
-        modules = self.getModules(valid=valid)
-
-        for each, data in modules.items():
-            if 'BUNDLE_TYPE' not in data:
-                continue            
-            if data['BUNDLE_TYPE']!=bundleName:
+    def getModules(self, valid=False):
+        if not self.module:
+            warnings.warn('\"module\" None, initializes(__init__) <module>', Warning)
+            return         
+                           
+        module_data = {}
+        data = collectModules(self.path)        
+        for each_module in data:
+            current_module = None            
+            current_dict = each_module.__dict__     
+                   
+            if 'VALID' not in current_dict:
+                continue 
+            if 'MODULE_TYPE' not in current_dict:
+                continue           
+            if valid:
+                if not current_dict['VALID']:
+                    continue              
+                current_module = each_module
+            else:                
+                current_module = each_module
+            if not current_module:
                 continue
-            bundels.setdefault(each, data)
-        return bundels  
-    
-    def set(self):
-        pass
-    
-    def create(self):
-        pass
-    
+                        
+            bundle_type = 'unknown'                        
+            if 'BUNDLE_TYPE' in current_dict:
+                bundle_type = current_dict['BUNDLE_TYPE']
+            module_data.setdefault(bundle_type, []).append(current_module) 
+            
+        return module_data
+
 def collectModules(path=None):
     if not path :
         warnings.warn ('Function \"getBundles\" argument \"path\" None or emty')
@@ -95,26 +109,24 @@ def collectModules(path=None):
         warnings.warn('{} - not found'.format(path))
         return 
 
-    moduleData = {}
+    module_data = []
     for module_loader, name, ispkg in pkgutil.iter_modules([path]) :                       
         loader = module_loader.find_module(name)         
         module = loader.load_module (name)
-        #print (module_loader, name, module)
         if not hasattr(module, 'VALID') :
-            continue
-        #=======================================================================
-        # if module.TYPE!=stepType and module.TYPE!='None':
-        #=======================================================================
-        moduleMembers = {}                
-        for moduleName, value in inspect.getmembers (module) :           
-            moduleMembers.setdefault (moduleName, value)    
-        moduleData.setdefault (module, moduleMembers)
-    return moduleData      
-    
+            continue        
+        module_data.append(module)
+    return module_data
+        
+     
 #===============================================================================
-# path = 'Z:/package_users/sid/package/publish/asset/conceptArt'
+# path = '/venture/packages/root/package/publish/asset/conceptArt'
 # module = 'conceptArt'
+# bundle_type = 'extractors'
 # val = Validation(path=path, module=module)
+# steps = val.getModules(valid=True)
+# pprint(steps)
 #===============================================================================
-#steps = val.getValidItems()
-#print(steps.keys())
+
+
+

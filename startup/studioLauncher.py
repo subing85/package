@@ -211,7 +211,7 @@ class Launcher (FROM, BASE):
                     'example', 'icon', 'menu',
                     'module', 'pipe', 'pipeLegacy',
                     'plugin', 'preset', 'startup', 'toolkit']                         
-        sv = studioVersion.Version(root=PACKAGE_PATH,
+        sv = studioVersion.Version( root=PACKAGE_PATH,
                                     folders=folders,
                                     destination=PACKAGE_PUBLISH_PATH,
                                     versionType=type,
@@ -219,10 +219,9 @@ class Launcher (FROM, BASE):
                                     )
         updateVersion = sv.createVersion()
         QtGui.QMessageBox.information(self,
-                                       'Confirmation',
-                                       'Package Publish Done\nVersion :%s' % updateVersion,
-                                       QtGui.QMessageBox.Ok
-                                       )           
+                                      'Confirmation',
+                                      'Package Publish Done\nVersion :%s' % updateVersion,
+                                      QtGui.QMessageBox.Ok)
             
     def aboutApplication(self):
         pass

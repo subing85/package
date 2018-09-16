@@ -51,12 +51,12 @@ class Publish(studioValidation.Validation):
         self.bucket = studioBucket.Bucket(bucket=None,
                                           step=self.step,
                                           cube=self.cube)
-        self.currentBucket = self.bucket.bucket
+        self.current_bucket = self.bucket.bucket
         self.bucket.setCurrentBucket()
         self.bucket.setCurrentStep()
         self.bucket.setCurrentCube()
         self.path = os.path.abspath(os.path.join(PUBLISH_PATH,
-                                                 self.currentBucket,
+                                                 self.current_bucket,
                                                  self.step)).replace('\\', '/')
 
         self.collect()        

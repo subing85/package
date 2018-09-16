@@ -29,12 +29,12 @@ from PyQt4 import QtCore
 
 from module import studioStylesheet
 
-ICON_PATH = 'Z:/package_users/sid/package/icon'
+ICON_PATH = os.environ['ICON_PATH']
 
 class PublishUI(object):
     
     def __init__(self):
-        
+                
         self.setupUi()
     
         style = studioStylesheet.Stylesheet(self.mainWindow) # set the ui style sheet
@@ -177,8 +177,6 @@ if __name__ == '__main__':
 
 
 '''
-
-
 import sys
 import os
 import subprocess
