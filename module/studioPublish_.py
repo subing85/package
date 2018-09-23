@@ -15,34 +15,64 @@ Description
 
 import warnings
 import os
+import importlib
 
 from pprint import pprint
 
 from module import studioValidation
+from module import studioBucket
+
 reload(studioValidation)
+
 
 class Publish(studioValidation.Validation):
 
-    def __init__(self, bucket=None, step=None, cube=None):
-        self.bucket = bucket    
-        self.step = step    
-        self.cube = cube    
-        self.path = os.path.join (os.environ['PACKAGE_PATH'], 'publish', self.bucket, self.step)
+    def __init__(self, step, cube):
+        '''
+        step = 'conceptArt'
+        cube = 'Bat'
+        '''        
+        if not step:
+            warnings.warn('class Validation initializes(__init__) <step> None', Warning)
+        if not cube:
+            warnings.warn('class Validation initializes(__init__) <cube> None', Warning)
+            
+        #=======================================================================
+        # path = '/venture/packages/root/package/publish/asset/conceptArt'
+        # type = 'extractors'
+        # val = Validation(path=path, type=type)
+        # steps = val.getModules(valid=True)
+        # pprint(steps)            
+        #=======================================================================
+        
+        print self.collect()            
+   
+        self.step = step
+        self.cube = cube  
+        self.path = os.path.join (os.environ['PACKAGE_PATH'], 'publish', self.step)
+        self.type = self.cube
         
         
+    
+       
+
+
     def validatorBundles(self):
-        bundles = self.getModules(valid=True)
-        bundles = self.getValidBundles('validator', valid=True)
-        return bundles
+        #bundles = self.getValidBundles('validator', valid=True)
+        #return bundles
         
+        abc = self.collect()
+        
+        print abc
+
     def extractorBundles(self):
         bundles = self.getValidBundles('extractor', valid=True)
-        return bundles
-    
+        pprint(bundles)
+
     def releaseBundles(self):
         bundles = self.getValidBundles('release', valid=True)
-        return bundles       
-            
+        pprint(bundles)
+
     def excuteCommon(self, validators):
         #result = None
         for each_module, module_value in validators.items():
@@ -78,14 +108,24 @@ class Publish(studioValidation.Validation):
 
     def excuteRelease(self, releases):
         self.excuteCommon(releases)
-               
+
+    def doPublish(self):
+        pass
+
+    def getDetails(self):
+        pass
+
+step = 'conceptArt'
+cube = 'Bat'
+val = Publish(step, cube)
+
+
 #===============================================================================
-# bucket = 'asset'
+# path = 'Z:/package_users/sid/package/publish/asset/conceptArt'
 # step = 'conceptArt'
-# #cube = 'Bat'        
-# abc = Publish(bucket=bucket, step=step)
-# a = abc.extractorBundles()
-# pprint(a)
+# cube = 'Bat'
+# val = Publish(step, cube)
+# validator = val.validatorBundles()
+# val.excuteValidator(validator)
+# print validator
 #===============================================================================
-
-

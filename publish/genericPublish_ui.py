@@ -33,14 +33,11 @@ ICON_PATH = os.environ['ICON_PATH']
 
 class PublishUI(object):
     
-    def __init__(self):
-                
-        self.setupUi()
-    
+    def __init__(self):               
+        self.setupUi()        
         style = studioStylesheet.Stylesheet(self.mainWindow) # set the ui style sheet
         style.setStylesheet()
-    
-    
+            
     def setupUi(self):
         self.mainWindow = QtGui.QMainWindow()
         self.mainWindow.setObjectName('mainWindow')
@@ -70,19 +67,18 @@ class PublishUI(object):
         self.horizontalLayout_input.setSpacing(5)
         self.horizontalLayout_input.setContentsMargins(4, 30, 4, 4)
 
-        self.comboBox_module = QtGui.QComboBox(self.groupBox_input)
-        self.comboBox_module.setObjectName('comboBox_module')
-        self.horizontalLayout_input.addWidget(self.comboBox_module) 
+        self.combobox_bucket = QtGui.QComboBox(self.groupBox_input)
+        self.combobox_bucket.setObjectName('combobox_module')
+        self.horizontalLayout_input.addWidget(self.combobox_bucket) 
                
-        self.lineEdit_step = QtGui.QLineEdit(self.groupBox_input)
-        self.lineEdit_step.setObjectName('lineEdit_step')
-        self.lineEdit_step.setReadOnly(True)        
-        self.horizontalLayout_input.addWidget(self.lineEdit_step)
+        self.combobox_step = QtGui.QComboBox(self.groupBox_input)
+        self.combobox_step.setObjectName('combobox_step')
+        self.horizontalLayout_input.addWidget(self.combobox_step)
         
-        self.verticalLayout_item = QtGui.QVBoxLayout()
-        self.verticalLayout_item.setObjectName('verticalLayout_item')
-        self.verticalLayout.addLayout(self.verticalLayout_item)
-        
+        self.combobox_cube = QtGui.QComboBox(self.groupBox_input)
+        self.combobox_cube.setObjectName('combobox_cube')
+        self.horizontalLayout_input.addWidget(self.combobox_cube)
+                
         self.groupBox_validate = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_validate.setObjectName('groupBox_validate')
         self.groupBox_validate.setTitle('Validater')        
@@ -90,17 +86,21 @@ class PublishUI(object):
         
         self.verticalLayout_validate = QtGui.QVBoxLayout(self.groupBox_validate)
         self.verticalLayout_validate.setObjectName('verticalLayout_validate')
-        self.verticalLayout_validate.setSpacing(5)
+        self.verticalLayout_validate.setSpacing(1)
         self.verticalLayout_validate.setContentsMargins(5, 30, 5, 5)
         
-        self.gridLayout_validate = QtGui.QGridLayout()
-        self.gridLayout_validate.setSpacing(5)
-        self.gridLayout_validate.setContentsMargins(2, 2, 2, 2)
-        self.gridLayout_validate.setObjectName('gridLayout_validate')
-        self.verticalLayout_validate.addLayout(self.gridLayout_validate)
+        #=======================================================================
+        # self.gridLayout_validate = QtGui.QGridLayout()
+        # self.gridLayout_validate.setSpacing(5)
+        # self.gridLayout_validate.setContentsMargins(2, 2, 2, 2)
+        # self.gridLayout_validate.setObjectName('gridLayout_validate')
+        # self.verticalLayout_validate.addLayout(self.gridLayout_validate)
+        #=======================================================================
         
-        spacerItem_validate = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_validate.addItem(spacerItem_validate)
+        #=======================================================================
+        # spacerItem_validate = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        # self.verticalLayout_validate.addItem(spacerItem_validate)
+        #=======================================================================
         
         self.groupBox_extactor = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_extactor.setObjectName('groupBox_extactor')
@@ -112,15 +112,28 @@ class PublishUI(object):
         self.verticalLayout_extactor.setSpacing(5)
         self.verticalLayout_extactor.setContentsMargins(5, 30, 5, 5)
         
-        self.gridLayout_extactor = QtGui.QGridLayout()
-        self.gridLayout_extactor.setSpacing(5)
-        self.gridLayout_extactor.setContentsMargins(2, 2, 2, 2)
-        self.gridLayout_extactor.setObjectName('gridLayout_extactor')
-        self.verticalLayout_extactor.addLayout(self.gridLayout_extactor)
-        
-        spacerItem_extactor = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticalLayout_extactor.addItem(spacerItem_extactor)
-        self.verticalLayout.addWidget(self.groupBox_extactor)        
+        #=======================================================================
+        # self.gridLayout_extactor = QtGui.QGridLayout()
+        # self.gridLayout_extactor.setSpacing(5)
+        # self.gridLayout_extactor.setContentsMargins(2, 2, 2, 2)
+        # self.gridLayout_extactor.setObjectName('gridLayout_extactor')
+        # self.verticalLayout_extactor.addLayout(self.gridLayout_extactor)
+        # 
+        # spacerItem_extactor = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        # self.verticalLayout_extactor.addItem(spacerItem_extactor)
+        # self.verticalLayout.addWidget(self.groupBox_extactor)        
+        #=======================================================================
+                
+        self.groupBox_release = QtGui.QGroupBox(self.centralwidget)
+        self.groupBox_release.setObjectName('groupBox_release')
+        self.groupBox_release.setTitle('Release')        
+        self.verticalLayout.addWidget(self.groupBox_release)
+                
+        self.verticalLayout_release = QtGui.QVBoxLayout(self.groupBox_release)
+        self.verticalLayout_release.setObjectName('verticalLayout_release')
+        self.verticalLayout_release.setSpacing(5)
+        self.verticalLayout_release.setContentsMargins(5, 30, 5, 5)                
+                
                 
         self.groupBox_publish = QtGui.QGroupBox(self.centralwidget)
         self.groupBox_publish.setObjectName('groupBox_publish')
@@ -143,10 +156,10 @@ class PublishUI(object):
         self.horizontalLayout_publish.setSpacing(5)
         self.verticalLayout_publish.addLayout(self.horizontalLayout_publish)
         
-        self.button_testRun = QtGui.QPushButton(self.groupBox_publish)
-        self.button_testRun.setObjectName('button_testRun')
-        self.button_testRun.setText('Trail Run')
-        self.horizontalLayout_publish.addWidget(self.button_testRun)
+        self.button_prepublish = QtGui.QPushButton(self.groupBox_publish)
+        self.button_prepublish.setObjectName('button_prepublish')
+        self.button_prepublish.setText('Pre-Publish')
+        self.horizontalLayout_publish.addWidget(self.button_prepublish)
         
         self.button_publish = QtGui.QPushButton(self.groupBox_publish)
         self.button_publish.setObjectName('button_publish')
@@ -271,9 +284,9 @@ class Publish (FROM, BASE):
         if not self.pipe._publishLayouts :
             return None
                  
-        self.comboBox_layout.addItems (['None'] + self.pipe._publishLayouts)
+        self.combobox_layout.addItems (['None'] + self.pipe._publishLayouts)
         
-        #self.comboBox_layout.setEnabled (False)
+        #self.combobox_layout.setEnabled (False)
         
         if self.publishType not in self.pipe._publishLayouts :
             QtGui.QMessageBox.warning (self,    'Warning', 
@@ -285,14 +298,14 @@ class Publish (FROM, BASE):
             return None
 
         currentIndex    = 0
-        for itemLoop in range (self.comboBox_layout.count()) :
-            eachItem    = self.comboBox_layout.itemText (itemLoop)
+        for itemLoop in range (self.combobox_layout.count()) :
+            eachItem    = self.combobox_layout.itemText (itemLoop)
             if self.publishType!=eachItem :
                 continue
             currentIndex    = itemLoop
                 
-        self.comboBox_layout.setCurrentIndex (currentIndex)
-        #self.comboBox_layout.setItemText (0, self.publishType)
+        self.combobox_layout.setCurrentIndex (currentIndex)
+        #self.combobox_layout.setItemText (0, self.publishType)
         
         #need to work######################################       
             

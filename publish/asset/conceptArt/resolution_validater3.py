@@ -1,5 +1,5 @@
 SHORT_NAME = 'RC'
-LONG_NAME = 'Resolution Check'
+LONG_NAME = 'To Size Check'
 ICON = 'resultion'
 ROOT = None
 PARENT = None
@@ -9,7 +9,7 @@ BUNDLE_TYPE = 'validator'
 VALID = True
 LAST_MODIFIED = 'February 07, 2018'
 OWNER = 'Subin Gopi'
-COMMENTS = 'To Check Image Resolution'
+COMMENTS = 'To Check Image size'
 VERSION = 1.0
 CLASS = 'Resolution'
 
@@ -17,14 +17,15 @@ CLASS = 'Resolution'
 class Resolution (object):       
     
     def __init__(self):
-        print ('QC Done. To Check Resolution Extenstion')
+        print ('QC Done. To Check Image Extenstion')
         self.bundleResult = {   'faild': 'red',
                                 'error': 'magenta',
                                 'success': 'green' }
-        
+class Abc():
+    print 'fffffffffffffff'        
     
 def trailRun ():
 	result = Resolution ()
 	#print ( result.bundleResult)
-	return False
+	return True
     

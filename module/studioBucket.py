@@ -91,6 +91,22 @@ class Bucket(studioPointer.Pointer):
         result = {self.bucket: dict(bucketDb)}
         return result 
         
+    def getBucketList(self):        
+        bucket_list = self.getPointerBucket()
+        return bucket_list 
+    
+    def getStepList(self):
+        step_list = self.getPointerStep(self.bucket)
+        return step_list
+    
+    def getAllStepList(self):
+        bucket_list = self.getPointerBucket()        
+        step_list = []
+        for each_bucket in bucket_list:
+            steps = self.getPointerStep(each_bucket)            
+            step_list.extend(steps)
+        return step_list        
+        
     def getBucketCubeData(self):
         '''
         Description -Function set for operation on read bucket database(step).
@@ -136,15 +152,21 @@ class Bucket(studioPointer.Pointer):
                 bucket = studioBucket.Bucket('asset')   
                 data = bucket.getBucketCubeList()
         '''         
-        bucketStepData = self.getBucketCubeValues()
-        result = list(bucketStepData[self.bucket].keys())        
-        return result
+        bucketData = self.getBucketData()
+        if not bucketData:
+            return
+        if self.bucket not in bucketData:
+            return
+        cube_list = bucketData[self.bucket]
+        if not cube_list:
+            return        
+        cube_list = list(cube_list.keys())
+        return cube_list
     
     def getBucketVersion(self, current_step):   
         bucketData = self.getBucketCubeValues()
         result = bucketData[self.bucket][self.cube]['step'][current_step]['version']
         return result       
-        
         
     def create(self, **kwargs):
         '''
@@ -240,7 +262,6 @@ class Bucket(studioPointer.Pointer):
         value = 'anything'
         '''
         addDatabase(self.databaseFile, self.cube, self.step, catagory, key, value)
-
             
     def remove(self):
         if not self.hasStep():
