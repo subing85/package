@@ -32,9 +32,9 @@ class Publish(genericPublish_ui.PublishUI):
         self.currentLayout = None
         self.layout_detail = []
         self.visibile = False
-        self._publish_data = {'validator': {'my_module': False},
-                              'extractor': {'my_module': False},
-                              'release': {'my_module': False}} 
+        self._publish_data = {'validator': {},
+                              'extractor': {},
+                              'release': {}} 
             
         self.bundle_result = {'faild': 'red',
                               None : 'red',
@@ -97,6 +97,10 @@ class Publish(genericPublish_ui.PublishUI):
         self._extractor_bundles = self.load_buldles('extractor', extractor_bundles, self.verticalLayout_extactor)
         self._release_bundles =self.load_buldles('release', release_bundles, self.verticalLayout_release)
         
+        self._bundle_data = {'validator': self._validator_bundles,
+                             'extractor': self._extractor_bundles,
+                             'release': self._release_bundles}
+        
     def load_buldles(self, type, data, layout):        
         widget_bundles = {}
         for index in range (len(data)):
@@ -130,7 +134,7 @@ class Publish(genericPublish_ui.PublishUI):
             self.layout_detail.append (child_layout)
             self.layoutVisibility (child_layout, self.visibile)            
             
-            button_name.clicked.connect (partial(self.executeBundle, data[index], type, button_name, child_layout))      
+            button_name.clicked.connect (partial(self.executeMyBundle, data[index], type, button_name, child_layout))      
             button_open.clicked.connect (partial(self.openDetails, child_layout, button_open))
             
             widget_bundles.setdefault(data[index], [button_name, child_layout])
@@ -206,7 +210,26 @@ class Publish(genericPublish_ui.PublishUI):
                 continue       
             widgets.append (layout.itemAt(index).widget ())  
         return widgets           
-                        
+              
+    def executeMyBundle (self, module, type, button, layout):
+        self._current_cube = str(self.combobox_cube.currentText())
+                
+        if self._current_cube == 'None' or not self._current_cube:
+            warnings.warn('your cube none, please the cube', Warning)
+            return
+        
+        publish = studioPublish.Publish(bucket=self._current_bucket, 
+                                        step=self._current_step, 
+                                        cube=self._current_cube)          
+        
+        result = publish.executeModule(module, type)
+        self._publish_data[type][module] = result
+                
+        button.setStyleSheet('Text-align:left; color: {};'.format (self.bundle_result[result]))        
+        widgets = self.getWidgetFromLayout (layout)           
+        for eachWidget in widgets :
+            eachWidget.setStyleSheet('color: {};'.format (self.bundle_result[result]))                      
+
     def prePublish(self):
         if not self._validator_bundles:
             return
@@ -215,38 +238,69 @@ class Publish(genericPublish_ui.PublishUI):
         if not self._release_bundles:
             return
         
-        for each_validator, widgets in self._validator_bundles.items():
-            self.executeBundle(each_validator, 'validator', widgets[0], widgets[1])
-        for each_extractor, widgets in self._extractor_bundles.items():
-            self.executeBundle(each_extractor, 'validator', widgets[0], widgets[1])
-        for each_release, widgets in self._release_bundles.items():
-            self.executeBundle(each_release, 'validator', widgets[0], widgets[1])           
-            
-        pprint (self._publish_data)
-    
-    def publish(self):
-        self.prePublish()
+        self._current_cube = str(self.combobox_cube.currentText())
+        reload(studioPublish)
+        publish = studioPublish.Publish(bucket=self._current_bucket, 
+                                        step=self._current_step, 
+                                        cube=self._current_cube)
+        publish_result = publish.startPrePublish()
         
-        #update data base        
-        for each_release, widgets in self._release_bundles.items():
-            self.executeBundle(each_release, 'validator', widgets[0], widgets[1])  
-            
-    def executeBundle(self, module, type, button, child_layout):
-        result = self.executeModule(module)
-        self._publish_data[type][module] = result
+        for each_result, result_data in publish_result.items():
+            for each_module, module_valid in result_data.items():
+                button, layout = self._bundle_data[each_result][each_module]
                 
-        button.setStyleSheet('Text-align:left; color: {};'.format (self.bundle_result[result]))        
-        widgets = self.getWidgetFromLayout (child_layout)           
-        for eachWidget in widgets :
-            eachWidget.setStyleSheet('color: {};'.format (self.bundle_result[result]))
+                if module_valid not in self.bundle_result:
+                    color = self.bundle_result[False]
+                else:
+                    color = self.bundle_result[module_valid]
+               
+                button.setStyleSheet('Text-align:left; color: %s;'% (color))
+                widgets = self.getWidgetFromLayout (layout)
+                for eachWidget in widgets :
+                    if isinstance(eachWidget, QtGui.QLabel):
+                        continue
+                    eachWidget.setStyleSheet('color: {};'.format (color))
+                    if str(eachWidget.objectName()).startswith('lineEdit_result'):
+                        eachWidget.setText(str(module_valid))
+        
+    def publish(self):
+        #----------------------------------------------------- self.prePublish()
+#------------------------------------------------------------------------------ 
+        #---------------------- for each, bundles in self._publish_data.items():
+            #------------------ for each_module, module_data in bundles.items():
+                #---------------------------------------- if not module_data[0]:
+                    #------------------- file = each_module.__dict__['__file__']
+                    #----------------- # name = each_module.__dict__['__name__']
+                    # warnings.warn('please fix \n\"%s\" \n%s \n\"%s\"'% (each, file, module_data[1]), Warning)
+                    #---------------------------------------------------- return
+
+        self._current_cube = str(self.combobox_cube.currentText())
+        reload(studioPublish)
+
+        publish = studioPublish.Publish(bucket=self._current_bucket, 
+                                        step=self._current_step, 
+                                        cube=self._current_cube)
+        result = publish.startPublish()
+        if result:  
+            print '\n# Publish', self._current_cube, 'done!.'
+        else:
+            print '\n# Publish', self._current_cube, 'faild!.'
             
-    def executeModule(self, module):
-        try:
-            result = module.trailRun()
-        except Exception as exceptResult:  
-            result = False     
-            print exceptResult      
-        return result   
+
+
+    def hasValid(self, data):     
+        stack = data.items()
+        while stack:
+            k, v = stack.pop()
+            if k == False:
+                return False
+            if v == False:
+                return False
+            if isinstance(v, dict):
+                stack.extend(v.iteritems())
+        return True
+    
+        
    
 if __name__ == '__main__':
     app = QtGui.QApplication (sys.argv)

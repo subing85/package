@@ -39,7 +39,7 @@ CURRENT_PATH = os.path.dirname(__file__)
 ICON_PATH = os.environ['ICON_PATH']
 PACKAGE_PATH = os.environ['PACKAGE_PATH']
 DATABASE_PATH = os.environ['DATABASE_PATH']
-CURRENT_SHOW = 'TPS'
+CURRENT_SHOW = 'FRB'
 UI_FILE = os.path.join(CURRENT_PATH, 'studioPipe_ui.ui')  
 FROM, BASE = uic.loadUiType(UI_FILE)
 
@@ -191,7 +191,6 @@ class PipeUI(FROM, BASE):
         self.qtd.getLayoutWidgets(delete=True)
         
         print '\nData base details'
-        pprint(bucketStep)
         
     def updateTreeWidget(self, data, stepList):
         self.groupBox_toolbar.show()

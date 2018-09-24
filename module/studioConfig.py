@@ -61,7 +61,8 @@ class Config(object):
         
         self.genericInputData = getGenericInputData()
         self.genericDefaultData = getGenericDefaultData()
-        self.generiVersionData = getGenericVersionData()        
+        self.generiVersionData = getGenericVersionData()
+        self.generciPrePublishData = getGenerciPrePublishData()  
         self._data = {}
         self._chunkData = {}
         self._validData = {}        
@@ -157,7 +158,8 @@ def writeJsonData(file, data):
     
     if os.path.isfile(file) :
         try:
-            os.chmod(file, 0o755)
+            #os.chmod(file, 0o755)
+            os.chmod(extract_file, 0777)
             os.remove(file)
         except Exception as result:
             print(result)          
@@ -294,4 +296,18 @@ def getGenericVersionData():
                             'Version': '0.0.0',                                  
                             }    
     return genericVersionData
+
+def getGenerciPrePublishData():
+    currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
+    genericData = {'Comment': 'Pre-Publish data',
+                    'Date': currentDate,
+                    'Last modified': currentDate,
+                    'Author': 'Subin. Gopi(subing85@gmail.com)',
+                    '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
+                    'Created by': getpass.getuser(),  
+                    'WARNING': '# WARNING! All changes made in this file will be lost!',
+                    'Description': 'Pre-Publish information contain validator, extractor, release',
+                    'Type': 'Pre-Publish',
+                    'Valid': True}    
+    return genericData    
 #End########################################################################

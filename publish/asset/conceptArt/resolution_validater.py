@@ -22,9 +22,10 @@ class Resolution (object):
                                 'error': 'magenta',
                                 'success': 'green' }
         
+        
     
 def trailRun ():
 	result = Resolution ()
 	#print ( result.bundleResult)
-	return False
+	return True
     
