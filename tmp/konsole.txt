@@ -1,0 +1,746 @@
+ABRT has detected 2 problem(s). For more info run: abrt-cli list --since 1538068037
+[root@localhost ~]# f
+f95                      fc-scan                  find-jar                 flipdiff                 fsck.cramfs
+factor                   fc-validate              findmnt                  flite                    fsck.ext2
+faillock                 fdformat                 find-repos-of-install    flite_time               fsck.ext3
+fallocate                fdisk                    findsmb                  flock                    fsck.ext4
+false                    festival                 fipscheck                fmt                      fsck.fat
+fatlabel                 festival_client          fipshmac                 fold                     fsck.minix
+fc                       festival_server          fipvlan                  font2c                   fsck.msdos
+fc-cache                 festival_server_control  firefox                  fonttosfnt               fsck.vfat
+fc-cat                   fg                       firewall-cmd             for                      fsck.xfs
+fc-list                  fgconsole                firewall-config          fprintd-delete           fsfreeze
+fc-match                 fgrep                    firewalld                fprintd-enroll           fstrim
+fcnsq                    fi                       firewall-offline-cmd     fprintd-list             fsview
+fcoeadm                  file                     firstboot                fprintd-verify           function
+fcoemon                  filefrag                 fixcvsdiff               free                     funzip
+fc-pattern               filterdiff               fixfiles                 fros                     fuser
+fcping                   find                     fixparts                 fsadm                    fusermount
+fc-query                 find2perl                flex                     fsck                     fusermount-glusterfs
+fcrls                    findfs                   flex++                   fsck.btrfs               fxload
+[root@localhost ~]# f
+f95                      fc-scan                  find-jar                 flipdiff                 fsck.cramfs
+factor                   fc-validate              findmnt                  flite                    fsck.ext2
+faillock                 fdformat                 find-repos-of-install    flite_time               fsck.ext3
+fallocate                fdisk                    findsmb                  flock                    fsck.ext4
+false                    festival                 fipscheck                fmt                      fsck.fat
+fatlabel                 festival_client          fipshmac                 fold                     fsck.minix
+fc                       festival_server          fipvlan                  font2c                   fsck.msdos
+fc-cache                 festival_server_control  firefox                  fonttosfnt               fsck.vfat
+fc-cat                   fg                       firewall-cmd             for                      fsck.xfs
+fc-list                  fgconsole                firewall-config          fprintd-delete           fsfreeze
+fc-match                 fgrep                    firewalld                fprintd-enroll           fstrim
+fcnsq                    fi                       firewall-offline-cmd     fprintd-list             fsview
+fcoeadm                  file                     firstboot                fprintd-verify           function
+fcoemon                  filefrag                 fixcvsdiff               free                     funzip
+fc-pattern               filterdiff               fixfiles                 fros                     fuser
+fcping                   find                     fixparts                 fsadm                    fusermount
+fc-query                 find2perl                flex                     fsck                     fusermount-glusterfs
+fcrls                    findfs                   flex++                   fsck.btrfs               fxload
+[root@localhost ~]# rfkill list
+0: hci0: Bluetooth                                                                                                                       
+        Soft blocked: no                                                                                                                 
+        Hard blocked: no                                                                                                                 
+1: acer-wireless: Wireless LAN                                                                                                           
+        Soft blocked: yes
+        Hard blocked: no
+2: phy0: Wireless LAN
+        Soft blocked: no
+        Hard blocked: no
+[root@localhost ~]# rf
+rfcomm  rfkill  
+[root@localhost ~]# rfkill --hlep
+Usage:  rfkill [options] command
+Options:
+        --version       show version (0.4)
+Commands:
+        help
+        event
+        list [IDENTIFIER]
+        block IDENTIFIER
+        unblock IDENTIFIER
+where IDENTIFIER is the index no. of an rfkill switch or one of:
+        <idx> all wifi wlan bluetooth uwb ultrawideband wimax wwan gps fm
+[root@localhost ~]# 
+[root@localhost ~]# rfkill unblock all
+[root@localhost ~]# rfkill list
+0: hci0: Bluetooth
+        Soft blocked: no
+        Hard blocked: no
+1: acer-wireless: Wireless LAN
+        Soft blocked: yes
+        Hard blocked: no
+2: phy0: Wireless LAN
+        Soft blocked: no
+        Hard blocked: no
+[root@localhost ~]# rmmod acer_wmi
+[root@localhost ~]# ping www.baidu.com
+PING www.a.shifen.com (14.215.177.39) 56(84) bytes of data.
+64 bytes from 14.215.177.39 (14.215.177.39): icmp_seq=1 ttl=54 time=28.9 ms
+64 bytes from 14.215.177.39 (14.215.177.39): icmp_seq=2 ttl=54 time=21.4 ms
+^C
+--- www.a.shifen.com ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 21.452/25.194/28.937/3.745 ms
+[root@localhost ~]# yum install ntfs-3g -y
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.tuna.tsinghua.edu.cn
+ * extras: mirrors.cn99.com
+ * updates: mirrors.163.com
+base                                                                                                              | 3.6 kB  00:00:00     
+extras                                                                                                            | 3.4 kB  00:00:00     
+updates                                                                                                           | 3.4 kB  00:00:00     
+No package ntfs-3g available.
+Error: Nothing to do
+[root@localhost ~]# yum clean all
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base extras updates
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos
+Cleaning up list of fastest mirrors
+[root@localhost ~]# yum search ntfs
+Loaded plugins: fastestmirror, langpacks
+Determining fastest mirrors
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+base                                                                                                              | 3.6 kB  00:00:00     
+extras                                                                                                            | 3.4 kB  00:00:00     
+updates                                                                                                           | 3.4 kB  00:00:00     
+(1/4): extras/7/x86_64/primary_db                                                                                 | 187 kB  00:00:02     
+(2/4): base/7/x86_64/group_gz                                                                                     | 166 kB  00:00:02     
+(3/4): updates/7/x86_64/primary_db                                                                                | 5.2 MB  00:02:36     
+(4/4): base/7/x86_64/primary_db                                                                                   | 5.9 MB  00:03:55     
+============================================================= Matched: ntfs =============================================================
+libguestfs-winsupport.x86_64 : Add support for Windows guests to virt-v2v and virt-p2v
+libguestfs.x86_64 : Access and modify virtual machine disk images
+[root@localhost ~]# yum search ntfs
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+============================================================= Matched: ntfs =============================================================
+libguestfs-winsupport.x86_64 : Add support for Windows guests to virt-v2v and virt-p2v
+libguestfs.x86_64 : Access and modify virtual machine disk images
+[root@localhost ~]# yum install -y ntfs-3g
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+No package ntfs-3g available.
+Error: Nothing to do
+[root@localhost ~]# mount -t ntfs /dev/nvme0n1p6 /mnt
+mount: unknown filesystem type 'ntfs'
+[root@localhost ~]# yum search ntfs
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+
+
+
+
+============================================================= Matched: ntfs =============================================================
+libguestfs-winsupport.x86_64 : Add support for Windows guests to virt-v2v and virt-p2v
+libguestfs.x86_64 : Access and modify virtual machine disk images
+[root@localhost ~]# 
+[root@localhost ~]# 
+[root@localhost ~]# 
+[root@localhost ~]# 
+[root@localhost ~]# mount -t ntfs-3g /dev/nvme0n1p6 /mnt
+mount: unknown filesystem type 'ntfs-3g'
+[root@localhost ~]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G   16M  3.7G   1% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+[root@localhost ~]# yum update
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.aliyun.com
+ * updates: mirrors.aliyun.com
+No packages marked for update
+[root@localhost ~]# yum clean dbcache
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base extras updates
+6 sqlite files removed
+[root@localhost ~]# yum clean all
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base extras updates
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos
+Cleaning up list of fastest mirrors
+[root@localhost ~]# yum search ntfs
+Loaded plugins: fastestmirror, langpacks
+Determining fastest mirrors
+ * base: centos.ustc.edu.cn
+ * extras: centos.ustc.edu.cn
+ * updates: centos.ustc.edu.cn
+base                                                                                                              | 3.6 kB  00:00:00     
+extras                                                                                                            | 3.4 kB  00:00:00     
+updates                                                                                                           | 3.4 kB  00:00:00     
+(1/4): base/7/x86_64/group_gz                                                                                     | 166 kB  00:00:04     
+(2/4): extras/7/x86_64/primary_db                                                                                 | 187 kB  00:00:05     
+(3/4): updates/7/x86_64/primary_db                                                                                | 5.2 MB  00:02:29     
+base/7/x86_64/primary_db       FAILED                                          ======-                 ]  28 kB/s | 6.9 MB  00:02:41 ETA 
+http://mirrors.aliyun.com/centos/7.5.1804/os/x86_64/repodata/03d0a660eb33174331aee3e077e11d4c017412d761b7f2eaa8555e7898e701e0-primary.sqlite.bz2: [Errno 14] curl#18 - "transfer closed with 4710783 bytes remaining to read"
+Trying other mirror.
+(4/4): base/7/x86_64/primary_db                                                                                   | 5.9 MB  00:01:39     
+============================================================= Matched: ntfs =============================================================
+libguestfs-winsupport.x86_64 : Add support for Windows guests to virt-v2v and virt-p2v
+libguestfs.x86_64 : Access and modify virtual machine disk images
+[root@localhost ~]# yum clean all
+Loaded plugins: fastestmirror, langpacks
+Cleaning repos: base extras updates
+Cleaning up everything
+Maybe you want: rm -rf /var/cache/yum, to also free up space taken by orphaned data from disabled or removed repos
+Cleaning up list of fastest mirrors
+[root@localhost ~]# yum search ntfs
+Loaded plugins: fastestmirror, langpacks
+Determining fastest mirrors
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.zju.edu.cn
+ * updates: mirrors.zju.edu.cn
+base                                                                                                              | 3.6 kB  00:00:00     
+extras                                                                                                            | 3.4 kB  00:00:00     
+updates                                                                                                           | 3.4 kB  00:00:00     
+(1/4): base/7/x86_64/group_gz                                                                                     | 166 kB  00:00:04     
+(2/4): extras/7/x86_64/primary_db                                                                                 | 187 kB  00:00:36     
+base/7/x86_64/primary_db       FAILED                                          ==-                     ]  37 kB/s | 5.9 MB  00:02:32 ETA 
+http://mirrors.shu.edu.cn/centos/7.5.1804/os/x86_64/repodata/03d0a660eb33174331aee3e077e11d4c017412d761b7f2eaa8555e7898e701e0-primary.sqlite.bz2: [Errno 12] Timeout on http://mirrors.shu.edu.cn/centos/7.5.1804/os/x86_64/repodata/03d0a660eb33174331aee3e077e11d4c017412d761b7f2eaa8555e7898e701e0-primary.sqlite.bz2: (28, 'Operation too slow. Less than 1000 bytes/sec transferred the last 30 seconds')
+Trying other mirror.
+(3/4): updates/7/x86_64/primary_db                                                                                | 5.2 MB  00:03:49     
+base/7/x86_64/primary_db       FAILED                                          =================       ]  47 kB/s | 9.7 MB  00:00:37 ETA 
+http://mirrors.aliyun.com/centos/7.5.1804/os/x86_64/repodata/03d0a660eb33174331aee3e077e11d4c017412d761b7f2eaa8555e7898e701e0-primary.sqlite.bz2: [Errno 14] curl#18 - "transfer closed with 1790948 bytes remaining to read"
+Trying other mirror.
+(4/4): base/7/x86_64/primary_db                                                                                   | 5.9 MB  00:01:25     
+============================================================= Matched: ntfs =============================================================
+libguestfs-winsupport.x86_64 : Add support for Windows guests to virt-v2v and virt-p2v
+libguestfs.x86_64 : Access and modify virtual machine disk images
+[root@localhost ~]# cd /home/
+[root@localhost home]# wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+--2018-09-28 08:55:11--  http://mirrors.aliyun.com/repo/epel-7.repo
+Resolving mirrors.aliyun.com (mirrors.aliyun.com)... 182.106.155.230, 182.106.155.233, 182.106.155.235, ...
+Connecting to mirrors.aliyun.com (mirrors.aliyun.com)|182.106.155.230|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 664 [application/octet-stream]
+Saving to: ‘/etc/yum.repos.d/epel.repo’
+
+100%[===============================================================================================>] 664         --.-K/s   in 0s      
+
+2018-09-28 08:55:12 (34.1 MB/s) - ‘/etc/yum.repos.d/epel.repo’ saved [664/664]
+
+[root@localhost home]# ll
+total 0
+[root@localhost home]# yum search ntfs-eg
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.zju.edu.cn
+ * updates: mirrors.zju.edu.cn
+epel                                                                                                              | 3.2 kB  00:00:00     
+(1/3): epel/x86_64/group_gz                                                                                       |  88 kB  00:00:00     
+^C/3): epel/x86_64/updateinfo                         51% [======================-                     ]  68 kB/s | 2.4 MB  00:00:33 ETA 
+
+Exiting on user cancel
+[root@localhost home]# yum update
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.zju.edu.cn
+ * updates: mirrors.zju.edu.cn
+epel/x86_64/primary                                                                                               | 3.6 MB  00:00:23     
+epel                                                                                                                         12692/12692
+Resolving Dependencies
+--> Running transaction check
+---> Package libmspack.x86_64 0:0.5-0.5.alpha.el7 will be updated
+---> Package libmspack.x86_64 0:0.7-0.1.alpha.el7 will be an update
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=========================================================================================================================================
+ Package                         Arch                         Version                                   Repository                  Size
+=========================================================================================================================================
+Updating:
+ libmspack                       x86_64                       0.7-0.1.alpha.el7                         epel                        76 k
+
+Transaction Summary
+=========================================================================================================================================
+Upgrade  1 Package
+
+Total download size: 76 k
+Is this ok [y/d/N]: Y
+Downloading packages:
+epel/x86_64/prestodelta                                                                                           | 2.9 kB  00:00:00     
+libmspack-0.7-0.1.alpha.el7.x86_64.rpm                                                                            |  76 kB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Updating   : libmspack-0.7-0.1.alpha.el7.x86_64                                                                                    1/2 
+  Cleanup    : libmspack-0.5-0.5.alpha.el7.x86_64                                                                                    2/2 
+  Verifying  : libmspack-0.7-0.1.alpha.el7.x86_64                                                                                    1/2 
+  Verifying  : libmspack-0.5-0.5.alpha.el7.x86_64                                                                                    2/2 
+
+Updated:
+  libmspack.x86_64 0:0.7-0.1.alpha.el7                                                                                                   
+
+Complete!
+[root@localhost home]# yum search ntfs
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.zju.edu.cn
+ * updates: mirrors.zju.edu.cn
+=========================================================== N/S matched: ntfs ===========================================================
+ntfs-3g.x86_64 : Linux NTFS userspace driver
+ntfs-3g-devel.x86_64 : Development files and libraries for ntfs-3g
+ntfsprogs.x86_64 : NTFS filesystem libraries and utilities
+
+  Name and summary matches only, use "search all" for everything.
+[root@localhost home]# yum install -y ntfs-3g
+Loaded plugins: fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * base: mirrors.shu.edu.cn
+ * extras: mirrors.zju.edu.cn
+ * updates: mirrors.zju.edu.cn
+Resolving Dependencies
+--> Running transaction check
+---> Package ntfs-3g.x86_64 2:2017.3.23-6.el7 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+=========================================================================================================================================
+ Package                        Arch                          Version                                  Repository                   Size
+=========================================================================================================================================
+Installing:
+ ntfs-3g                        x86_64                        2:2017.3.23-6.el7                        epel                        264 k
+
+Transaction Summary
+=========================================================================================================================================
+Install  1 Package
+
+Total download size: 264 k
+Installed size: 612 k
+Downloading packages:
+ntfs-3g-2017.3.23-6.el7.x86_64.rpm                                                                                | 264 kB  00:00:02     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 2:ntfs-3g-2017.3.23-6.el7.x86_64                                                                                      1/1 
+  Verifying  : 2:ntfs-3g-2017.3.23-6.el7.x86_64                                                                                      1/1 
+
+Installed:
+  ntfs-3g.x86_64 2:2017.3.23-6.el7                                                                                                       
+
+Complete!
+[root@localhost home]# history
+    1  rfkill list
+    2  rmmod acer_wmi
+    3  rfkill list
+    4  rmmod acer_wmi
+    5  fdisk
+    6  fdisk -l
+    7  lsblk
+    8  sfdisk
+    9  sfdisk -l
+   10  sfdisk -l /dev/nvmOn1p2
+   11  ls /dev/sd*
+   12  sudo apt-get update
+   13  sudo apt-get install parted
+   14  sudo yum install parted
+   15  sudo parted -l | grep Error
+   16  lsblk
+   17  sudo parted /dev/sda mklabel gpt
+   18  lsblk
+   19  rfkill list
+   20  rmmod acer_wmi
+   21  yum search ntfs
+   22  yum install -y ntfs-3g
+   23  yum search ntfs
+   24  yum install -y ntfs-3g
+   25  fdisk -l
+   26  rfkill list
+   27  lsblk
+   28  mount /dev/nvmeOn1p7 /mnt
+   29  cd /dev
+   30  ll
+   31  mount /dev/nvme0n1p7 /mt
+   32  mount -t ntfs /dev/nvme0n1p7 /mt
+   33  cd /
+   34  ll
+   35  mount -t ntfs /dev/nvme0n1p7 /mnt
+   36  df -h
+   37  cd /etc/modprobe.d/
+   38  ll
+   39  ls /dev/sd*
+   40  ls /dev/sd
+   41  fdisk -l
+   42  fdisk -h
+   43  fdisk -s
+   44  ls /dev/sd
+   45  ls /dev/
+   46  sfdisk -l /dev/nvme0n1p7
+   47  sudo yum install parted
+   48  sudo parted -l | grep Error
+   49  lsblk
+   50  sudo parted /dev/sda mklabel gpt
+   51  ls /dev/nvme0n1p7
+   52  mount /dev/nvme0n1p7 /run/media/root/storage/
+   53  sudo apt-get install fstransform
+   54  sudo yum apt-get install fstransform
+   55  yum apt-get install fstransform
+   56  sudo yum  install fstransform
+   57  cmount /dev/nvme0n1p7 /mnt
+   58  mount /dev/nvme0n1p7 /mnt
+   59   mount  -t ntfs /dev/nvme0n1p7 /mnt
+   60  df -h
+   61  yum install -y ntfs-3g
+   62  mount  -t ntfs /dev/nvme0n1p7 /mnt
+   63  modprobe ntfs
+   64  cat /proc/filesystems
+   65  yum install *ntfs* 
+   66  mount -t ntfs /dev/nvme0n1p7 /mnt
+   67  fdisk -l | grep NTFS 
+   68  mount -t ntfs /dev/nvme0n1p7 /mnt
+   69  vim /etc/fstab
+   70  rfkill list all
+   71  fdisk -l
+   72  sfdisk -l /dev/nvme0n1p7
+   73  fdisk -l
+   74  sfdisk -l
+   75  fdisk -l
+   76  sfdisk -l
+   77  fdisk -l
+   78  mount /dev/sda1 /run/media/root/Segate
+   79  mkdir /run/media/root/Segate
+   80  mount /dev/sda1 /run/media/root/Segate
+   81  mount -t ntfs /dev/nvme0n1p6 /mnt
+   82  yum install ntfs-3g
+   83  yum install ntfs
+   84  yum search ntfs
+   85  yum install ntfs
+   86  yum --enablerepo epel install ntfs-3g
+   87* yum update -
+   88  rfkill list
+   89  rfkill --hlep
+   90  rfkill unblock all
+   91  rfkill list
+   92  rmmod acer_wmi
+   93  ping www.baidu.com
+   94  yum install ntfs-3g -y
+   95  yum clean all
+   96  yum search ntfs
+   97  yum install -y ntfs-3g
+   98  mount -t ntfs /dev/nvme0n1p6 /mnt
+   99  yum search ntfs
+  100  mount -t ntfs-3g /dev/nvme0n1p6 /mnt
+  101  df -h
+  102  yum update
+  103  yum clean dbcache
+  104  yum clean all
+  105  yum search ntfs
+  106  yum clean all
+  107  yum search ntfs
+  108  cd /home/
+  109  wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+  110  ll
+  111  yum search ntfs-eg
+  112  yum update
+  113  yum search ntfs
+  114  yum install -y ntfs-3g
+  115  history
+[root@localhost home]# mount -t ntfs-3g /dev/nvme0n1p6 /mnt
+NTFS signature is missing.
+Failed to mount '/dev/nvme0n1p6': Invalid argument
+The device '/dev/nvme0n1p6' doesn't seem to have a valid NTFS.
+Maybe the wrong device is used? Or the whole disk instead of a
+partition (e.g. /dev/sda, not /dev/sda1)? Or the other way around?
+[root@localhost home]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G   44M  3.7G   2% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+[root@localhost home]# mount -t ntfs-3g /dev/nvme0n1p7 /mnt
+[root@localhost home]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G   44M  3.7G   2% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+/dev/nvme0n1p7           243G  121M  243G   1% /mnt
+[root@localhost home]# vim /etc/fstab 
+[root@localhost home]# vim /etc/fstab 
+[root@localhost home]# umount /mnt/
+[root@localhost home]# mount -a
+[root@localhost home]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G   44M  3.7G   2% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+/dev/nvme0n1p7           243G  121M  243G   1% /mnt
+[root@localhost home]# fdisk -l
+WARNING: fdisk GPT support is currently new, and therefore in an experimental phase. Use at your own discretion.
+
+Disk /dev/nvme0n1: 512.1 GB, 512110190592 bytes, 1000215216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: gpt
+Disk identifier: A1350E21-98FA-4EB6-AC08-8ECE712C7D6E
+
+
+#         Start          End    Size  Type            Name
+ 1         2048      1023999    499M  Windows recover Basic data partition
+ 2      1024000      1228799    100M  EFI System      EFI System Partition
+ 3      1228800      1261567     16M  Microsoft reser Microsoft reserved partition
+ 4      1261568    204802047   97.1G  Microsoft basic Basic data partition
+ 5    204802048    206899199      1G  Microsoft basic 
+ 6    206899200    492113919    136G  Linux LVM       
+ 7    492113920   1000212479  242.3G  Microsoft basic Basic data partition
+
+Disk /dev/mapper/centos-root: 128.8 GB, 128849018880 bytes, 251658240 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/centos-swap: 17.2 GB, 17175674880 bytes, 33546240 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sda: 15.7 GB, 15728640000 bytes, 30720000 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x00000000
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048    30719999    15358976    c  W95 FAT32 (LBA)
+[root@localhost home]# mkdir /u
+[root@localhost home]# mount /dev/sda /u
+mount: /dev/sda is write-protected, mounting read-only
+mount: wrong fs type, bad option, bad superblock on /dev/sda,
+       missing codepage or helper program, or other error
+
+       In some cases useful info is found in syslog - try
+       dmesg | tail or so.
+[root@localhost home]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G     0  3.7G   0% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+/dev/nvme0n1p7           243G  121M  243G   1% /mnt
+[root@localhost home]# mount /dev/sda1 /u
+[root@localhost home]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G     0  3.7G   0% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+/dev/nvme0n1p7           243G  121M  243G   1% /mnt
+/dev/sda1                 15G  3.9G   11G  26% /u
+[root@localhost home]# cd /u
+[root@localhost u]# ll
+total 1768
+-rwxr-xr-x.  1 root root     128 Jun 20 05:22 autorun.inf
+drwxr-xr-x.  5 root root    8192 Aug 17 21:31 boot
+-rwxr-xr-x.  1 root root  407582 Jun 20 04:56 bootmgr
+-rwxr-xr-x.  1 root root 1257376 Jun 20 05:22 bootmgr.efi
+drwxr-xr-x.  4 root root    8192 Aug 17 21:31 efi
+-rwxr-xr-x.  1 root root   80648 Jun 20 05:22 setup.exe
+drwxr-xr-x. 11 root root   16384 Aug 17 21:31 sources
+drwxr-xr-x.  3 root root    8192 Aug 17 21:38 support
+drwxr-xr-x.  2 root root    8192 Aug 17 14:55 System Volume Information
+[root@localhost u]# cd /
+[root@localhost /]# df -h
+Filesystem               Size  Used Avail Use% Mounted on
+/dev/mapper/centos-root  120G  5.8G  115G   5% /
+devtmpfs                 3.7G     0  3.7G   0% /dev
+tmpfs                    3.7G     0  3.7G   0% /dev/shm
+tmpfs                    3.7G  9.6M  3.7G   1% /run
+tmpfs                    3.7G     0  3.7G   0% /sys/fs/cgroup
+/dev/nvme0n1p5          1014M  217M  798M  22% /boot
+/dev/nvme0n1p2            96M   35M   62M  37% /boot/efi
+tmpfs                    757M   48K  757M   1% /run/user/0
+/dev/nvme0n1p7           243G  121M  243G   1% /mnt
+/dev/sda1                 15G  3.9G   11G  26% /u
+[root@localhost /]# cd /
+[root@localhost /]# history
+    1  rfkill list
+    2  rmmod acer_wmi
+    3  rfkill list
+    4  rmmod acer_wmi
+    5  fdisk
+    6  fdisk -l
+    7  lsblk
+    8  sfdisk
+    9  sfdisk -l
+   10  sfdisk -l /dev/nvmOn1p2
+   11  ls /dev/sd*
+   12  sudo apt-get update
+   13  sudo apt-get install parted
+   14  sudo yum install parted
+   15  sudo parted -l | grep Error
+   16  lsblk
+   17  sudo parted /dev/sda mklabel gpt
+   18  lsblk
+   19  rfkill list
+   20  rmmod acer_wmi
+   21  yum search ntfs
+   22  yum install -y ntfs-3g
+   23  yum search ntfs
+   24  yum install -y ntfs-3g
+   25  fdisk -l
+   26  rfkill list
+   27  lsblk
+   28  mount /dev/nvmeOn1p7 /mnt
+   29  cd /dev
+   30  ll
+   31  mount /dev/nvme0n1p7 /mt
+   32  mount -t ntfs /dev/nvme0n1p7 /mt
+   33  cd /
+   34  ll
+   35  mount -t ntfs /dev/nvme0n1p7 /mnt
+   36  df -h
+   37  cd /etc/modprobe.d/
+   38  ll
+   39  ls /dev/sd*
+   40  ls /dev/sd
+   41  fdisk -l
+   42  fdisk -h
+   43  fdisk -s
+   44  ls /dev/sd
+   45  ls /dev/
+   46  sfdisk -l /dev/nvme0n1p7
+   47  sudo yum install parted
+   48  sudo parted -l | grep Error
+   49  lsblk
+   50  sudo parted /dev/sda mklabel gpt
+   51  ls /dev/nvme0n1p7
+   52  mount /dev/nvme0n1p7 /run/media/root/storage/
+   53  sudo apt-get install fstransform
+   54  sudo yum apt-get install fstransform
+   55  yum apt-get install fstransform
+   56  sudo yum  install fstransform
+   57  cmount /dev/nvme0n1p7 /mnt
+   58  mount /dev/nvme0n1p7 /mnt
+   59   mount  -t ntfs /dev/nvme0n1p7 /mnt
+   60  df -h
+   61  yum install -y ntfs-3g
+   62  mount  -t ntfs /dev/nvme0n1p7 /mnt
+   63  modprobe ntfs
+   64  cat /proc/filesystems
+   65  yum install *ntfs* 
+   66  mount -t ntfs /dev/nvme0n1p7 /mnt
+   67  fdisk -l | grep NTFS 
+   68  mount -t ntfs /dev/nvme0n1p7 /mnt
+   69  vim /etc/fstab
+   70  rfkill list all
+   71  fdisk -l
+   72  sfdisk -l /dev/nvme0n1p7
+   73  fdisk -l
+   74  sfdisk -l
+   75  fdisk -l
+   76  sfdisk -l
+   77  fdisk -l
+   78  mount /dev/sda1 /run/media/root/Segate
+   79  mkdir /run/media/root/Segate
+   80  mount /dev/sda1 /run/media/root/Segate
+   81  mount -t ntfs /dev/nvme0n1p6 /mnt
+   82  yum install ntfs-3g
+   83  yum install ntfs
+   84  yum search ntfs
+   85  yum install ntfs
+   86  yum --enablerepo epel install ntfs-3g
+   87* yum update -
+   88  rfkill list
+   89  rfkill --hlep
+   90  rfkill unblock all
+   91  rfkill list
+   92  rmmod acer_wmi
+   93  ping www.baidu.com
+   94  yum install ntfs-3g -y
+   95  yum clean all
+   96  yum search ntfs
+   97  yum install -y ntfs-3g
+   98  mount -t ntfs /dev/nvme0n1p6 /mnt
+   99  yum search ntfs
+  100  mount -t ntfs-3g /dev/nvme0n1p6 /mnt
+  101  df -h
+  102  yum update
+  103  yum clean dbcache
+  104  yum clean all
+  105  yum search ntfs
+  106  yum clean all
+  107  yum search ntfs
+  108  cd /home/
+  109  				wget -O /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
+  110  ll
+  111  				yum search ntfs-eg
+  112 				yum update
+  113  				yum search ntfs
+  114  				yum install -y ntfs-3g
+  115  history
+  116  mount -t ntfs-3g /dev/nvme0n1p6 /mnt
+  117  df -h
+  118  							mount -t ntfs-3g /dev/nvme0n1p7 /mnt
+  119  df -h
+  120  				vim /etc/fstab 
+  121  umount /mnt/
+  122  mount -a
+  123  df -h
+  124  				fdisk -l
+  125 				mkdir /u
+  126  mount /dev/sda /u
+  127 				df -h
+  128  				mount /dev/sda1 /u		
+  129  df -h
+  130  cd /u
+  131  ll
+  132  cd /
+  133  df -h
+  134  cd /
+  135  history
+[root@localhost /]# 
+
+

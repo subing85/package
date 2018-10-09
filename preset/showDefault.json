@@ -1,83 +1,86 @@
 {
-    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
-    "Created by": "sid", 
-    "Type": "show default", 
+    "Comment": "Show Default v1.0", 
     "Description": "This module contain basic information of our shows", 
+    "Author": "Subin. Gopi (subing85@gmail.com)", 
+    "Last modified": "July:22:2018 - 05:33:54:PM", 
+    "Type": "show default", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!", 
+    "Valid": true, 
+    "Created by": "sid", 
+    "Date": "July:22:2018 - 05:33:54:PM", 
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
     "Shows": {
-        "5": {
+        "name": {
+            "tooltip": "name", 
             "type": "string", 
-            "display": "Type", 
+            "order": 1, 
             "value": "None", 
-            "label": "type", 
-            "order": 5
+            "display": "Name"
         }, 
-        "4": {
-            "type": "int", 
-            "display": "Order", 
-            "value": "9999999", 
-            "label": "order", 
-            "order": 4
-        }, 
-        "7": {
-            "type": "string", 
-            "display": "StoryType", 
-            "value": "None", 
-            "label": "storyType", 
-            "order": 7
-        }, 
-        "6": {
+        "application": {
+            "tooltip": "application", 
             "type": "list", 
-            "display": "Application", 
+            "order": 6, 
             "value": [
                 "Blender", 
                 "Natron", 
                 "Gimp", 
+                "Krita", 
+                "SynfigStudio", 
+                "Pencil2D", 
                 "Studio Pipe", 
-                "Render Box"
+                "Studio Publish"
             ], 
-            "label": "application", 
-            "order": 6
+            "display": "Application"
         }, 
-        "1": {
+        "tag": {
+            "tooltip": "tag", 
             "type": "string", 
-            "display": "Name", 
+            "order": 8, 
             "value": "None", 
-            "label": "name", 
-            "order": 1
+            "display": "Tag"
         }, 
-        "3": {
+        "storyType": {
+            "tooltip": "storyType", 
             "type": "string", 
-            "display": "Short Name", 
-            "value": "STS", 
-            "label": "shortName", 
-            "order": 3
+            "order": 7, 
+            "value": "None", 
+            "display": "StoryType"
         }, 
-        "2": {
+        "longName": {
+            "tooltip": "longName", 
             "type": "string", 
-            "display": "Long Name", 
+            "order": 2, 
             "value": "None None None", 
-            "label": "longName", 
-            "order": 2
+            "display": "Long Name"
         }, 
-        "9": {
+        "shortName": {
+            "tooltip": "shortName", 
             "type": "string", 
-            "display": "Icon", 
+            "order": 3, 
             "value": "STS", 
-            "label": "icon", 
-            "order": 9
+            "display": "Short Name"
         }, 
-        "8": {
+        "type": {
+            "tooltip": "type", 
             "type": "string", 
-            "display": "Tag", 
+            "order": 5, 
             "value": "None", 
-            "label": "tag", 
-            "order": 8
+            "display": "Type"
+        }, 
+        "order": {
+            "tooltip": "order", 
+            "type": "int", 
+            "order": 4, 
+            "value": "9999999", 
+            "display": "Order"
+        }, 
+        "icon": {
+            "tooltip": "icon", 
+            "type": "string", 
+            "order": 9, 
+            "value": "STS", 
+            "display": "Icon"
         }
-    }, 
-    "Author": "Subin. Gopi (subing85@gmail.com)", 
-    "Date": "July:22:2018 - 05:33:54:PM", 
-    "Valid": true, 
-    "Last modified": "July:22:2018 - 05:33:54:PM", 
-    "Comment": "Show Default v1.0", 
-    "WARNING": "# WARNING! All changes made in this file will be lost!"
+    }
 }

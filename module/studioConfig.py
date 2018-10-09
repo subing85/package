@@ -19,74 +19,39 @@ import time
 import getpass
 import warnings
 
+import preset
+
 
 class Config(object):        
-    '''
-    Description -This Class operate on read and set config file such as json, etc.
-       : __init__()    Initializes a QMainWindow object.    
-                   
-       :example to execute
-            from module import studioConfig            
-            studioConfig.Config()
-    '''
-        
-    def __init__(self, **kwargs):                
-        '''        
-        :param    root <list>     example 'Z:/package'
-        :param    folders <list>     example  ['bin', 'data', 'doc', 'example']
-        :param    destination <str>     example 'Z:/backup_bkp' 
-        :param    versionType <list>     example 'patch'
-        :param    progressBar <QtGui Class>     example QtGui.progressBar
-        '''  
-        self.file = None
-        self.data = None
 
-        if 'file' in kwargs:
-            self.file = kwargs['file']
-        if 'data' in kwargs :         
-            self.data = kwargs['data']  
-            
-        self.chunkList = [  'Comment', 
-                            'Date', 
-                            'Last modified', 
-                            'Author', 
-                            '#Copyright',
-                            'Created by',
-                            'WARNING', 
-                            'Description', 
-                            'Type',
-                            'Valid'
-                            'hierarchy'
-                            ]
-        
-        self.genericInputData = getGenericInputData()
-        self.genericDefaultData = getGenericDefaultData()
-        self.generiVersionData = getGenericVersionData()
-        self.generciPrePublishData = getGenerciPrePublishData()  
-        self._data = {}
-        self._chunkData = {}
-        self._validData = {}        
-        
-    def createData(self):
-        ''''
-        Description -Function set for operation on create json file.
-            :param    None
-            :param    Bool
-            
-            :example to execute
-                from module import studioConfig            
-                sc = studioConfig.Config()
-                sc.createData()
+    def __init__(self, config_file=None):    
         '''
-        if not os.path.isdir(os.path.dirname(self.file)):
-            os.makedirs(os.path.isdir(os.path.dirname(self.file)))        
-        try:
-            writeJsonData(self.file, self.data)
-            return True
-        except Exception as result:
-            warnings.warn(str(result), Warning)
-            return False            
-
+        Description -This Class operate on read and set config file such as json, etc.
+           : __init__()    Initializes a QMainWindow object.    
+                       
+           :example to execute
+                from module import studioConfig            
+                studioConfig.Config()
+        '''       
+        self.config_file = config_file            
+        self.chunkList = ['Comment', 'Date', 'Last modified', 'Author', '#Copyright',
+                          'Created by', 'WARNING', 'Description', 'Type', 'Valid', 'hierarchy']
+        
+    def getChunkList(self):
+        return self.chunkList
+    
+    def getValidData(self):        
+        chunkData, validData = self.getConfigData()
+        return validData
+        
+    def getChunkData(self):        
+        chunkData, validData = self.getConfigData()
+        return chunkData
+    
+    def getData(self):
+        self.getConfigData()
+        return self._data           
+                
     def getConfigData(self):
         ''''
         Description -Function set for operation on get data from the json file.
@@ -98,15 +63,16 @@ class Config(object):
             :example to execute
                 from module import studioConfig            
                 sc = studioConfig.Config()
-                sc.getConfigData()
+                sc.getData()
         '''
-        if not os.path.isfile(self.file):
-            warnings.warn('SHOW_INPUT_FILE not found', Warning)
+        self._chunkData = {}
+        self._validData = {}        
+        
+        if not os.path.isfile(self.config_file):
+            warnings.warn('FILE not found', Warning)
             return None
             
-        self._data = readJsonData(self.file)     
-        self._chunkData = {}
-        self._validData = {}
+        self._data = readJsonData(self.config_file)     
         
         for eachData, eachValue in self._data.items():
             if eachData in self.chunkList:
@@ -115,14 +81,41 @@ class Config(object):
                 self._validData.setdefault(eachData, eachValue)
                 
         if 'Valid' not in self._data:
-            warnings.warn('data does not validate -{}'.format(self.file))
+            warnings.warn('data does not validate -{}'.format(self.config_file))
         else:             
             if not self._data['Valid']:
-                warnings.warn('data not valid -{}'.format(self.file))
+                warnings.warn('data not valid -{}'.format(self.config_file))
+                
+        return self._chunkData, self._validData
+    
+    def createData(self, data):
+        ''''
+        Description -Function set for operation on create json file.
+            :param    None
+            :param    Bool
+            
+            :example to execute
+                from module import studioConfig            
+                sc = studioConfig.Config()
+                sc.createData()
+        '''
+        if not os.path.isdir(os.path.dirname(self.config_file)):
+            os.makedirs(os.path.dirname(self.config_file))       
+        try:
+            writeJsonData(self.config_file, data)
+            return True
+        except Exception as result:
+            warnings.warn(str(result), Warning)
+            return False
 
     def getCurrentTime(self):
         currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
         return currentDate
+    
+    def displayDataIndent(self):
+        self.getData()   
+        print json.dumps (self._data, indent=4)
+        
     
 def readJsonData(file):    
     '''           
@@ -140,7 +133,9 @@ def readJsonData(file):
     try:
         data = json.load(openData)
     except Exception as result :
-        raise Exception(result)     
+        # raise Exception(result)
+        warnings.warn(str(result))       
+    
     openData.close()    
     return data        
         
@@ -154,16 +149,16 @@ def writeJsonData(file, data):
         :param    data    <dict>        
     '''  
     if not os.path.isdir(os.path.dirname(file)) :
-        os.makedirs(os.path.dirname(file))
-    
+        os.makedirs(os.path.dirname(file))       
+             
     if os.path.isfile(file) :
         try:
-            #os.chmod(file, 0o755)
-            os.chmod(extract_file, 0777)
+            # os.chmod(file, 0o755)
+            os.chmod(file, 0777)
             os.remove(file)
         except Exception as result:
             print(result)          
-    
+     
     result = 'successfully created Database {}'.format(file)     
     genericData = data.copy()
     currentTime = time.time()    
@@ -172,108 +167,10 @@ def writeJsonData(file, data):
         jsonData = open(file, 'w')
         jsonData.write(data)
         jsonData.close()                  
-        os.utime(file,(currentTime, currentTime))
+        os.utime(file, (currentTime, currentTime))
     except Exception as exceptResult :
         result = str(exceptResult)                
     print('write result\t- ', result)
-    
-
-def getGenericInputData():
-    '''           
-    Description -Standalone function create show input json file.
-        :param    None
-        :return   genericInputData    <dict>        
-    '''     
-    currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
-    genericInputData = {'Comment': 'Show Inputs v1.0',
-                        'Date': currentDate,
-                        'Last modified': currentDate,
-                        'Author': 'Subin. Gopi(subing85@gmail.com)',
-                        '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
-                        'Created by': getpass.getuser(),  
-                        'WARNING': '# WARNING! All changes made in this file will be lost!',
-                        'Description': 'This module contain basic information of our shows',
-                        'Type': 'show input',
-                        'Valid': True,
-                        'Shows': {}                                     
-                        }    
-    return genericInputData
-
-
-def getGenericDefaultData(): 
-    '''           
-    Description -Standalone function create show default json file.
-        :param    None
-        :return   genericDefaultData    <dict>        
-    '''        
-    currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')           
-    genericDefaultData = {  'Comment': 'Show Default v1.0',
-                            'Date': currentDate,
-                            'Last modified': currentDate,
-                            'Author': 'Subin. Gopi(subing85@gmail.com)',
-                            '#Copyright' : '(c) 2018, Subin Gopi All rights reserved.',
-                            'Created by': getpass.getuser(),                                    
-                            'WARNING': '# WARNING! All changes made in this file will be lost!',
-                            'Description': 'This module contain basic information of our shows',
-                            'Type': 'show default',
-                            'Valid': True,
-                            'Shows': {  '1': {  'label': 'name',
-                                                'display': 'Name',
-                                                'value': 'None',
-                                                'type': 'string',
-                                                'order': 1
-                                                },
-                                        '2': {  'label': 'longName',
-                                                'display': 'Long Name',
-                                                'value': 'None None None',
-                                                'type': 'string',
-                                                'order': 2
-                                                },
-                                        '3': {  'label': 'shortName',
-                                                'display': 'Short Name',                
-                                                'value': 'STS',
-                                                'type': 'string',
-                                                'order': 3
-                                                },
-                                        '4': {  'label': 'order',
-                                                'display': 'Order',            
-                                                'value': '9999999',
-                                                'type': 'int',
-                                                'order': 4
-                                                },                    
-                                        '5': {  'label': 'type',
-                                                'display': 'Type',        
-                                                'value': 'None',
-                                                'type': 'string',
-                                                'order': 5
-                                                },                            
-                                        '6': {  'label': 'application',
-                                                'display': 'Application',    
-                                                'value': ['Blender', 'Natron', 'Gimp', 'Studio Pipe', 'Render Box'],
-                                                'type': 'list',
-                                                'order': 6
-                                                },                    
-                                        '7': {  'label': 'storyType',
-                                                'display': 'StoryType',    
-                                                'value': 'None',
-                                                'type': 'string',
-                                                'order': 7
-                                                },
-                                        '8': {  'label': 'tag',
-                                                'display': 'Tag',    
-                                                'value': 'None',
-                                                'type': 'string',
-                                                'order': 8
-                                                },
-                                        '9': {  'label': 'icon',
-                                                'display': 'Icon',                    
-                                                'value': 'STS',
-                                                'type': 'string',
-                                                'order': 9
-                                                }                
-                                    }
-                            }        
-    return genericDefaultData
 
 
 def getGenericVersionData():
@@ -287,15 +184,16 @@ def getGenericVersionData():
                             'Date': currentDate,
                             'Last modified': currentDate,
                             'Author': 'Subin. Gopi(subing85@gmail.com)',
-                            '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
-                            'Created by': getpass.getuser(),  
+                            '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',
+                            'Created by': getpass.getuser(),
                             'WARNING': '# WARNING! All changes made in this file will be lost!',
                             'Description': 'Package Semantic Version',
                             'Type': 'SemanticVersion',
                             'Valid': True,
-                            'Version': '0.0.0',                                  
+                            'Version': '0.0.0',
                             }    
     return genericVersionData
+
 
 def getGenerciPrePublishData():
     currentDate = datetime.datetime.now().strftime('%B:%d:%Y - %I:%M:%S:%p')
@@ -303,8 +201,8 @@ def getGenerciPrePublishData():
                     'Date': currentDate,
                     'Last modified': currentDate,
                     'Author': 'Subin. Gopi(subing85@gmail.com)',
-                    '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',    
-                    'Created by': getpass.getuser(),  
+                    '#Copyright': '(c) 2018, Subin Gopi All rights reserved.',
+                    'Created by': getpass.getuser(),
                     'WARNING': '# WARNING! All changes made in this file will be lost!',
                     'Description': 'Pre-Publish information contain validator, extractor, release',
                     'Type': 'Pre-Publish',

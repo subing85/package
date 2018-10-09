@@ -37,7 +37,8 @@ CURRENT_PATH = os.path.dirname (__file__)
 ICON_PATH = os.environ['ICON_PATH']
 PACKAGE_PATH = os.environ['PACKAGE_PATH']  
 PACKAGE_PUBLISH_PATH = os.environ['PACKAGE_PUBLISH_PATH']
-SHOW_INPUT_FILE = preset.showInput()
+DATABASE_PATH = os.environ['DATABASE_PATH']
+
 UI_FILE = os.path.join (CURRENT_PATH, 'studioLauncher_ui.ui')  
 FROM, BASE = uic.loadUiType (UI_FILE)
 
@@ -56,7 +57,9 @@ class Launcher (FROM, BASE):
         console = studioConsole.Console ()    
         console.stdout().messageWritten.connect (self.textEdit_output.insertPlainText)
         
-        self._current_show = None       
+        self._current_show = None        
+        self.default_show_path = preset.showDefault()
+        self.shows_path = os.path.abspath(os.path.join(DATABASE_PATH, 'shows', 'studio_shows.config'))
             
         self.qt = studioQtdress.QtDress(self.button_studioShow)            
         self.defaultUiSettings()        
@@ -72,7 +75,7 @@ class Launcher (FROM, BASE):
     def defaultUiSettings(self):
         self.setWindowTitle ('Studio Launc-HER v0.1')
         self.setWindowIcon(QtGui.QIcon(os.path.join(ICON_PATH, 'launcher.png')))
-        self.resize(QtCore.QSize(725, 362))
+        self.resize(QtCore.QSize(800, 500))
         self.label_package.setText(PACKAGE_PATH)
         # set the ui style sheet
         style = studioStylesheet.Stylesheet(self)
@@ -81,7 +84,7 @@ class Launcher (FROM, BASE):
         # set the show icon  
         self.qt.setIcon(ICON_PATH, width=470, height=150, lock=True)
         
-        sc = studioConfig.Config(file=SHOW_INPUT_FILE)
+        sc = studioConfig.Config(config_file=self.shows_path)
         sc.getConfigData()
         if 'Shows' not in sc._validData:
             warnings.warn('Show not found', Warning)
@@ -158,12 +161,12 @@ class Launcher (FROM, BASE):
         try:
             subprocess.call (command, stdout=None, shell=True, stderr=None)
         except Exception as error:
-            pprrint (error)
+            pprint (error)
         
     def new(self):
-        from pipe import studioShowpipe
-        ss = studioShowpipe.ShowUI(parent=self)
-        ss.show()
+        from pipe import studioFlash
+        sf = studioFlash.ShowUI(parent=self)
+        sf.show()
         
     def removeFiles(self, type):
         kilobyte = 0
@@ -236,5 +239,3 @@ def loadWindow():
     
 if __name__ == '__main__':
     loadWindow()
-
-    

@@ -1,5 +1,12 @@
-from module import studioConfig
-from pprint import pprint
-a = studioConfig.getGenericVersionData()
+#===============================================================================
+# from module import studioConfig
+# from pprint import pprint
+# a = studioConfig.getGenericVersionData()
+# 
+# pprint (a)
+#===============================================================================
 
-pprint (a)
+from module.temp import studioStylesheet 
+reload(studioStylesheet)
+
+print 'sdf sdkfnsbdjfbjsdfj'

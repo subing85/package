@@ -25,7 +25,7 @@ from pprint import pprint
 from module import studioValidation
 reload(studioValidation)
 
-from module import studioConfig
+from module.temp import studioConfig
 reload(studioConfig)
 
 class Publish(studioValidation.Validation):
@@ -172,11 +172,13 @@ class Publish(studioValidation.Validation):
         
         
                     
-bucket = 'asset'
-step = 'conceptArt'
-cube = 'girl'
-abc = Publish(bucket=bucket, step=step, cube=cube)
-a = abc.startPrePublish()
-#pprint(a)
+#===============================================================================
+# bucket = 'asset'
+# step = 'conceptArt'
+# cube = 'girl'
+# abc = Publish(bucket=bucket, step=step, cube=cube)
+# a = abc.startPrePublish()
+# #pprint(a)
+#===============================================================================
 
 

@@ -13,6 +13,3 @@ def launchDependency():
 
 def showDefault():
     return os.path.join(PRESET_PATH, "showDefault.json").replace('\\', '/')
-
-def showInput():
-    return os.path.join(PRESET_PATH, "showInput.json").replace('\\', '/')

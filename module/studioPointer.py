@@ -37,8 +37,8 @@ class Pointer(studioConfig.Config):
             :param   None
         '''          
         super(Pointer, self).__init__()
-
-        self.file = preset.bucketData()
+       
+        self.config_file = preset.bucketData()
         self.getConfigData()  
         
         self.pointerData = copy.deepcopy(self._validData)        
