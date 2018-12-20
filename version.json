@@ -1,0 +1,13 @@
+{
+    "Comment": "Make Package Zip", 
+    "WARNING": "# WARNING! All changes made in this file will be lost!", 
+    "Description": "Package Semantic Version", 
+    "Author": "Subin. Gopi(subing85@gmail.com)", 
+    "Last modified": "September:16:2018 - 09:32:12:PM", 
+    "#Copyright": "(c) 2018, Subin Gopi All rights reserved.", 
+    "Version": "0.0.3", 
+    "Valid": true, 
+    "Created by": "root", 
+    "Date": "September:16:2018 - 09:28:25:PM", 
+    "Type": "SemanticVersion"
+}

@@ -21,10 +21,9 @@ class OneKmap (object):
         self.bundleResult = {   'faild': 'red',
                                 'error': 'magenta',
                                 'success': 'green' }
-        #return True
+        return None
 
 		
 def trailRun ():
     OneKmap ()
-    return True
     

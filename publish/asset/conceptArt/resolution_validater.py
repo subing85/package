@@ -3,7 +3,7 @@ LONG_NAME = 'Resolution Check'
 ICON = 'resultion'
 ROOT = None
 PARENT = None
-ORDER = 1
+ORDER = 3
 MODULE_TYPE = 'conceptArt'
 BUNDLE_TYPE = 'validator'
 VALID = True
@@ -17,10 +17,11 @@ CLASS = 'Resolution'
 class Resolution (object):       
     
     def __init__(self):
-        print ('QC Done. To Check Image Extenstion')
+        print ('QC Done. To Check Resolution Extenstion')
         self.bundleResult = {   'faild': 'red',
                                 'error': 'magenta',
                                 'success': 'green' }
+        
         
     
 def trailRun ():

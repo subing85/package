@@ -17,10 +17,10 @@ import os
 import warnings
 import copy
 
-from module import studioConfig   
+from pprint import pprint
 
-#POINTER_INPUT_FILE = os.environ['POINTER_INPUT_FILE']
-POINTER_INPUT_FILE = 'Z:/package_users/sid/package/preset/bucketData.json'
+from module import studioConfig
+import preset 
       
 
 class Pointer(studioConfig.Config):
@@ -37,9 +37,10 @@ class Pointer(studioConfig.Config):
             :param   None
         '''          
         super(Pointer, self).__init__()
-                
-        self.file = POINTER_INPUT_FILE
+       
+        self.config_file = preset.bucketData()
         self.getConfigData()  
+        
         self.pointerData = copy.deepcopy(self._validData)        
         self.pointerData.pop('_asset_')
         self.pointerData.pop('_shot_')

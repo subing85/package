@@ -77,10 +77,10 @@ class Identity():
         return result
             
 
-category = 'Shot'
-input = 'Shot_002'
-type = 'Model'
-a = Identity(category, input, type)
+#category = 'Shot'
+#input = 'Shot_002'
+#type = 'Model'
+#a = Identity(category, input, type)
  
 # = a.create()
 #print(id)

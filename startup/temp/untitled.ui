@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>574</width>
-    <height>570</height>
+    <width>595</width>
+    <height>810</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,8 +28,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>539</width>
-         <height>537</height>
+         <width>577</width>
+         <height>744</height>
         </rect>
        </property>
        <attribute name="label">
@@ -230,6 +230,18 @@
           </layout>
          </widget>
         </item>
+        <item>
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>GroupBox</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QTextEdit" name="textEdit"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="page_2">
@@ -237,8 +249,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>556</width>
-         <height>508</height>
+         <width>94</width>
+         <height>24</height>
         </rect>
        </property>
        <attribute name="label">

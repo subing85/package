@@ -1,30 +1,30 @@
-SHORT_NAME = '1KMP'
-LONG_NAME = '1K Map Publish'
-ICON = 'onek_map'
+SHORT_NAME = 'RC'
+LONG_NAME = 'Resolution Check'
+ICON = 'resultion'
 ROOT = None
 PARENT = None
 ORDER = 3
 MODULE_TYPE = 'conceptArt'
-BUNDLE_TYPE = 'release'
+BUNDLE_TYPE = 'validator'
 VALID = True
 LAST_MODIFIED = 'February 07, 2018'
 OWNER = 'Subin Gopi'
-COMMENTS = 'To publish 1k maps'
+COMMENTS = 'To Check Image Resolution'
 VERSION = 1.0
 CLASS = 'Resolution'
 
 
-class OneKmap (object):       
+class Resolution (object):       
     
     def __init__(self):
-        print ('Publish Done. 1k Map(1024x1024)')
+        print ('QC Done. To Check Resolution Extenstion')
         self.bundleResult = {   'faild': 'red',
                                 'error': 'magenta',
                                 'success': 'green' }
-        #return True
-
-		
+        
+    
 def trailRun ():
-    OneKmap ()
-    return True
+	result = Resolution ()
+	#print ( result.bundleResult)
+	return False
     
