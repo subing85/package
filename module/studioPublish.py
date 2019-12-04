@@ -25,7 +25,7 @@ from pprint import pprint
 from module import studioValidation
 reload(studioValidation)
 
-from module.temp import studioConfig
+from module import studioConfig
 reload(studioConfig)
 
 class Publish(studioValidation.Validation):

@@ -1,0 +1,213 @@
+yum install epel-release
+
+wifi
+echo 'blacklist acer_wmi' > /etc/modprobe.d/acer.conf
+rmmod acer_wmi
+
+yum install ntfs-3g
+mkdir /mnt/win
+mount -t ntfs-3g /dev/sdb1 /mnt/win
+umount /mnt/win
+
+To mount the NTFS partition permanently, 
+add the following line to the /etc/fstab file.
+Open /etc/fstab with an editor:
+nano /etc/fstab
+And add the line:
+/dev/sdb1 /mnt/win ntfs-3g defaults 0 0
+
+ping www.baidu.com
+
+
+partion
+yum install -y epep-release
+df -h
+mkfs.xfs /dev/nvme0n1p4
+21  mkfs.ext4 /dev/nvme0n1p4
+
+yum install -y libguestfs-xfs.x86_64 xfsprogs.x86_64 xfsprogs-devel.x86_64
+yum install -y epel-release
+
+
+NVIDIA
+init 3
+rmmod nouveau
+fdisk -l
+mount /dev/sda4 /mnt
+cd /mnt
+cp NVIDIA-Linux-x86_64-418.56.run /root/
+ll
+sh NVIDIA-Linux-x86_64-418.56.run
+nvidia-smi
+nvidia-settings
+init 5
+
+Qt Designer
+sudo yum install python-qt4 qt4-designer -y
+
+yum install python-tools
+yum install ipython -y
+
+yum install python-pyside pyside-tools -y
+
+sudo yum install python3-pyside -y
+
+teamviewer
+# preparation: install epel-release
+yum install epel-release
+
+yum -y install wget
+wget https://download.teamviewer.com/download/linux/teamviewer.x86_64.rpm
+yum -y install teamviewer.x86_64.rpm
+
+skype-on-centos-7
+wget https://go.skype.com/skypeforlinux-64.rpm
+sudo yum localinstall skypeforlinux-64.rpm
+skype
+skypeforlinux
+
+sudo yum install centos-release-scl
+
+
+gimp
+yum install gimp -y
+
+
+yum install amarok -y
+yum install tomahawk -y
+yum install clementine -y
+
+sudo yum install audacious -y
+yum install rhythmbox
+sudo yum install astromenace 
+
+
+vcl
+https://www.videolan.org/vlc/download-redhat.html
+su -
+subscription-manager repos --enable "rhel-*-optional-rpms" --enable "rhel-*-extras-rpms" # Only needed for RHEL
+yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+yum install https://download1.rpmfusion.org/free/el/rpmfusion-free-release-7.noarch.rpm
+yum install vlc
+yum install vlc-core -y (for minimal headless/server install)
+yum install python-vlc npapi-vlc -y (optionals)
+    
+
+
+vpn
+sudo yum install [installer filename]
+expressvpn activate
+expressvpn preferences set send_diagnostics false
+expressvpn connect
+expressvpn connect smart
+expressvpn disconnect
+expressvpn list
+expressvpn list all
+expressvpn connect [LOCATION]
+
+expressvpn protocol tcp
+man expressvpn
+
+expressvpn install-firefox-extension
+
+expressvpn install-chrome-extension
+
+expressvpn connect "Hong Kong - 4"lm
+
+
+pixar usd compile
+http://www.mamicode.com/info-detail-2031339.html
+http://toutiao.manqian.cn/wz_1jGqq2aGzH.html
+
+http://mirrors.163.com/centos/7/isos/x86_64/CentOS-7-x86_64-Everything-1708.iso 
+http://download.autodesk.com/us/support/files/maya_2016_service_pack_6/Autodesk_Maya_2016_SP6_EN_Linux_64bit.tgz
+https://github.com/autodesk-adn/Maya-devkit
+
+
+Unzip devkit, copy devkit, include, mkspecs in the linux folder to the Maya installation folder, usually / usr / autodesk / maya2016
+
+If you do not have devkit installed, you cannot compile and install usdmaya. This is a plug-in provided by usd to maya.
+If you need maya to interact with usd, this step is necessary.
+
+In Applications-> System Tools-> Settings in the start menu bar, confirm whether the current system is connected to the network.
+If there is no network, yum install xxx will fail.
+
+CentOS provides a yum package management method. If a certain dependency package is missing, you can install it online via yum install xxx.
+This is very convenient, which is one of the reasons why I chose to build USD in Linux.
+
+
+PySide is special. It belongs to python library and needs to be installed through pip.
+Native CentOS needs to install pip by itself. The installation method is as follows:
+
+sudo yum install pip
+pip install PySide
+
+
+Four: install other dependencies
+The specific commands are as follows:
+
+sudo yum install cmake -y
+sudo yum install boost -y
+sudo yum install tbb -y
+sudo yum install alembic -y
+sudo yum install OpenEXR -y
+sudo yum install OpenImageIO -y
+sudo yum install graphviz -y
+sudo yum install PyOpenGL -y
+
+sudo yum install cmake boost tbb alembic OpenEXR
+
+python build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2016 /usr/local/USD
+
+
+cd /root/Downloads/USD/build_scripts
+python build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2016 /usr/local/USD/MAYA_2016/MAYA_USD/PIXAR
+
+python /root/Downloads/USD-19.05/build_scripts/build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2016 /usr/local/usd/maya2016/pixar/19.05/
+python /root/Downloads/USD-19.05/build_scripts/build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2017 /usr/local/usd/maya2017/pixar/19.05/
+python /root/Downloads/USD-19.05/build_scripts/build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2018 /usr/local/usd/maya2018/pixar/19.05/
+
+
+
+
+python /root/Downloads/USD/build_scripts/build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2016 /usr/local/USD/MAYA_2016/MAYA_USD/PIXAR
+
+
+python /root/Downloads/USD-19.07/build_scripts/build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2016 /usr/local/USD-19.07/MAYA_2016/MAYA_USD/PIXAR
+
+python /root/Downloads/USD-19.05/build_scripts/build_usd.py --test --docs --ptex --alembic --hdf5 --maya --maya-location=/usr/autodesk/maya2017 /usr/local/USD-19.05/MAYA_2017/MAYA_USD/PIXAR
+
+OpenImageIO
+ln -sf /usr/autodesk/maya2016/bin/maya /usr/local/bin/maya
+
+autodesk
+https://manage.autodesk.com/cep/?_ga=2.129218828.1257034942.1575114569-114227622.1575114569#products-services/updates
+https://manage.autodesk.com/cep/#products-services/all?sort=%5B%7B%22field%22%3A%22displayName.raw%22%2C%22order%22%3A%22asc%22%7D%2C%7B%22field%22%3A%22accessType%22%2C%22order%22%3A%22asc%22%7D%5D&start=0&rows=100&filters=%5B%7B%22term%22%3A%22licenseType%22%2C%22values%22%3A%5B%22Standalone%22%5D%7D%2C%7B%22term%22%3A%22entitlements.version%22%2C%22values%22%3A%5B%222017%22%5D%7D%2C%7B%22term%22%3A%22entitlements.platforms%22%2C%22values%22%3A%5B%22Linux+64%22%5D%7D%2C%7B%22term%22%3A%22entitlements.productLanguageCodes%22%2C%22values%22%3A%5B%22EINT%22%5D%7D%5D
+
+
+
+Uninstall Maya from a Linux OS
+Open a shell as a super user.
+Add /opt/Autodesk/Adlm/R14/lib64/ to LD_LIBRARY_PATH to set your shared libraries for this session by entering:
+
+export LD_LIBRARY_PATH=/opt/Autodesk/Adlm/R14/lib64/
+
+Run the following commands, where <productKey> is your product key:
+
+/usr/autodesk/Maya2018/bin/adlmreg -u S <productKey> 2018.0.0.F
+
+/usr/autodesk/Maya2018/bin/adlmreg -u N <productKey> 2018.0.0.F
+
+List the installed package names by entering:
+
+rpm -qa |egrep 'adlm|Maya'
+
+Identify each package name you want to uninstall. For example, the Maya2018_# package (where # is the package number).
+Uninstall each package using the following command:
+
+rpm -e PackageName
+
+
+
+
+
