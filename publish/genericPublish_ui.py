@@ -27,7 +27,7 @@ import warnings
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 
-from module.temp import studioStylesheet
+from module import studioStylesheet
 
 ICON_PATH = os.environ['ICON_PATH']
 

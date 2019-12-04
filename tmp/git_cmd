@@ -1,0 +1,27 @@
+git branch -d smartDeform
+
+git push --set-upstream  origin smart_deformers
+git push --set-upstream  origin master
+git branch -D smart_deformer
+
+modelLibrary
+/modelLibrary/
+*modelLibrary*
+
+shaderLibrary
+/shaderLibrary/
+*shaderLibrary*
+
+smartDeformer
+/smartDeformer/
+*smartDeformer*
+
+
+pyuic4 /venture/subins_tutorials/modelLibrary/resources/ui/tmp/modelLibrary_ui.ui -o /venture/subins_tutorials/modelLibrary/resources/ui/tmp/modelLibrary_ui.py
+
+
+git checkout dmgr2      # gets you "on branch dmgr2"
+git fetch origin        # gets you up to date with origin
+git merge origin/master
+
+git push --set-upstream  origin studio_uv
